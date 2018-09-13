@@ -155,8 +155,12 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
         self.setYPosition(self.yPosition+amount);
     };
 
-    this.bark=function(){
+    this.bark=function() {
+        
+    };
 
+    this.barkedAt=function() {
+        
     };
 
     this.initialize();
@@ -247,9 +251,13 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
 
     }
 
-    this.bark=function(){
+    this.bark=function() {
 
     };
+
+    this.barkedAt=function() {
+
+    }
 
     this.initialize();
 
