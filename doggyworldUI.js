@@ -54,22 +54,22 @@ var doggyworldUI=function()
         });
     };
     this.refreshView=function(){
-        //$('#playBoard').text(self.game.board);
+        $('#playBoard').text("");
         $(document).ready(function(){
             $.each(self.game.board, function(index, value){
                 $.each(value, function(index2, value2){
                     if (value2 != self.game.plain) {
                         if (value2 == self.game.player) {
-                            $('#playBoard').append(index2 + ": " + "player ");
-                        } else if (value2 == self.game.dogAI1 || value2 == self.game.dogAI2 || value2 == self.game.dogAI3) {
-                            $('#playBoard').append(index2 + ": " + "aidog ");
-                        } else if (value2 == self.game.dogAI1.kennel || value2 == self.game.dogAI2.kennel || value2 == self.game.dogAI3.kennel) {
-                            $('#playBoard').append(index2 + ": " + "kennel ");
-                        } else {
-                            $('#playBoard').append(index2 + ": " + "landmark ");
+                            $('#playBoard').append(index2 + ": P ");
+                        } else if (self.game.dogs.includes(value2)) {
+                            $('#playBoard').append(index2 + ": A ");
+                        } else if (self.game.kennels.includes(value2)) {
+                            $('#playBoard').append(index2 + ": K ");
+                        } else { //landmark
+                            $('#playBoard').append(index2 + ": L ");
                         }
                     } else {
-                        $('#playBoard').append(index2 + ": " + value2 + " ");
+                        $('#playBoard').append(index2 + ": G ");
                     }
                 });
                 $('#playBoard').append('<br>');

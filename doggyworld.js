@@ -29,36 +29,41 @@ var doggyworldGame = function() {
 
     //im making a lot of arbitrary decisions
     this.player=new dogPlayer(1,0,self.minY,self.maxY,self.minX,self.maxX); //playerid = 0
-    this.dogAI1=new dogAI(1); //id, yPos, xPos, minY, maxY, minX, maxX
-    this.dogAI2=new dogAI(2);
-    this.dogAI3=new dogAI(3);
+    this.dogAI1=new dogAI(1, 0, 8, self.minY,self.maxY,self.minX,self.maxX);
+    this.dogAI2=new dogAI(2, 9, 1, self.minY,self.maxY,self.minX,self.maxX);
+    this.dogAI3=new dogAI(3, 9, 8, self.minY,self.maxY,self.minX,self.maxX);
     this.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
-    this.board = [//10x10
-        [self.player.kennel, self.player, self.plain, self.plain, self.plain, self.plain, self.plain, self.dogAI1.landmark1, self.dogAI1, self.dogAI1.kennel],
-        [self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain],
-        [self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.dogAI1.landmark2, self.plain, self.plain],
-        [self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.dogAI1.landmark4, self.plain, self.plain, self.plain],
-        [self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.dogAI1.landmark3],
-        [self.dogAI2.landmark3, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain],
-        [self.plain, self.plain, self.plain, self.dogAI2.landmark4, self.plain, self.plain, self.dogAI3.landmark4, self.plain, self.plain, self.plain],
-        [self.plain, self.plain, self.dogAI2.landmark2, self.plain, self.plain, self.plain, self.plain, self.dogAI3.landmark2, self.plain, self.dogAI3.landmark1],
-        [self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain, self.plain],
-        [self.dogAI2.kennel, self.dogAI2, self.dogAI2.landmark1, self.plain, self.plain, self.plain, self.dogAI3.landmark3, self.plain, self.dogAI3, self.dogAI3.kennel],
-    ];
     
+    this.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
+
     this.landmarks = [new landmark(1, 7, 0, ""), new landmark(1, 7, 2, ""), new landmark(1, 9, 4, ""), new landmark(1, 6, 3, ""),  
         new landmark(2, 2, 9, ""), new landmark(2, 2, 7, ""), new landmark(2, 0, 5, ""), new landmark(2, 3, 6, ""),
         new landmark(3, 9, 7, ""), new landmark(3, 7, 7, ""), new landmark(3, 6, 9, ""), new landmark(3, 6, 6, "")];
     this.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
 
-    /* trying to make it more flexible
-    this.board = Array(10);
-    this.board.forEach(function(element) {
-        element.fill(Array(10));
-        element.fill(self.plain);
+    this.board = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
+    this.board.forEach(function(subarray) {
+        subarray.fill(self.plain);
     });
+    
+    /*
+    this.reset_board=function(time){
+        
+    };
     */
-
+    
+    this.landmarks.forEach(function(alandmark) {
+        self.board[alandmark.yPosition][alandmark.xPosition] = alandmark;
+    });
+    
+    this.kennels.forEach(function(akennel) {
+        self.board[akennel.yPosition][akennel.xPosition] = akennel;
+    });
+    
+    this.dogs.forEach(function(adog) {
+        self.board[adog.yPosition][adog.xPosition] = adog;
+    });
+    
     this.initialize=function(){
         self.reset();
     };
