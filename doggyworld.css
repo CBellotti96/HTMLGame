@@ -12,7 +12,7 @@
 #scoreBoard{
     background: silver;
     width: 680px;    
-    height: 80px;
+    height: 105px;
     margin:10px 10px;
     position:relative;
 }
@@ -42,7 +42,6 @@
     top:68px;
     right:0px;
 }
-
 #goalBox{
     width:55px;
     position:absolute;
@@ -108,7 +107,8 @@
 	font-size:20px;
 	color: #663300;
 	padding: 5px 30px;
-	margin:8px 70px;
+    margin:8px 7px;
+    text-align: center;
 }
 
 .btnStyle:active {
