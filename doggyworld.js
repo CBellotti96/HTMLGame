@@ -25,7 +25,8 @@ var doggyworldGame = function() {
         maxX: 9,
         maxY: 9,
     }
-    this.height=500;
+    this.height = 500;
+    this.time = 0;
 
     //im making a lot of arbitrary decisions
     this.player=new dogPlayer(1,0,self.minY,self.maxY,self.minX,self.maxX); //playerid = 0
@@ -61,6 +62,7 @@ var doggyworldGame = function() {
 
     this.initialize=function(){
         self.reset();
+        setInterval(function () { self.time = self.time + 1; }, 10);
     };
 
     this.reset=function(){
@@ -68,6 +70,7 @@ var doggyworldGame = function() {
         //make all territories owned by the correct dogs
 
         //may generate/regenerate board
+        self.time = 0;
     };
 
     //update all the ai dog's positions and on the board.
