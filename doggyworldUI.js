@@ -48,6 +48,7 @@ var doggyworldUI=function()
         $('#StopBtn').on('click',function(){
             $('#GameStopped').show();
             $('#GameRunning').hide();
+            $('#Status').text('Game stopped...');
             self.running=false;
             self.game.reset();
             self.refreshView();
