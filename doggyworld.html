@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Doggy World</title>
+        <link rel="stylesheet" href="doggyworld.css" type="text/css">
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script type='text/javascript' src="doggyworld.js"></script>
+        <script type='text/javascript' src="doggyworldUI.js"></script>
+    </head> 
+    <body>
+      <h1>Doggy World</h1>
+        <div id="mainContent">
+            <div id="gameBoard">
+                <div id="scoreBoard">
+                    <div id="GameStopped"><button id="StartBtn" class="btnStyle">Start Game</button>
+                    <div class="Status">Click Start to begin</div></div>
+                    <div id="GameRunning"><button id="StopBtn" class="btnStyle">Stop Game</button>
+                </div>
+                <div id="playBoard">
+                </div>
+            </div>
+        </div>
+
+<script type="text/javascript">
+    $(function(){
+       var dw=new doggyworldUI(); 
+    });
+</script>
+    </body>
+</html>
