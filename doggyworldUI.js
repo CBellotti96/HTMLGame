@@ -33,7 +33,7 @@ var doggyworldUI=function()
                 //check if it hit landmark
                 //if not already hit, mark as peed on
             }
-            $('#player').css("top",self.game.player.Position+'px');
+            //$('#player').css("top",self.game.player.Position+'px');
         });
         
         
@@ -43,8 +43,8 @@ var doggyworldUI=function()
             $('#Status').text('Get Ready...');
             self.running=true;
             self.refreshView();
-            //self.takeShot();
         });
+
         $('#StopBtn').on('click',function(){
             $('#GameStopped').show();
             $('#GameRunning').hide();
