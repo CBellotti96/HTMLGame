@@ -49,7 +49,7 @@ var doggyworldGame = function() {
     this.landmarks = [new landmark(1, 7, 0, ""), new landmark(1, 7, 2, ""), new landmark(1, 9, 4, ""), new landmark(1, 6, 3, ""),  
         new landmark(2, 2, 9, ""), new landmark(2, 2, 7, ""), new landmark(2, 0, 5, ""), new landmark(2, 3, 6, ""),
         new landmark(3, 9, 7, ""), new landmark(3, 7, 7, ""), new landmark(3, 6, 9, ""), new landmark(3, 6, 6, "")];
-    this.kennels = [new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
+    this.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
 
     /* trying to make it more flexible
     this.board = Array(10);
@@ -58,8 +58,6 @@ var doggyworldGame = function() {
         element.fill(self.plain);
     });
     */
-
-
 
     this.initialize=function(){
         self.reset();
@@ -118,7 +116,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     this.maxY=maxY;
     this.minX=minX;
     this.maxX=maxX;
-    this.kennel = new kennel(self.dogID, 0, 0);
 
     this.initialize=function(){
 
@@ -127,15 +124,11 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     //after this is called you must update game board
     this.setXPosition=function(xPos){
         self.oldXPosition=self.xPosition;
-        if (xPos<self.minX)
-        {
+        if (xPos<self.minX) {
             self.xPosition=self.minX;
-        }
-        else if (xPos>self.maxX){
+        } else if (xPos>self.maxX){
             self.xPosition=self.maxX;
-        }
-        else
-        {
+        } else {
             self.xPosition=xPos;
         }
     }
@@ -143,22 +136,18 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     //after this is called you must update game board
     this.setYPosition=function(yPos){
         self.oldYPosition=self.yPosition;
-        if (yPos<self.minY)
-        {
+        if (yPos<self.minY) {
             self.yPosition=self.minY;
-        }
-        else if (yPos>self.maxY){
+        } else if (yPos>self.maxY){
             self.yPosition=self.maxY;
-        }
-        else
-        {
+        } else {
             self.yPosition=yPos;
         }
     };
     this.moveH=function(amount){
         self.setXPosition(self.xPosition+amount);
-
     };
+    
     this.moveV=function(amount){
         self.setYPosition(self.yPosition+amount);
     };
@@ -196,15 +185,11 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
     //after this is called you must update game board
     this.setXPosition=function(xPos){
         self.oldXPosition=self.xPosition;
-        if (xPos<self.minX)
-        {
+        if (xPos<self.minX) {
             self.xPosition=self.minX;
-        }
-        else if (xPos>self.maxX){
+        } else if (xPos>self.maxX){
             self.xPosition=self.maxX;
-        }
-        else
-        {
+        } else {
             self.xPosition=xPos;
         }
     }
@@ -212,22 +197,19 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
     //after this is called you must update game board
     this.setYPosition=function(yPos){
         self.oldYPosition=self.yPosition;
-        if (yPos<self.minY)
-        {
+        if (yPos<self.minY) {
             self.yPosition=self.minY;
-        }
-        else if (yPos>self.maxY){
+        } else if (yPos>self.maxY){
             self.yPosition=self.maxY;
-        }
-        else
-        {
+        } else {
             self.yPosition=yPos;
         }
     };
+    
     this.moveH=function(amount){
         self.setXPosition(self.xPosition+amount);
-
     };
+    
     this.moveV=function(amount){
         self.setYPosition(self.yPosition+amount);
     };
@@ -282,6 +264,7 @@ var landmark = function(dogID, xPos, yPos, type) {
     this.originalowner=dogID;
     this.owner=dogID;
     this.type=type;
+    
     this.options={
 
     }
