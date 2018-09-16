@@ -24,6 +24,12 @@ var doggyworldGame = function() {
         minY: 0,
         maxX: 9,
         maxY: 9,
+        
+        //speed of tick - 1000 is about one second.
+        speed: 1000,
+        icounter: 0
+
+
     }
     this.height = 500;
     this.time = 0;
@@ -67,7 +73,12 @@ var doggyworldGame = function() {
     
     this.initialize=function(){
         self.reset();
-        setInterval(function () { self.time = self.time + 1; }, 10);
+        setInterval(function () { 
+            //if running? TODO
+                self.time++;
+                self.update(self.time);
+            //end if
+        }, self.options.speed);
     };
 
     this.reset=function(){
@@ -75,11 +86,15 @@ var doggyworldGame = function() {
         //make all territories owned by the correct dogs
 
         //may generate/regenerate board
+        
+        //reset time to 0
         self.time = 0;
     };
 
     //update all the ai dog's positions and on the board.
     this.update=function(time){
+        //update time on board - should we have game running bool in here, not ui?
+        document.querySelector('#Time').innerHTML = '<span>' + time + 'sec</span>'
         /*
         self.dogAI1.move();
         self.dogAI2.move();

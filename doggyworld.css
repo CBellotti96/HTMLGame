@@ -87,7 +87,8 @@
     right:0;
     bottom:0;
 }
-.Status{
+
+#Status{
     position:absolute;
     left:0px;
     bottom:0px;
