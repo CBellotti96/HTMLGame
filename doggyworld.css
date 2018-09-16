@@ -87,25 +87,32 @@
     right:0;
     bottom:0;
 }
+#StopStart {
+    display: inline-block;
+    width: 36%;
+    height: auto;
+}
 #GameStopped {
     display: block;
+    width: auto;
+    height: auto;
 }
 #GameRunning {
     display: block;
+    width: auto;
+    height: auto;
 }
-.Status{
-    position:absolute;
-    left:0px;
-    padding:3px;
+#Status{
     font-weight:bold;
-    width: 700px;    
-    height: 50px;
+    width: auto;    
+    height: auto;
     text-align:center;
-    display: block;
-    border-style:solid;
-    border-width:1px;
-    border-color:black;
-    border-top: 3px;
+    display: inline-block;
+}
+#Time {
+    display: inline-block;
+    width: 40%;
+    text-align: center
 }
 .btnStyle {
 	border-radius: 4px;
@@ -118,7 +125,7 @@
 	padding: 5px 15px;
     margin:8px 7px;
     text-align: center;
-    width: 25%;
+    width: auto;
 }
 
 .btnStyle:active {
