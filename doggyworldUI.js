@@ -12,30 +12,50 @@ var doggyworldUI=function()
         $('#playBoard').hide();
         $('#GameReset').show();
      
-        $('#DogPlayer').keypress(function(event){
-            if (event.which==37)//left
+        $(document).keypress(function(event){
+            //https://css-tricks.com/snippets/javascript/javascript-keycodes/
+            if (event.which==97)//left - a
             {
                 self.game.player.moveH(-1);
+                console.log(event.which);
+                self.game.moveOnBoard(self.game.player);
+                console.log(self.game.player.xPosition);
+                console.log(self.game.player.yPosition);
+                self.refreshView();
             }
-            else if (event.which=38) //up
+            else if (event.which==119) //up - w
             {
                 self.game.player.moveV(-1);
+                console.log(event.which);
+                self.game.moveOnBoard(self.game.player);
+                console.log(self.game.player.xPosition);
+                console.log(self.game.player.yPosition);
+                self.refreshView();
             }
-            else if (event.which=39) //right
+            else if (event.which==100) //right - d
             {
                 self.game.player.moveH(1);
+                console.log(event.which);
+                self.game.moveOnBoard(self.game.player);
+                console.log(self.game.player.xPosition);
+                console.log(self.game.player.yPosition);
+                self.refreshView();
             }
-            else if (event.which=40) //down
+            else if (event.which==115) //down - s
             {
                 self.game.player.moveV(1);
+                console.log(event.which);
+                self.game.moveOnBoard(self.game.player);
+                console.log(self.game.player.xPosition);
+                console.log(self.game.player.yPosition);
+                self.refreshView();
             }
-            else if (event.which=69) //e
+            else if (event.which==101) //e
             {
                 //pee
                 //check if it hit landmark
                 //if not already hit, mark as peed on
             }
-            //$('#player').css("top",self.game.player.Position+'px');
         });
         
         

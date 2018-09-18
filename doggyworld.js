@@ -35,7 +35,7 @@ var doggyworldGame = function() {
     this.time = 0;
 
     //im making a lot of arbitrary decisions
-    this.player=new dogPlayer(1,0,self.minY,self.maxY,self.minX,self.maxX); //playerid = 0
+    this.player=new dogPlayer(1,0,self.minY,self.maxY,self.minX,self.maxX); //playerid = 0,   xPos,yPos,minY,maxY,minX, maxX
     this.dogAI1=new dogAI(1, 0, 8, self.minY,self.maxY,self.minX,self.maxX);
     this.dogAI2=new dogAI(2, 9, 1, self.minY,self.maxY,self.minX,self.maxX);
     this.dogAI3=new dogAI(3, 9, 8, self.minY,self.maxY,self.minX,self.maxX);
@@ -147,9 +147,9 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     //after this is called you must update game board
     this.setXPosition=function(xPos){
         self.oldXPosition=self.xPosition;
-        if (xPos<self.minX) {
+        if (xPos<=self.minX) {
             self.xPosition=self.minX;
-        } else if (xPos>self.maxX){
+        } else if (xPos>=self.maxX){
             self.xPosition=self.maxX;
         } else {
             self.xPosition=xPos;
@@ -159,9 +159,9 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     //after this is called you must update game board
     this.setYPosition=function(yPos){
         self.oldYPosition=self.yPosition;
-        if (yPos<self.minY) {
+        if (yPos<=self.minY) {
             self.yPosition=self.minY;
-        } else if (yPos>self.maxY){
+        } else if (yPos>=self.maxY){
             self.yPosition=self.maxY;
         } else {
             self.yPosition=yPos;
