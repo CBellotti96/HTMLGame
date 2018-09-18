@@ -43,7 +43,7 @@ var doggyworldUI=function()
             $('#GameStopped').hide();
             $('#GameRunning').show();
             $('#playBoard').show()
-            $('#Status').text('Playing!');
+            $('#Status').text('Go!');
             self.running=true;
             self.refreshView();
         });
