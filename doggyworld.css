@@ -21,8 +21,7 @@
     border-color:black;
 }
 #playBoard{
-    background:url('DogPicture.jpg');
-    /*background:url('../images/halfField.jpg');*/
+    background:url('grass.jpg');
     margin:10px 10px;
     width:680px;
     height:500px;
@@ -31,106 +30,49 @@
     grid-template-columns: repeat(10, 10%);
     grid-template-rows: repeat(10, 10%);
 }
-
-<<<<<<< HEAD
+/*   http://cssgridgarden.com/   */
 #DogPlayer {
-   /*content:url('DogPicture.jpg'); */
+    /*background:url('DogPicture.jpg');*/
+    grid-column: 1;
+    grid-row: 1;
+    background:url('../dot.png');
+    background-size:20px;
 }
-
 #DogAI1 {
    /*background:url('DogPicture.jpg'); */
+    grid-column: 2;
+    grid-row: 2;
 }
 #DogAI2 {
    /*background:url('DogPicture.jpg'); */
+    grid-column: 3;
+    grid-row: 3;
 }
 #DogAI3 {
    /*background:url('DogPicture.jpg'); */
+    grid-column: 4;
+    grid-row: 4;
 }
 #PlayerKennel {
    /*background:url('DogPicture.jpg'); */
+    grid-column: 5;
+    grid-row: 5;
 }
 #Kennel1 {
    /*background:url('DogPicture.jpg'); */
+    grid-column: 6;
+    grid-row: 6;
 }
 #Kennel2 {
    /*background:url('DogPicture.jpg'); */
+    grid-column: 7;
+    grid-row: 7;
 }
 #Kennel3 {
    /*background:url('DogPicture.jpg'); */
+    grid-column: 8;
+    grid-row: 8;
 }
-
-
-
-
-
-/*
-#futball{
-=======
-#DogPlayer{
->>>>>>> 49056963a675e7846fb0a9613a2db222095c856a
-    position:absolute;
-    background:url('../dot.png');
-    background-size:20px;
-    height:20px;
-    width:20px;
-    top:100px;
-    left:20px;
-}
-#goalie{
-    position:absolute;
-    background:url('../images/tinygoalie2.png');
-    height:60px;
-    width:25px;
-    top:68px;
-    right:0px;
-}
-#goalBox{
-    width:55px;
-    position:absolute;
-    top:150px;
-    right:25px;
-    bottom:162px;
-    border-style:solid;
-    border-width:5px;
-    border-color:white;
-    border-right:none;
-}
-#goaliebox{
-    width:10px;
-    position:absolute;
-    top:150px;
-    right:90px;
-    bottom:162px;
-}
-.Scores{
-    position:absolute;
-    margin:5px;
-    padding-right:70px;
-    font-weight:bold;
-    font-size:26px;
-    text-align:left;
-}
-.OutputText{
-    border:solid 1px black;
-    height:30px;
-    width:60px;
-    padding-right:5px;
-    text-align:right;
-    top:0px;
-    position:absolute;
-    right:0px;
-}
-#ShotsAttempted{
-    right:0;
-    top:0;
-}
-#ShotsMissed{
-    right:0;
-    bottom:0;
-}
-<<<<<<< HEAD
-*/
-=======
 #StopStart {
     display: inline-block;
     width: 36%;
@@ -146,7 +88,6 @@
     width: auto;
     height: auto;
 }
->>>>>>> 49056963a675e7846fb0a9613a2db222095c856a
 #Status{
     font-weight:bold;
     width: auto;    

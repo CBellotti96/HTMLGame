@@ -57,7 +57,7 @@ var doggyworldUI=function()
         });
     };
     this.refreshView=function(){
-        $('#playBoard').text("");
+        /*$('#playBoard').text("");
         $(document).ready(function(){
             $.each(self.game.board, function(index, value){
                 $.each(value, function(index2, value2){
@@ -77,7 +77,7 @@ var doggyworldUI=function()
                 });
                 $('#playBoard').append('<br>');
             });
-        });
+        });*/
     };
     /*
     this.takeShot=function()
