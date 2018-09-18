@@ -9,23 +9,25 @@ var doggyworldUI=function()
      
         $('#GameStopped').show();
         $('#GameRunning').hide();
+
+        $('#DogPlayer').show()
      
-      $('body').keypress(function(event){
+      $('#DogPlayer').keypress(function(event){
             if (event.which==37)//left
             {
-                //self.game.player.moveH(-1);
+                self.game.player.moveH(-1);
             }
             else if (event.which=38) //up
             {
-                //self.game.player.moveV(-1);
+                self.game.player.moveV(-1);
             }
             else if (event.which=39) //right
             {
-                //self.game.player.moveH(1);
+                self.game.player.moveH(1);
             }
             else if (event.which=40) //down
             {
-                //self.game.player.moveV(1);
+                self.game.player.moveV(1);
             }
             else if (event.which=69) //e
             {
