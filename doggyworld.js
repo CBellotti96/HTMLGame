@@ -43,9 +43,9 @@ var doggyworldGame = function() {
     
     this.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
 
-    this.landmarks = [new landmark(1, 7, 0, ""), new landmark(1, 7, 2, ""), new landmark(1, 9, 4, ""), new landmark(1, 6, 3, ""),  
-        new landmark(2, 2, 9, ""), new landmark(2, 2, 7, ""), new landmark(2, 0, 5, ""), new landmark(2, 3, 6, ""),
-        new landmark(3, 9, 7, ""), new landmark(3, 7, 7, ""), new landmark(3, 6, 9, ""), new landmark(3, 6, 6, "")];
+    this.landmarks = [new landmark(12, 1, 7, 0, ""), new landmark(1, 1, 7, 2, ""), new landmark(2, 1, 9, 4, ""), new landmark(3, 1, 6, 3, ""),  
+        new landmark(4, 2, 2, 9, ""), new landmark(5, 2, 2, 7, ""), new landmark(6, 2, 0, 5, ""), new landmark(7, 2, 3, 6, ""),
+        new landmark(8, 3, 9, 7, ""), new landmark(9, 3, 7, 7, ""), new landmark(10, 3, 6, 9, ""), new landmark(11, 3, 6, 6, "")];
     this.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
 
     this.board = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
@@ -58,7 +58,7 @@ var doggyworldGame = function() {
         
     };
     */
-    
+
     this.landmarks.forEach(function(alandmark) {
         self.board[alandmark.yPosition][alandmark.xPosition] = alandmark;
     });
@@ -296,13 +296,14 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
     ownership may be taken back to the original owner from the player
     has a type if we want a variety (hydrant, squeaky toy, shrubs, etc)
 */
-var landmark = function(dogID, xPos, yPos, type) {
+var landmark = function(lID, dogID, xPos, yPos, type) {
     var self=this;
     this.yPosition=yPos;
     this.xPosition=xPos;
     this.originalowner=dogID;
     this.owner=dogID;
     this.type=type;
+    this.landmarkID = lID;
     
     this.options={
 

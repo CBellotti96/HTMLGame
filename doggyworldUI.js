@@ -6,13 +6,13 @@ var doggyworldUI=function()
     this.initialize=function()
     {
         self.game=new doggyworldGame();
-     
         $('#GameStopped').show();
         $('#GameRunning').hide();
-
-        $('#DogPlayer').show()
+        $('#DogPlayer').show();
+        $('#playBoard').hide();
+        $('#GameReset').show();
      
-      $('#DogPlayer').keypress(function(event){
+        $('#DogPlayer').keypress(function(event){
             if (event.which==37)//left
             {
                 self.game.player.moveH(-1);
@@ -42,42 +42,50 @@ var doggyworldUI=function()
         $('#StartBtn').on('click',function(){
             $('#GameStopped').hide();
             $('#GameRunning').show();
-            $('#Status').text('Get Ready...');
+            $('#playBoard').show()
+            $('#Status').text('Playing!');
             self.running=true;
             self.refreshView();
         });
 
-        $('#StopBtn').on('click',function(){
+        $('#PauseBtn').on('click',function(){
             $('#GameStopped').show();
             $('#GameRunning').hide();
-            $('#Status').text('Game stopped...');
+            $('#playBoard').show();
+            $('#Status').text('Game paused...');
+            self.running=false;
+            self.refreshView();
+        });
+        
+        $('#ResetBtn').on('click',function(){
+            $('#GameStopped').show();
+            $('#GameRunning').hide();
+            $('#playBoard').hide();
+            $('#Status').text('Click to start!');
             self.running=false;
             self.game.reset();
             self.refreshView();
         });
     };
+    
     this.refreshView=function(){
-        /*$('#playBoard').text("");
         $(document).ready(function(){
             $.each(self.game.board, function(index, value){
                 $.each(value, function(index2, value2){
                     if (value2 != self.game.plain) {
                         if (value2 == self.game.player) {
-                            $('#playBoard').append(index2 + ": P ");
+                            $('#DogPlayer').css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else if (self.game.dogs.includes(value2)) {
-                            $('#playBoard').append(index2 + ": A ");
+                            $('#DogAI' + value2.dogID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else if (self.game.kennels.includes(value2)) {
-                            $('#playBoard').append(index2 + ": K ");
+                            $('#Kennel' + value2.owner.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else { //landmark
-                            $('#playBoard').append(index2 + ": L ");
+                            $('#Landmark' + value2.landmarkID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         }
-                    } else {
-                        $('#playBoard').append(index2 + ": G ");
-                    }
+                    } 
                 });
-                $('#playBoard').append('<br>');
             });
-        });*/
+        });
     };
     /*
     this.takeShot=function()
