@@ -17,13 +17,48 @@
     position:relative;
 }
 #playBoard{
-    background:url('../images/halfField.jpg');
+    background:url('DogPicture.jpg');
+    /*background:url('../images/halfField.jpg');*/
     margin:10px 10px;
     width:680px;
     height:500px;
     position:relative;
+    display: grid;
+    grid-template-columns: repeat(10, 10%);
+    grid-template-rows: repeat(10, 10%);
 }
 
+#DogPlayer {
+   /*content:url('DogPicture.jpg'); */
+}
+
+#DogAI1 {
+   /*background:url('DogPicture.jpg'); */
+}
+#DogAI2 {
+   /*background:url('DogPicture.jpg'); */
+}
+#DogAI3 {
+   /*background:url('DogPicture.jpg'); */
+}
+#PlayerKennel {
+   /*background:url('DogPicture.jpg'); */
+}
+#Kennel1 {
+   /*background:url('DogPicture.jpg'); */
+}
+#Kennel2 {
+   /*background:url('DogPicture.jpg'); */
+}
+#Kennel3 {
+   /*background:url('DogPicture.jpg'); */
+}
+
+
+
+
+
+/*
 #futball{
     position:absolute;
     background:url('../images/futball.gif');
@@ -33,7 +68,6 @@
     top:100px;
     left:20px;
 }
-
 #goalie{
     position:absolute;
     background:url('../images/tinygoalie2.png');
@@ -53,7 +87,6 @@
     border-color:white;
     border-right:none;
 }
-
 #goaliebox{
     width:10px;
     position:absolute;
@@ -87,7 +120,7 @@
     right:0;
     bottom:0;
 }
-
+*/
 #Status{
     position:absolute;
     left:0px;
