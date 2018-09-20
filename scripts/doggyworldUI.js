@@ -37,6 +37,7 @@ var doggyworldUI=function()
             {
                 document.getElementById("DogPlayer").innerHTML = "RIGHT"
                 self.game.player.moveH(1);
+                //self.game.player.setXPosition(self.game.player.xPosition)
                 console.log(event.which);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
