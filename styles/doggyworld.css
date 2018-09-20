@@ -8,7 +8,7 @@
     border-color:black;
     margin:0;
     padding:0;
-    background-image: url("grass.jpg");
+    background-image: url("../images/grass.jpg");
 }
 #scoreBoard{
     background: silver;
@@ -31,93 +31,93 @@
 }
 /*   http://cssgridgarden.com/   */
 #DogPlayer {
-    background:url('DogPicture.jpg');
+    background:url('../images/DogPicture.jpg');
     background-size: contain;
     background-repeat: no-repeat;
 }
 #DogAI1 {
-    background:url('DogPicture.jpg');
+    background:url('../images/DogPicture.jpg');
     background-size: contain;
     background-repeat: no-repeat;}
 #DogAI2 {
-    background:url('DogPicture.jpg');
+    background:url('../images/DogPicture.jpg');
     background-size: contain;
     background-repeat: no-repeat;}
 #DogAI3 {
-    background:url('DogPicture.jpg');
+    background:url('../images/DogPicture.jpg');
     background-size:contain;
     background-repeat: no-repeat;
 }
 
 #PlayerKennel {
-    background:url('kennel.png');
+    background:url('../images/kennel.png');
     background-size: contain;
     background-repeat: no-repeat;
 }
 #Kennel1 {
-    background:url('kennel.png');
+    background:url('../images/kennel.png');
     background-size: contain;
     background-repeat: no-repeat;
 }
 
 #Kennel2 {
-   background:url('kennel.png');
+   background:url('../images/kennel.png');
     background-size: contain;
    background-repeat: no-repeat;
 }
 #Kennel3 {
-   background:url('kennel.png');
+   background:url('../images/kennel.png');
     background-size: contain;
    background-repeat: no-repeat;
 }
 
 #Landmark1 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;
 }
 #Landmark2 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark3 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark4 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark5 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark6 {
-background:url('fire-hydrant.png');
+background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark7 {
-background:url('fire-hydrant.png');
+background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark8 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark9 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark10 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark11 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #Landmark12 {
-    background:url('fire-hydrant.png');
+    background:url('../images/fire-hydrant.png');
     background-size: contain;
     background-repeat: no-repeat;}
 #StopStart {

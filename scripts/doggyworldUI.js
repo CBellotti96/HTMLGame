@@ -8,14 +8,15 @@ var doggyworldUI=function()
         self.game=new doggyworldGame();
         $('#GameStopped').show();
         $('#GameRunning').hide();
-        $('#DogPlayer').show();
         $('#playBoard').hide();
         $('#GameReset').show();
+        
      
-        $(document).keypress(function(event){
+        $(document).on('keypress', function(event){
             //https://css-tricks.com/snippets/javascript/javascript-keycodes/
             if (event.which==97)//left - a
             {
+                document.getElementById("DogPlayer").innerHTML = "LEFT"
                 self.game.player.moveH(-1);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
@@ -24,15 +25,18 @@ var doggyworldUI=function()
             }
             else if (event.which==119) //up - w
             {
+                document.getElementById("DogPlayer").innerHTML = "UP"
                 self.game.player.moveV(-1);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);
                 self.refreshView();
             }
             else if (event.which==100) //right - d
             {
+                document.getElementById("DogPlayer").innerHTML = "RIGHT"
                 self.game.player.moveH(1);
+                //self.game.player.setXPosition(self.game.player.xPosition)
+                console.log(event.which);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
@@ -40,7 +44,10 @@ var doggyworldUI=function()
             }
             else if (event.which==115) //down - s
             {
+                document.getElementById("DogPlayer").innerHTML = "DOWN"
                 self.game.player.moveV(1);
+                document.getElementById("DogPlayer").innerHTML = ""+self.game.player.yPosition+""
+                console.log(event.which);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
@@ -56,6 +63,7 @@ var doggyworldUI=function()
         
         
         $('#StartBtn').on('click',function(){
+            self.game.startGameButton();
             $('#GameStopped').hide();
             $('#GameRunning').show();
             $('#playBoard').show()
@@ -65,6 +73,7 @@ var doggyworldUI=function()
         });
 
         $('#PauseBtn').on('click',function(){
+            self.game.stopGameButton();
             $('#GameStopped').show();
             $('#GameRunning').hide();
             $('#playBoard').show();
@@ -74,6 +83,7 @@ var doggyworldUI=function()
         });
         
         $('#ResetBtn').on('click',function(){
+            self.game.quitGameButton();
             $('#GameStopped').show();
             $('#GameRunning').hide();
             $('#playBoard').hide();
