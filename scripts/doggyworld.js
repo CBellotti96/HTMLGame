@@ -92,6 +92,7 @@ var doggyworldGame = function() {
         
         //reset time to 0
         self.time = 0;
+		//self.gameState = 0;
     };
 	
 	this.startGameButton=function(){
@@ -111,7 +112,7 @@ var doggyworldGame = function() {
     this.update=function(){
 		
 		//increment timer
-		if (self.gameState = 1) {
+		if (self.gameState == 1) {
 			self.time++;
 		}
 		
