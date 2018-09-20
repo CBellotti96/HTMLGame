@@ -39,10 +39,10 @@ var doggyworldGame = function() {
     this.time = 0;
 
     //im making a lot of arbitrary decisions
-    this.player=new dogPlayer(1,0,self.minY,self.maxY,self.minX,self.maxX); //playerid = 0,   xPos,yPos,minY,maxY,minX, maxX
-    this.dogAI1=new dogAI(1, 0, 8, self.minY,self.maxY,self.minX,self.maxX);
-    this.dogAI2=new dogAI(2, 9, 1, self.minY,self.maxY,self.minX,self.maxX);
-    this.dogAI3=new dogAI(3, 9, 8, self.minY,self.maxY,self.minX,self.maxX);
+    this.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX); //playerid = 0,   xPos,yPos,minY,maxY,minX, maxX
+    this.dogAI1=new dogAI(1, 0, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
+    this.dogAI2=new dogAI(2, 9, 1,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
+    this.dogAI3=new dogAI(3, 9, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
     this.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
     
     this.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
@@ -131,17 +131,20 @@ var doggyworldGame = function() {
 
     //moves a specific character on the board - player or ai.
     this.moveOnBoard=function(item) {
-        if (self.board.includes(item)) {
+        self.board.forEach(function(subarray) {
+            if (subarray.includes(item)) {
             //if nothing there, put it there
-            if (self.board[item.yPosition][item.xPosition] == self.plain) {
-                self.board[item.yPosition][item.xPosition] = item;
-                self.board[item.oldYPosition][item.oldYPosition] = self.plain;
-            } else {
-                //don't do anything to board for now, put them back where they were.
-                item.xPosition = item.oldXPosition;
-                item.yPosition = item.oldYPosition;
-            }
-        }
+                if (self.board[item.yPosition][item.xPosition] == self.plain) {
+                    self.board[item.yPosition][item.xPosition] = item;
+                    self.board[item.oldYPosition][item.oldYPosition] = self.plain;
+                } else {
+                    //don't do anything to board for now, put them back where they were.
+                    item.xPosition = item.oldXPosition;
+                    item.yPosition = item.oldYPosition;
+                }
+            } 
+        }); 
+        
     };
 
     this.initialize();
@@ -239,9 +242,9 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
     //after this is called you must update game board
     this.setXPosition=function(xPos){
         self.oldXPosition=self.xPosition;
-        if (xPos<self.minX) {
+        if (xPos<=self.minX) {
             self.xPosition=self.minX;
-        } else if (xPos>self.maxX){
+        } else if (xPos>=self.maxX){
             self.xPosition=self.maxX;
         } else {
             self.xPosition=xPos;
@@ -251,9 +254,9 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
     //after this is called you must update game board
     this.setYPosition=function(yPos){
         self.oldYPosition=self.yPosition;
-        if (yPos<self.minY) {
+        if (yPos<=self.minY) {
             self.yPosition=self.minY;
-        } else if (yPos>self.maxY){
+        } else if (yPos>=self.maxY){
             self.yPosition=self.maxY;
         } else {
             self.yPosition=yPos;
