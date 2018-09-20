@@ -54,7 +54,7 @@ var doggyworldUI=function()
                 console.log(self.game.player.yPosition);
                 self.refreshView();
             }
-            else if (event.keyCode==101) //e
+            else if (event.which==101) //e
             {
                 //pee
                 //check if it hit landmark
