@@ -39,23 +39,37 @@ var doggyworldGame = function() {
     this.time = 0;
 
     //im making a lot of arbitrary decisions
-    this.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX); //playerid = 0,   xPos,yPos,minY,maxY,minX, maxX
-    this.dogAI1=new dogAI(1, 0, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
-    this.dogAI2=new dogAI(2, 9, 1,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
-    this.dogAI3=new dogAI(3, 9, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
-    this.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
+    this.setCharacters=function() {
+        self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX); //playerid = 0,   xPos,yPos,minY,maxY,minX, maxX
+        self.dogAI1=new dogAI(1, 0, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
+        self.dogAI2=new dogAI(2, 9, 1,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
+        self.dogAI3=new dogAI(3, 9, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
+        self.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
+        
+        self.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
     
-    this.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
-
-    this.landmarks = [new landmark(12, 1, 7, 0, ""), new landmark(1, 1, 7, 2, ""), new landmark(2, 1, 9, 4, ""), new landmark(3, 1, 6, 3, ""),  
-        new landmark(4, 2, 2, 9, ""), new landmark(5, 2, 2, 7, ""), new landmark(6, 2, 0, 5, ""), new landmark(7, 2, 3, 6, ""),
-        new landmark(8, 3, 9, 7, ""), new landmark(9, 3, 7, 7, ""), new landmark(10, 3, 6, 9, ""), new landmark(11, 3, 6, 6, "")];
-    this.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
-
-    this.board = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
-    this.board.forEach(function(subarray) {
-        subarray.fill(self.plain);
-    });
+        self.landmarks = [new landmark(12, 1, 7, 0, ""), new landmark(1, 1, 7, 2, ""), new landmark(2, 1, 9, 4, ""), new landmark(3, 1, 6, 3, ""),  
+            new landmark(4, 2, 2, 9, ""), new landmark(5, 2, 2, 7, ""), new landmark(6, 2, 0, 5, ""), new landmark(7, 2, 3, 6, ""),
+            new landmark(8, 3, 9, 7, ""), new landmark(9, 3, 7, 7, ""), new landmark(10, 3, 6, 9, ""), new landmark(11, 3, 6, 6, "")];
+        self.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
+    
+        self.board = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
+        self.board.forEach(function(subarray) {
+            subarray.fill(self.plain);
+        });
+        self.landmarks.forEach(function(alandmark) {
+            self.board[alandmark.yPosition][alandmark.xPosition] = alandmark;
+        });
+        
+        self.kennels.forEach(function(akennel) {
+            self.board[akennel.yPosition][akennel.xPosition] = akennel;
+        });
+        
+        self.dogs.forEach(function(adog) {
+            self.board[adog.yPosition][adog.xPosition] = adog;
+        });
+    }
+   
     
     /*
     this.reset_board=function(time){
@@ -63,17 +77,7 @@ var doggyworldGame = function() {
     };
     */
 
-    this.landmarks.forEach(function(alandmark) {
-        self.board[alandmark.yPosition][alandmark.xPosition] = alandmark;
-    });
     
-    this.kennels.forEach(function(akennel) {
-        self.board[akennel.yPosition][akennel.xPosition] = akennel;
-    });
-    
-    this.dogs.forEach(function(adog) {
-        self.board[adog.yPosition][adog.xPosition] = adog;
-    });
     
     this.initialize=function(){
         self.reset();
@@ -82,6 +86,7 @@ var doggyworldGame = function() {
                 self.update();
             //end if
         }, self.options.speed);
+        self.setCharacters();
     };
 
     this.reset=function(){
@@ -93,6 +98,7 @@ var doggyworldGame = function() {
         //reset time to 0
         self.time = 0;
 		//self.gameState = 0;
+		self.setCharacters();
     };
 	
 	this.startGameButton=function(){
@@ -136,7 +142,7 @@ var doggyworldGame = function() {
             //if nothing there, put it there
                 if (self.board[item.yPosition][item.xPosition] == self.plain) {
                     self.board[item.yPosition][item.xPosition] = item;
-                    self.board[item.oldYPosition][item.oldYPosition] = self.plain;
+                    self.board[item.oldYPosition][item.oldXPosition] = self.plain;
                 } else {
                     //don't do anything to board for now, put them back where they were.
                     item.xPosition = item.oldXPosition;
@@ -171,26 +177,26 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     };
 
     //after this is called you must update game board
-    this.setXPosition=function(xPos){
+    this.setXPosition=function(newXPos){
         self.oldXPosition=self.xPosition;
-        if (xPos<=self.minX) {
+        if (newXPos<=self.minX) { //less than or equal to its x bounds
             self.xPosition=self.minX;
-        } else if (xPos>=self.maxX){
+        } else if (newXPos>=self.maxX){ //greater than or equal to its x bounds
             self.xPosition=self.maxX;
         } else {
-            self.xPosition=xPos;
+            self.xPosition=newXPos;
         }
     }
 
     //after this is called you must update game board
-    this.setYPosition=function(yPos){
+    this.setYPosition=function(newYPos){
         self.oldYPosition=self.yPosition;
-        if (yPos<=self.minY) {
+        if (newYPos<=self.minY) {
             self.yPosition=self.minY;
-        } else if (yPos>=self.maxY){
+        } else if (newYPos>=self.maxY){
             self.yPosition=self.maxY;
         } else {
-            self.yPosition=yPos;
+            self.yPosition=newYPos;
         }
     };
     this.moveH=function(amount){
