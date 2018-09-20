@@ -90,6 +90,18 @@ var doggyworldGame = function() {
         //reset time to 0
         self.time = 0;
     };
+	
+	this.startGameButton=function(){
+		
+	};
+	
+	this.stopGameButton=function(){
+		
+	};
+	
+	this.quitGameButton=function(){
+		
+	};
 
     //update all the ai dog's positions and on the board.
     this.update=function(time){
