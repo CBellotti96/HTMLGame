@@ -17,7 +17,6 @@ var doggyworldUI=function()
             if (event.which==97)//left - a
             {
                 self.game.player.moveH(-1);
-                console.log(event.which);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
@@ -26,7 +25,6 @@ var doggyworldUI=function()
             else if (event.which==119) //up - w
             {
                 self.game.player.moveV(-1);
-                console.log(event.which);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
@@ -35,7 +33,6 @@ var doggyworldUI=function()
             else if (event.which==100) //right - d
             {
                 self.game.player.moveH(1);
-                console.log(event.which);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
@@ -44,7 +41,6 @@ var doggyworldUI=function()
             else if (event.which==115) //down - s
             {
                 self.game.player.moveV(1);
-                console.log(event.which);
                 self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
