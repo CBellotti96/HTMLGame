@@ -27,10 +27,14 @@ var doggyworldGame = function() {
         
         //speed of tick - 1000 is about one second.
         speed: 1000,
-        icounter: 0
-
+        icounter: 0,
+		
+		
 
     }
+	//0 is quit or unstarted, 1 is unpaused or playing, 2 is paused
+	this.gameState = 0;
+	
     this.height = 500;
     this.time = 0;
 
@@ -75,8 +79,7 @@ var doggyworldGame = function() {
         self.reset();
         setInterval(function () { 
             //if running? TODO
-                self.time++;
-                self.update(self.time);
+                self.update();
             //end if
         }, self.options.speed);
     };
@@ -92,21 +95,28 @@ var doggyworldGame = function() {
     };
 	
 	this.startGameButton=function(){
-		
+		self.gameState = 1;
 	};
 	
 	this.stopGameButton=function(){
-		
+		self.gameState = 2;
 	};
 	
 	this.quitGameButton=function(){
-		
+		self.gameState = 0;
+		self.time = 0;
 	};
 
     //update all the ai dog's positions and on the board.
-    this.update=function(time){
+    this.update=function(){
+		
+		//increment timer
+		if (self.gameState = 1) {
+			self.time++;
+		}
+		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + time + 'sec</span>'
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'
         /*
         self.dogAI1.move();
         self.dogAI2.move();
