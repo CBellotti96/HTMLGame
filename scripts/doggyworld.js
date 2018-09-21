@@ -102,15 +102,15 @@ var doggyworldGame = function() {
     };
 	
 	this.startGameButton=function(){
-		self.gameState = 1;
+		self.gameState = 1; //running
 	};
 	
 	this.stopGameButton=function(){
-		self.gameState = 2;
+		self.gameState = 2; //paused
 	};
 	
 	this.quitGameButton=function(){
-		self.gameState = 0;
+		self.gameState = 0; //reset, pre-running
 		self.time = 0;
 	};
 
@@ -143,8 +143,8 @@ var doggyworldGame = function() {
                 subarray.forEach(function(element, index2) {
                     if (element == item) {
                         self.board[index][index2] = self.plain;
-                        if (self.board[item.yPosition][item.xPosition] == self.plain) {
-                            //if nothing there, put it there
+                        if ((self.board[item.yPosition][item.xPosition] == self.plain) && (self.gameState == 1)) {
+                            //if nothing there and it's okay to move (game is running), put it there
                             self.board[item.yPosition][item.xPosition] = item;
                         } else {
                             //don't do anything to board for now, put them back where they were.
