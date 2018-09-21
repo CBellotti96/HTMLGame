@@ -137,17 +137,24 @@ var doggyworldGame = function() {
 
     //moves a specific character on the board - player or ai.
     this.moveOnBoard=function(item) {
-        self.board.forEach(function(subarray) {
+        self.board.forEach(function(subarray, index) {
             if (subarray.includes(item)) {
-            //if nothing there, put it there
-                if (self.board[item.yPosition][item.xPosition] == self.plain) {
-                    self.board[item.yPosition][item.xPosition] = item;
-                    self.board[item.oldYPosition][item.oldXPosition] = self.plain;
-                } else {
-                    //don't do anything to board for now, put them back where they were.
-                    item.xPosition = item.oldXPosition;
-                    item.yPosition = item.oldYPosition;
-                }
+                //take current dog location, write plain to it.
+                subarray.forEach(function(element, index2) {
+                    if (element == item) {
+                        self.board[index][index2] = self.plain;
+                        if (self.board[item.yPosition][item.xPosition] == self.plain) {
+                            //if nothing there, put it there
+                            self.board[item.yPosition][item.xPosition] = item;
+                        } else {
+                            //don't do anything to board for now, put them back where they were.
+                            item.xPosition = index2;
+                            item.yPosition = index;
+                            self.board[item.yPosition][item.xPosition] = item;
+                        }
+                    }
+                });
+                
             } 
         }); 
         
@@ -163,8 +170,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     //do they need landmarks? other dogs won't attack I think
     var self=this;
     this.dogID = 0;
-    this.oldYPosition=yPos;
-    this.oldXPosition=xPos;
     this.yPosition=yPos;
     this.xPosition=xPos;
     this.minY=minY;
@@ -178,7 +183,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
 
     //after this is called you must update game board
     this.setXPosition=function(newXPos){
-        self.oldXPosition=self.xPosition;
         if (newXPos<=self.minX) { //less than or equal to its x bounds
             self.xPosition=self.minX;
         } else if (newXPos>=self.maxX){ //greater than or equal to its x bounds
@@ -190,7 +194,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
 
     //after this is called you must update game board
     this.setYPosition=function(newYPos){
-        self.oldYPosition=self.yPosition;
         if (newYPos<=self.minY) {
             self.yPosition=self.minY;
         } else if (newYPos>=self.maxY){
@@ -228,8 +231,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
 var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
     var self=this;
     this.dogID = dogID;
-    this.oldYPosition=yPos;
-    this.oldXPosition=xPos;
     this.yPosition=yPos;
     this.xPosition=xPos;
     this.minY=minY;
@@ -247,7 +248,6 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
 
     //after this is called you must update game board
     this.setXPosition=function(xPos){
-        self.oldXPosition=self.xPosition;
         if (xPos<=self.minX) {
             self.xPosition=self.minX;
         } else if (xPos>=self.maxX){
@@ -259,7 +259,6 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
 
     //after this is called you must update game board
     this.setYPosition=function(yPos){
-        self.oldYPosition=self.yPosition;
         if (yPos<=self.minY) {
             self.yPosition=self.minY;
         } else if (yPos>=self.maxY){
