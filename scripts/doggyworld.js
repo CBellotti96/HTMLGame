@@ -41,18 +41,35 @@ var doggyworldGame = function() {
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
         self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX); //playerid = 0,   xPos,yPos,minY,maxY,minX, maxX
-        self.dogAI1=new dogAI(1, 0, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
-        self.dogAI2=new dogAI(2, 9, 1,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
-        self.dogAI3=new dogAI(3, 9, 8,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
         self.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
         
-        self.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
-    
-        self.landmarks = [new landmark(12, 1, 7, 0, ""), new landmark(1, 1, 7, 2, ""), new landmark(2, 1, 9, 4, ""), new landmark(3, 1, 6, 3, ""),  
-            new landmark(4, 2, 2, 9, ""), new landmark(5, 2, 2, 7, ""), new landmark(6, 2, 0, 5, ""), new landmark(7, 2, 3, 6, ""),
-            new landmark(8, 3, 9, 7, ""), new landmark(9, 3, 7, 7, ""), new landmark(10, 3, 6, 9, ""), new landmark(11, 3, 6, 6, "")];
+        self.landmarks = [new landmark(1, 1, 7, 0, ""), new landmark(2, 1, 7, 2, ""), new landmark(3, 1, 9, 4, ""), new landmark(4, 1, 6, 3, ""),  
+            new landmark(5, 2, 2, 9, ""), new landmark(6, 2, 2, 7, ""), new landmark(7, 2, 0, 5, ""), new landmark(8, 2, 3, 6, ""),
+            new landmark(9, 3, 9, 7, ""), new landmark(10, 3, 7, 7, ""), new landmark(11, 3, 6, 9, ""), new landmark(12, 3, 6, 6, "")];
         self.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
-    
+        
+        
+        self.landmarksAI1 = [];
+        self.landmarksAI2 = [];
+        self.landmarksAI3 = [];
+        for (var i = 0; i < self.landmarks.length-1; i++){
+            if(self.landmarks[i].originalowner == 1){
+                self.landmarksAI1 = self.landmarksAI1.concat(self.landmarks[i]);
+            }
+            else if(self.landmarks[i].originalowner == 2){
+                self.landmarksAI2 = self.landmarksAI2.concat(self.landmarks[i]);    
+            }
+            else if(self.landmarks[i].originalowner == 3){
+                self.landmarksAI3 = self.landmarksAI3.concat(self.landmarks[i]); 
+            }
+        }
+        
+        self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1);
+        self.dogAI2=new dogAI(2, 9, 1, 5, 9, 0, 4, self.landmarksAI2);
+        self.dogAI3=new dogAI(3, 9, 8, 5, 9, 5, 9, self.landmarksAI3);
+       
+        self.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
+        
         self.board = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
         self.board.forEach(function(subarray) {
             subarray.fill(self.plain);
@@ -113,29 +130,8 @@ var doggyworldGame = function() {
 		self.gameState = 0; //reset, pre-running
 		self.time = 0;
 	};
-
-    //update all the ai dog's positions and on the board.
-    this.update=function(){
-		
-		//increment timer
-		if (self.gameState == 1) {
-			self.time++;
-		}
-		
-        //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'
-        /*
-        self.dogAI1.move();
-        self.dogAI2.move();
-        self.dogAI3.move();
-        moveOnBoard(self.dogAI1);
-        moveOnBoard(self.dogAI2);
-        moveOnBoard(self.dogAI3);
-        */
-        return 0;
-    };
-
-    //moves a specific character on the board - player or ai.
+    
+        //moves a specific character on the board - player or ai.
     this.moveOnBoard=function(item) {
         self.board.forEach(function(subarray, index) {
             if (subarray.includes(item)) {
@@ -158,6 +154,27 @@ var doggyworldGame = function() {
             } 
         }); 
         
+    };
+    
+    //update all the ai dog's positions and on the board.
+    this.update=function(){
+		
+		//increment timer
+		if (self.gameState == 1) {
+			self.time++;
+		}
+		
+        //update time on board - should we have game running bool in here, not ui?
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'
+        
+        self.dogAI1.move();
+        self.dogAI2.move();
+        self.dogAI3.move();
+        self.moveOnBoard(self.dogAI1);
+        self.moveOnBoard(self.dogAI2);
+        self.moveOnBoard(self.dogAI3);
+        
+        return 0;
     };
 
     this.initialize();
@@ -228,7 +245,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
 /*
     artificial dog opponents. has an id, position, range (given territory).
 */
-var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
+var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) {
     var self=this;
     this.dogID = dogID;
     this.yPosition=yPos;
@@ -237,7 +254,8 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
     this.maxY=maxY;
     this.minX=minX;
     this.maxX=maxX;
-
+    this.ownedLandmarks=ownedLandmarks;
+    this.checkLandmark = self.ownedLandmarks[0];
     this.options={
 
     }
@@ -255,7 +273,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
         } else {
             self.xPosition=xPos;
         }
-    }
+    };
 
     //after this is called you must update game board
     this.setYPosition=function(yPos){
@@ -303,8 +321,36 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
             }
         }
         */
-
-    }
+        //if all landmarks still owned, randomly patrol
+        
+        if (true){ //(self.ownedLandmarks[0].owner == self.dogID && 
+        //self.ownedLandmarks[1].owner == self.dogID &&
+        //self.ownedLandmarks[2].owner == self.dogID &&
+        //self.ownedLandmarks[3].owner == self.dogID){
+            if(Math.round(Math.random()) == 1){
+                self.direction = "H";
+            }
+            else{
+                self.direction = "V";
+            }
+            if(self.direction == "H"){
+                if(Math.round(Math.random()) == 1){
+                    self.moveH(1);
+                }
+                else{
+                    self.moveH(-1);
+                }
+            }
+            else{
+                if(Math.round(Math.random()) == 1){
+                    self.moveV(1);
+                }
+                else{
+                    self.moveV(-1);
+                }                
+            }
+        }
+    };
 
     this.bark=function() {
 
@@ -320,7 +366,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX) {
 
     this.initialize();
 
-}
+};
 
 /*
     Landmarks: owned by dog, ownership can be taken by peeing on it, has a location,
@@ -345,7 +391,7 @@ var landmark = function(lID, dogID, xPos, yPos, type) {
     };
 
     this.initialize();
-}
+};
 
 /*
     Kennels: owned by dog, ownership can not be taken, has a location
@@ -366,5 +412,4 @@ var kennel = function(dogID, xPos, yPos) {
     };
 
     this.initialize();
-}
-
+};
