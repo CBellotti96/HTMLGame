@@ -237,9 +237,9 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     };
     
     this.pee=function() {
-        var landmark;
-        for(landmark in self.landmarks) {
-             if (self.xPosition == landmark.xPosition && self.yPosition == landmark.yPosition) {
+        var x;
+        for(x in self.landmarks) {
+             if (self.xPosition == self.landmarks[x].xPosition && self.yPosition == self.landmarks[x].yPosition) {
                  landmark.isClaimed;
              }
         }
@@ -368,9 +368,9 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     };
     
     this.pee=function() {
-        var landmark;
-        for(landmark in self.landmarks) {
-             if (self.xPosition == landmark.xPosition && self.yPosition == landmark.yPosition) {
+        var x;
+        for(x in self.landmarks) {
+             if (self.xPosition == landmarks[x].xPosition && self.yPosition == landmarks[x].yPosition) {
                  landmark.isClaimed;
              }
         }
