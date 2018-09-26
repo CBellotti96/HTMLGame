@@ -102,6 +102,7 @@ var doggyworldGame = function() {
     
     this.initialize=function(){
 		self.UI = new doggyworldUI();
+		self.UI.initialize();
         self.reset();
 		
 		//timer - ticks up constantly, increments game clock if game is unpaused

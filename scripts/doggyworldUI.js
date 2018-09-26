@@ -3,15 +3,22 @@ var doggyworldUI=function()
     var self=this;
     //this.game=undefined;
     this.running=false;
-    this.initialize=function()
+    this.initialize=function(){
+		$('#GameStopped').show();
+        $('#GameRunning').hide();
+        $('#playBoard').hide();
+        $('#GameReset').show();
+	}
 	this.playerInput = undefined;
     {
+		/*
        // self.game=new doggyworldGame();
         $('#GameStopped').show();
         $('#GameRunning').hide();
         $('#playBoard').hide();
         $('#GameReset').show();
-        
+        */
+		
 		//keydown
         $(document).on('keydown', function(event){
             //https://css-tricks.com/snippets/javascript/javascript-keycodes/
