@@ -236,7 +236,12 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     };
     
     this.pee=function() {
-        
+        var landmark;
+        for(landmark in self.landmarks) {
+             if (self.xPosition == landmark.xPosition && self.yPosition == landmark.yPosition) {
+                 landmark.isClaimed;
+             }
+        }
     };
 
     this.initialize();
@@ -361,7 +366,12 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     };
     
     this.pee=function() {
-        
+        var landmark;
+        for(landmark in self.landmarks) {
+             if (self.xPosition == landmark.xPosition && self.yPosition == landmark.yPosition) {
+                 landmark.isClaimed;
+             }
+        }
     };
 
     this.initialize();
