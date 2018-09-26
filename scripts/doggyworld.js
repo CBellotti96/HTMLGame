@@ -168,7 +168,7 @@ var doggyworldGame = function() {
 		self.reset();
 		self.UI.refreshView();
 		self.time = 0;
-		document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>';
+		document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
 	});
 	/*
 	$('#ResetBtn').on('click',function(){
@@ -210,25 +210,32 @@ var doggyworldGame = function() {
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'; //display time
+        document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>'; //display time
         
+		console.log(self.UI.playerInput);
+		
 		//player/AI must wait some time after an action before they can start another
-		if((self.player.canMove === true)&&(self.UI.playerInput !== undefined)){
+		if(self.player.canMove === false) {
+			self.UI.playerInput = undefined;
+		}
+		if((self.player.canMove === true)&&(self.UI.playerInput != undefined)){
 			if(self.UI.playerInput === 'w'){
-				player.moveV(1);
+				self.player.moveV(1);
 			}
 			if(self.UI.playerInput === 'a'){
-				player.moveH(-1);
+				self.player.moveH(-1);
 			}
 			if(self.UI.playerInput === 's'){
-				player.moveV(-1);
+				self.player.moveV(-1);
 			}
 			if(self.UI.playerInput === 'd'){
-				player.moveH(1);
+				self.player.moveH(1);
 			}
 			self.moveOnBoard(self.player);
+			self.player.canMove = false;
 			setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
 		}
+		
 		
 		
 		//not sure if these will go crazy
@@ -239,11 +246,7 @@ var doggyworldGame = function() {
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
         
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);//need to pass in things that UI.refreshView needs
-		/*
-		UI.refreshView originally took things from doggyworld.js by calling self.game.thing because doggyworld.js was "game" in UI
-		I'm trying to make doggyworld.js main instead of doggyworldUI.js, so I need to now pass in as variables everything that UI.refreshView needs
-		*/
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
 		
         return 0;
     };

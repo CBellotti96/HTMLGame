@@ -21,104 +21,51 @@ var doggyworldUI=function()
         $('#GameReset').show();
         */
 		
-		//keydown
-        $(document).on('keydown', function(event){
+		$(document).on('keypress', function(event){
             //https://css-tricks.com/snippets/javascript/javascript-keycodes/
-            if (event.which==97)//left - a
-            {
-                document.getElementById("DogPlayer").innerHTML = "LEFT"
-				self.playerInput = 'a';
-				/*
-                self.game.player.moveH(-1);
-                self.game.moveOnBoard(self.game.player);
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);
-                console.log(self.game.board);
-                self.refreshView(); //might be better to call from doggyworld.js
-				*/
-            }
-            else if (event.which==119) //up - w
-            {
-                document.getElementById("DogPlayer").innerHTML = "UP"
-				self.playerInput = 'w';
-				/*
-                //self.game.player.moveV(-1);
-                //self.game.moveOnBoard(self.game.player);
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);
-                console.log(self.game.board);
-                self.refreshView();
-				*/
-            }
-            else if (event.which==100) //right - d
-            {
-                document.getElementById("DogPlayer").innerHTML = "RIGHT"
-				self.playerInput = 'd';
-				/*
-                //self.game.player.moveH(1);
-                //self.game.moveOnBoard(self.game.player);
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);
-                console.log(self.game.board);
-                self.refreshView();
-				*/
-            }
-            else if (event.which==115) //down - s
-            {
-                document.getElementById("DogPlayer").innerHTML = "DOWN"
-				self.playerInput = 's';
-				/*
-                //self.game.player.moveV(1);
-                //self.game.moveOnBoard(self.game.player);
-                document.getElementById("DogPlayer").innerHTML += ""+self.game.player.yPosition+""
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);                
-                console.log(self.game.board);
-                self.refreshView();
-				*/
-            }
-            else if (event.which==101) //e
-            {
-				self.playerInput = 'e';
-                //pee
-                //check if it hit landmark
-                //if not already hit, mark as peed on
-            }
-        });
-		
-		//keyup
-		$(document).on('keyup', function(event){
-            //https://css-tricks.com/snippets/javascript/javascript-keycodes/
-            if (event.which==97)//left - a
-            {
-				if(self.playerInput === 'a'){
-					self.playerInput = undefined;
+			
+				if (event.which==97)//left - a
+				{
+					document.getElementById("DogPlayer").innerHTML = "LEFT"
+					self.playerInput = 'a';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
 				}
-            }
-            else if (event.which==119) //up - w
-            {
-                if(self.playerInput === 'w'){
-					self.playerInput = undefined;
+				else if (event.which==119) //up - w
+				{
+					document.getElementById("DogPlayer").innerHTML = "UP"
+					self.playerInput = 'w';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
 				}
-            }
-            else if (event.which==100) //right - d
-            {
-                if(self.playerInput === 'd'){
-					self.playerInput = undefined;
+				else if (event.which==100) //right - d
+				{
+					document.getElementById("DogPlayer").innerHTML = "RIGHT"
+					self.playerInput = 'd';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
 				}
-            }
-            else if (event.which==115) //down - s
-            {
-                if(self.playerInput === 's'){
-					self.playerInput = undefined;
+				else if (event.which==115) //down - s
+				{
+					document.getElementById("DogPlayer").innerHTML = "DOWN"
+					self.playerInput = 's';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
 				}
-            }
-            else if (event.which==101) //e
-            {
-				if(self.playerInput === 'e'){
-					self.playerInput = undefined;
+				else if (event.which==101) //e
+				{
+					//pee
+					//check if it hit landmark
+					//if not already hit, mark as peed on
 				}
-            }
         });
         
         /*
