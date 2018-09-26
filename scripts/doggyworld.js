@@ -95,7 +95,6 @@ var doggyworldGame = function() {
     */
 
     
-    
     this.initialize=function(){
         self.reset();
         setInterval(function () { 
@@ -174,7 +173,6 @@ var doggyworldGame = function() {
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
         
-        return 0;
     };
 
     this.initialize();

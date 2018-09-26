@@ -115,6 +115,14 @@ var doggyworldUI=function()
             });
         });
     };
+    
+    this.tick=function(){
+        setInterval(function () { 
+            //if running? TODO
+                self.refreshView();
+            //end if
+        }, 1000);        
+    }
     /*
     this.takeShot=function()
     {
@@ -163,4 +171,5 @@ var doggyworldUI=function()
 
     }*/
     this.initialize();
+    this.tick();
 }
