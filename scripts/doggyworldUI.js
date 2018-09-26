@@ -8,8 +8,10 @@ var doggyworldUI=function()
         $('#GameRunning').hide();
         $('#playBoard').hide();
         $('#GameReset').show();
-	}
+	};
 	this.playerInput = undefined;
+	
+	
     {
 		/*
        // self.game=new doggyworldGame();
@@ -119,9 +121,9 @@ var doggyworldUI=function()
             }
         });
         
-        
+        /*
         $('#StartBtn').on('click',function(){
-            self.game.startGameButton();
+            //self.game.startGameButton();
             $('#GameStopped').hide();
             $('#GameRunning').show();
             $('#playBoard').show()
@@ -131,7 +133,7 @@ var doggyworldUI=function()
         });
 
         $('#PauseBtn').on('click',function(){
-            self.game.stopGameButton();
+            //self.game.stopGameButton();
             $('#GameStopped').show();
             $('#GameRunning').hide();
             $('#playBoard').show();
@@ -141,7 +143,7 @@ var doggyworldUI=function()
         });
         
         $('#ResetBtn').on('click',function(){
-            self.game.quitGameButton();
+            //self.game.quitGameButton();
             $('#GameStopped').show();
             $('#GameRunning').hide();
             $('#playBoard').hide();
@@ -150,6 +152,8 @@ var doggyworldUI=function()
             self.game.reset();
             self.refreshView();
         });
+		*/
+		
     };
     /*
     this.refreshView=function(board, plain, player, dogs, kennels){

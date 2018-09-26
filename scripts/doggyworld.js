@@ -34,6 +34,7 @@ var doggyworldGame = function() {
 		
 
     }
+	
 	//0 is quit or unstarted, 1 is unpaused or playing, 2 is paused
 	this.gameState = 0;
 	
@@ -41,6 +42,7 @@ var doggyworldGame = function() {
     this.time = 0;
 	
 	this.UI = undefined;
+	
 
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
@@ -102,7 +104,6 @@ var doggyworldGame = function() {
     
     this.initialize=function(){
 		self.UI = new doggyworldUI();
-		self.UI.initialize();
         self.reset();
 		
 		//timer - ticks up constantly, increments game clock if game is unpaused
@@ -126,7 +127,7 @@ var doggyworldGame = function() {
 		//self.gameState = 0;
 		self.setCharacters();
     };
-	
+	/*
 	this.startGameButton=function(){
 		self.gameState = 1; //running
 	};
@@ -139,6 +140,41 @@ var doggyworldGame = function() {
 		self.gameState = 0; //reset, pre-running
 		self.time = 0;
 	};
+	*/
+	$('#StartBtn').on('click',function(){
+		$('#GameStopped').hide();
+		$('#GameRunning').show();
+		$('#playBoard').show()
+		$('#Status').text('Go!');
+		self.UI.running=true;
+		self.UI.refreshView();
+	});
+
+	$('#PauseBtn').on('click',function(){
+		$('#GameStopped').show();
+		$('#GameRunning').hide();
+		$('#playBoard').show();
+		$('#Status').text('Game paused...');
+		self.UI.running=false;
+		self.UI.refreshView();
+	});
+        
+	$('#ResetBtn').on('click',function(){
+		$('#GameStopped').show();
+		$('#GameRunning').hide();
+		$('#playBoard').hide();
+		$('#Status').text('Click to start!');
+		self.UI.running=false;
+		self.reset();
+		self.UI.refreshView();
+		self.time = 0;
+		document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>';
+	});
+	/*
+	$('#ResetBtn').on('click',function(){
+            self.time = 0;
+	});
+	*/
     
         //moves a specific character on the board - player or ai.
     this.moveOnBoard=function(item) {
@@ -169,12 +205,12 @@ var doggyworldGame = function() {
     this.update=function(){
 		
 		//increment timer
-		if (self.gameState == 1) {
+		if (self.UI.running == true) {
 			self.time++;
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>' //display time
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'; //display time
         
 		//player/AI must wait some time after an action before they can start another
 		if((self.player.canMove === true)&&(self.UI.playerInput !== undefined)){
