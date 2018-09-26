@@ -232,7 +232,8 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     };
 
     this.barkedAt=function() {
-        
+        self.moveH(-1);
+        self.moveV(-1);
     };
     
     this.pee=function() {
@@ -358,11 +359,12 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     };
 
     this.bark=function() {
-
+    
     };
 
     this.barkedAt=function() {
-
+        self.moveH(-1);
+        self.moveV(-1);
     };
     
     this.pee=function() {
