@@ -19,39 +19,46 @@ var doggyworldUI=function()
             {
                 document.getElementById("DogPlayer").innerHTML = "LEFT"
 				self.playerInput = 'a';
-                //self.game.player.moveH(-1);
-                //self.game.moveOnBoard(self.game.player);
-                console.log(self.game.player.xPosition); //might still be useful for testing
+				/*
+                self.game.player.moveH(-1);
+                self.game.moveOnBoard(self.game.player);
+                console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
                 console.log(self.game.board);
                 self.refreshView(); //might be better to call from doggyworld.js
+				*/
             }
             else if (event.which==119) //up - w
             {
                 document.getElementById("DogPlayer").innerHTML = "UP"
 				self.playerInput = 'w';
+				/*
                 //self.game.player.moveV(-1);
                 //self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
                 console.log(self.game.board);
                 self.refreshView();
+				*/
             }
             else if (event.which==100) //right - d
             {
                 document.getElementById("DogPlayer").innerHTML = "RIGHT"
 				self.playerInput = 'd';
+				/*
                 //self.game.player.moveH(1);
                 //self.game.moveOnBoard(self.game.player);
                 console.log(self.game.player.xPosition);
                 console.log(self.game.player.yPosition);
                 console.log(self.game.board);
                 self.refreshView();
+				*/
             }
             else if (event.which==115) //down - s
             {
                 document.getElementById("DogPlayer").innerHTML = "DOWN"
 				self.playerInput = 's';
+				/*
                 //self.game.player.moveV(1);
                 //self.game.moveOnBoard(self.game.player);
                 document.getElementById("DogPlayer").innerHTML += ""+self.game.player.yPosition+""
@@ -59,6 +66,7 @@ var doggyworldUI=function()
                 console.log(self.game.player.yPosition);                
                 console.log(self.game.board);
                 self.refreshView();
+				*/
             }
             else if (event.which==101) //e
             {
