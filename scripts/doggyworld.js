@@ -27,6 +27,8 @@ var doggyworldGame = function() {
         
         //speed of tick - 1000 is about one second.
         speed: 1000,
+		//wait time between player actions
+		playerDElay: 500,
         icounter: 0,
 		
 		
@@ -37,6 +39,8 @@ var doggyworldGame = function() {
 	
     this.height = 500;
     this.time = 0;
+	
+	this.UI = undefined;
 
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
@@ -97,12 +101,16 @@ var doggyworldGame = function() {
     
     
     this.initialize=function(){
+		self.UI = new doggyworldUI();
         self.reset();
+		
+		//timer - ticks up constantly, increments game clock if game is unpaused
         setInterval(function () { 
             //if running? TODO
                 self.update();
             //end if
         }, self.options.speed);
+		
         self.setCharacters();
     };
 
@@ -165,8 +173,28 @@ var doggyworldGame = function() {
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>' //display time
         
+		//player/AI must wait some time after an action before they can start another
+		if((self.player.canMove === true)&&(self.UI.playerInput !== undefined)){
+			if(self.UI.playerInput === 'w'){
+				player.moveV(1);
+			}
+			if(self.UI.playerInput === 'a'){
+				player.moveH(-1);
+			}
+			if(self.UI.playerInput === 's'){
+				player.moveV(-1);
+			}
+			if(self.UI.playerInput === 'd'){
+				player.moveH(1);
+			}
+			self.moveOnBoard(self.player);
+			setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
+		}
+		
+		
+		//not sure if these will go crazy
         self.dogAI1.move();
         self.dogAI2.move();
         self.dogAI3.move();
@@ -174,6 +202,12 @@ var doggyworldGame = function() {
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
         
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);//need to pass in things that UI.refreshView needs
+		/*
+		UI.refreshView originally took things from doggyworld.js by calling self.game.thing because doggyworld.js was "game" in UI
+		I'm trying to make doggyworld.js main instead of doggyworldUI.js, so I need to now pass in as variables everything that UI.refreshView needs
+		*/
+		
         return 0;
     };
 
@@ -193,11 +227,17 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     this.maxY=maxY;
     this.minX=minX;
     this.maxX=maxX;
+	this.canMove = true;
 
     this.initialize=function(){
 
     };
-
+	
+	//check for input, returns input if available or returns undefined
+	this.checkInput=function(){
+		return self.UI.playerInput;//is this function even good practice? it replaces a 1 line piece of code with a 1 line function call....
+	}
+	
     //after this is called you must update game board
     this.setXPosition=function(newXPos){
         if (newXPos<=self.minX) { //less than or equal to its x bounds
@@ -256,6 +296,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     this.maxX=maxX;
     this.ownedLandmarks=ownedLandmarks;
     this.checkLandmark = self.ownedLandmarks[0];
+	this.canMove = true;
     this.options={
 
     }
