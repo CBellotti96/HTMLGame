@@ -127,7 +127,7 @@ var doggyworldGame = function() {
 		//self.gameState = 0;
 		self.setCharacters();
     };
-	/*
+	
 	this.startGameButton=function(){
 		self.gameState = 1; //running
 	};
@@ -140,12 +140,13 @@ var doggyworldGame = function() {
 		self.gameState = 0; //reset, pre-running
 		self.time = 0;
 	};
-	*/
+	
 	$('#StartBtn').on('click',function(){
 		$('#GameStopped').hide();
 		$('#GameRunning').show();
 		$('#playBoard').show()
 		$('#Status').text('Go!');
+		self.startGameButton();
 		self.UI.running=true;
 		self.UI.refreshView();
 	});
@@ -155,6 +156,7 @@ var doggyworldGame = function() {
 		$('#GameRunning').hide();
 		$('#playBoard').show();
 		$('#Status').text('Game paused...');
+		self.stopGameButton();
 		self.UI.running=false;
 		self.UI.refreshView();
 	});
@@ -164,6 +166,7 @@ var doggyworldGame = function() {
 		$('#GameRunning').hide();
 		$('#playBoard').hide();
 		$('#Status').text('Click to start!');
+		self.quitGameButton();
 		self.UI.running=false;
 		self.reset();
 		self.UI.refreshView();
@@ -184,7 +187,7 @@ var doggyworldGame = function() {
                 subarray.forEach(function(element, index2) {
                     if (element == item) {
                         self.board[index][index2] = self.plain;
-                        if ((self.board[item.yPosition][item.xPosition] == self.plain)){  // && (self.gameState == 1)) {
+                        if ((self.board[item.yPosition][item.xPosition] == self.plain) && (self.gameState == 1)) {
                             //if nothing there and it's okay to move (game is running), put it there
                             self.board[item.yPosition][item.xPosition] = item;
                         } else {
