@@ -242,10 +242,10 @@ var doggyworldGame = function() {
 		
 		
 		
-		//not sure if these will go crazy
-        self.dogAI1.move();
-        self.dogAI2.move();
-        self.dogAI3.move();
+		//passing in player to keep track of location
+        self.dogAI1.move(self.player); 
+        self.dogAI2.move(self.player);
+        self.dogAI3.move(self.player);
         self.moveOnBoard(self.dogAI1);
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
@@ -377,10 +377,96 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     this.moveV=function(amount){
         self.setYPosition(self.yPosition+amount);
     };
-
-    this.move=function() {
+    
+    this.chasePlayer=function(dogPlayer){
+        //set x movement
+        if(self.xPosition < dogPlayer.xPosition){
+            self.chaseX = 1;
+        }
+        else if(self.xPosition > dogPlayer.xPosition){
+            self.chaseX = -1;
+        }
+        else{
+            self.chaseX = 0;
+        }
+        //set y movement
+        if(self.yPosition < dogPlayer.yPosition){
+            self.chaseY = 1;
+        }
+        else if(self.yPosition > dogPlayer.yPosition){
+            self.chaseY = -1;
+        }
+        else{
+            self.chaseY = 0;
+        }  
+        //decide which way we need to go to reach player
+        if(self.chaseX == 0 && self.chaseY != 0){
+            self.chase = "Y"
+            self.chaseBackup = "X"
+        }
+        else if(self.chaseY == 0 && self.chaseX != 0){
+            self.chase = "X"
+            self.chaseBackup = "Y"
+        }
+        //if we need to travel diagonally, pick one at random
+        else if(self.chaseX != 0 && self.chaseY != 0){
+            if(Math.round(Math.random()) == 1){
+                self.chase = "X"
+                self.chaseBackup = "Y"
+            }
+            else{
+                self.chase = "Y"
+                self.chaseBackup = "X"
+            }
+        }
+        else{
+            return 0;
+        }
+        self.prevX = self.xPosition;
+        self.prevY = self.yPosition;
         
-        if(self.ownedLandmarks[0].owner == self.dogID && 
+        if(self.chase == "X"){
+            self.moveH(self.chaseX);
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.moveV(self.chaseY);
+            }
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                if(Math.floor(Math.random()) == 1){
+                    self.moveV(1);
+                }
+                else{
+                    self.moveV(-1);
+                }
+            }
+            
+        }
+        else if(self.chase == "Y"){
+            self.moveV(self.chaseY);
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.moveH(self.chaseX);
+            }
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                if(Math.floor(Math.random()) == 1){
+                    self.moveH(1);
+                }
+                else{
+                    self.moveV(-1);
+                }
+            }
+        }
+        
+        
+        
+        
+    }
+    
+    this.move=function(dogPlayer) {
+        if(dogPlayer.xPosition >= self.minX && dogPlayer.xPosition <= self.maxX
+        && dogPlayer.yPosition >= self.minY && dogPlayer.yPosition <= self.maxY){
+            self.chasePlayer(dogPlayer);
+        }
+        
+        else if(self.ownedLandmarks[0].owner == self.dogID && 
         self.ownedLandmarks[1].owner == self.dogID &&
         self.ownedLandmarks[2].owner == self.dogID &&
         self.ownedLandmarks[3].owner == self.dogID){
