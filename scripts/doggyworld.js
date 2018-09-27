@@ -28,7 +28,7 @@ var doggyworldGame = function() {
         //speed of tick - 1000 is about one second.
         speed: 1000,
 		//wait time between player actions
-		playerDElay: 500,
+		playerDelay: 500,
         icounter: 0,
 		
 		
@@ -184,7 +184,7 @@ var doggyworldGame = function() {
                 subarray.forEach(function(element, index2) {
                     if (element == item) {
                         self.board[index][index2] = self.plain;
-                        if ((self.board[item.yPosition][item.xPosition] == self.plain) && (self.gameState == 1)) {
+                        if ((self.board[item.yPosition][item.xPosition] == self.plain)){  // && (self.gameState == 1)) {
                             //if nothing there and it's okay to move (game is running), put it there
                             self.board[item.yPosition][item.xPosition] = item;
                         } else {
@@ -215,26 +215,27 @@ var doggyworldGame = function() {
 		console.log(self.UI.playerInput);
 		
 		//player/AI must wait some time after an action before they can start another
-		if(self.player.canMove === false) {
-			self.UI.playerInput = undefined;
+	//	if(self.player.canMove === false) {
+	//		self.UI.playerInput = undefined;
+	//	}
+		//if((self.player.canMove === true)&&(self.UI.playerInput != undefined)){
+		if(self.UI.playerInput === 'w'){
+			self.player.moveV(-1);
 		}
-		if((self.player.canMove === true)&&(self.UI.playerInput != undefined)){
-			if(self.UI.playerInput === 'w'){
-				self.player.moveV(1);
-			}
-			if(self.UI.playerInput === 'a'){
-				self.player.moveH(-1);
-			}
-			if(self.UI.playerInput === 's'){
-				self.player.moveV(-1);
-			}
-			if(self.UI.playerInput === 'd'){
-				self.player.moveH(1);
-			}
-			self.moveOnBoard(self.player);
-			self.player.canMove = false;
-			setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
+		if(self.UI.playerInput === 'a'){
+			self.player.moveH(-1);
 		}
+		if(self.UI.playerInput === 's'){
+			self.player.moveV(1);
+		}
+		if(self.UI.playerInput === 'd'){
+			self.player.moveH(1);
+		}
+		self.moveOnBoard(self.player);
+	//		self.player.canMove = false;
+	    self.UI.playerInput = undefined;
+			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
+	//	}
 		
 		
 		
@@ -248,7 +249,6 @@ var doggyworldGame = function() {
         
 		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
 		
-        return 0;
     };
 
     this.initialize();
