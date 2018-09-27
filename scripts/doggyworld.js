@@ -378,6 +378,15 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.setYPosition(self.yPosition+amount);
     };
     
+    this.reverseNum=function(num){
+        if(num > 0){
+            return(-Math.abs(num));
+        }
+        else{
+            return(Math.abs(num));
+        }
+    }
+    
     this.chasePlayer=function(dogPlayer){
         //set x movement
         if(self.xPosition < dogPlayer.xPosition){
@@ -401,18 +410,18 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         }  
         //decide which way we need to go to reach player
         if(self.chaseX == 0 && self.chaseY != 0){
-            self.chase = "Y"
-            self.chaseBackup = "X"
+            self.chase = "Y";
+            self.chaseBackup = "X";
         }
         else if(self.chaseY == 0 && self.chaseX != 0){
-            self.chase = "X"
-            self.chaseBackup = "Y"
+            self.chase = "X";
+            self.chaseBackup = "Y";
         }
         //if we need to travel diagonally, pick one at random
         else if(self.chaseX != 0 && self.chaseY != 0){
             if(Math.round(Math.random()) == 1){
-                self.chase = "X"
-                self.chaseBackup = "Y"
+                self.chase = "X";
+                self.chaseBackup = "Y";
             }
             else{
                 self.chase = "Y"
@@ -426,38 +435,59 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.prevY = self.yPosition;
         
         if(self.chase == "X"){
+            //if we need to go in x direction, attempt to moveH
             self.moveH(self.chaseX);
+            //if something is in our way, try movement we determined for y
             if(self.xPosition == self.prevX && self.yPosition == self.prevY){
                 self.moveV(self.chaseY);
             }
             if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                if(Math.floor(Math.random()) == 1){
-                    self.moveV(1);
+                //if y was not zero and we're still stuck, try backing up instead
+                if(self.chaseY != 0){
+                    self.chaseY = self.reverseNum(self.chaseY);
+                    self.moveV(self.chaseY);
                 }
+                //if y was zero, try going in either y direction **may get caught in loop**
                 else{
-                    self.moveV(-1);
+                    self.moveV(1);
+                    if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                        self.moveV(-1);
+                    }
                 }
             }
-            
+            //last chance to move, back up in direction we decided
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.chaseX = self.reverseNum(self.chaseX);
+                self.moveH(self.chaseX);
+            }
         }
         else if(self.chase == "Y"){
+            //if we need to go in y direction, attempt to moveV
             self.moveV(self.chaseY);
+            //if something is in our way, try movement we determined for x
             if(self.xPosition == self.prevX && self.yPosition == self.prevY){
                 self.moveH(self.chaseX);
             }
             if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                if(Math.floor(Math.random()) == 1){
-                    self.moveH(1);
+                //if x was not zero and we're still stuck, try backing up instead
+                if(self.chaseX != 0){
+                    self.chaseX = self.reverseNum(self.chaseX);
+                    self.moveH(self.chaseX);
                 }
+                //if x was zero, try going in either x direction **may get caught in loop**
                 else{
-                    self.moveV(-1);
+                    self.moveH(1);
+                    if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                        self.moveH(-1);
+                    }
                 }
             }
+            //last chance to move, back up in direction we decided
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.chaseY = self.reverseNum(self.chaseY);
+                self.moveV(self.chaseY);
+            }
         }
-        
-        
-        
-        
     }
     
     this.randomMovement=function(){
