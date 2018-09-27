@@ -460,6 +460,31 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         
     }
     
+    this.randomMovement=function(){
+        if(Math.round(Math.random()) == 1){
+            self.direction = "H";
+        }
+        else{
+            self.direction = "V";
+        }
+        if(self.direction == "H"){
+            if(Math.round(Math.random()) == 1){
+                self.moveH(1);
+            }
+            else{
+                self.moveH(-1);
+            }
+        }
+        else{
+            if(Math.round(Math.random()) == 1){
+                self.moveV(1);
+            }
+            else{
+                self.moveV(-1);
+            }                
+        }
+    }
+    
     this.move=function(dogPlayer) {
         if(dogPlayer.xPosition >= self.minX && dogPlayer.xPosition <= self.maxX
         && dogPlayer.yPosition >= self.minY && dogPlayer.yPosition <= self.maxY){
@@ -470,28 +495,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.ownedLandmarks[1].owner == self.dogID &&
         self.ownedLandmarks[2].owner == self.dogID &&
         self.ownedLandmarks[3].owner == self.dogID){
-            if(Math.round(Math.random()) == 1){
-                self.direction = "H";
-            }
-            else{
-                self.direction = "V";
-            }
-            if(self.direction == "H"){
-                if(Math.round(Math.random()) == 1){
-                    self.moveH(1);
-                }
-                else{
-                    self.moveH(-1);
-                }
-            }
-            else{
-                if(Math.round(Math.random()) == 1){
-                    self.moveV(1);
-                }
-                else{
-                    self.moveV(-1);
-                }                
-            }
+            self.randomMovement();
         }
     };
 
