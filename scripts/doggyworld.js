@@ -58,15 +58,15 @@ var doggyworldGame = function() {
         self.landmarksAI1 = [];
         self.landmarksAI2 = [];
         self.landmarksAI3 = [];
-        for (var i = 0; i < self.landmarks.length-1; i++){
+        for (var i = 0; i < self.landmarks.length; i++){
             if(self.landmarks[i].originalowner == 1){
-                self.landmarksAI1 = self.landmarksAI1.concat(self.landmarks[i]);
+                self.landmarksAI1.push(self.landmarks[i]);
             }
             else if(self.landmarks[i].originalowner == 2){
-                self.landmarksAI2 = self.landmarksAI2.concat(self.landmarks[i]);    
+                self.landmarksAI2.push(self.landmarks[i]);    
             }
             else if(self.landmarks[i].originalowner == 3){
-                self.landmarksAI3 = self.landmarksAI3.concat(self.landmarks[i]); 
+                self.landmarksAI3.push(self.landmarks[i]); 
             }
         }
         
@@ -379,38 +379,11 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     };
 
     this.move=function() {
-        //check if any of its landmarks are still owned by itself.
-        //also check if the player is in its territory and barks at it?
-
-        /*
-        if () {
-
-        } else if (self.landmark1.owner == self.dogID &&
-        self.landmark2.owner == self.dogID &&
-        self.landmark3.owner == self.dogID &&
-        self.landmark4.owner == self.dogID) {
-            //randomly move around territory, calling moveH and moveV
-        } else if (self.landmark1.owner != self.dogID) {
-            //move towards it and pee on it?
-        } else if (self.landmark2.owner != self.dogID) {
-            //move towards it
-        } else if (self.landmark3.owner != self.dogID) {
-            //move towards it
-        } else if (self.landmark4.owner != self.dogID) {
-            //move towards it
-        } else {
-            //make sure it's located in kennel/send it back.
-            if (self.kennel.xPosition != self.xPosition && self.kennel.yPosition != self.yPosition) {
-                //move it back
-            }
-        }
-        */
-        //if all landmarks still owned, randomly patrol
         
-        if (true){ //(self.ownedLandmarks[0].owner == self.dogID && 
-        //self.ownedLandmarks[1].owner == self.dogID &&
-        //self.ownedLandmarks[2].owner == self.dogID &&
-        //self.ownedLandmarks[3].owner == self.dogID){
+        if(self.ownedLandmarks[0].owner == self.dogID && 
+        self.ownedLandmarks[1].owner == self.dogID &&
+        self.ownedLandmarks[2].owner == self.dogID &&
+        self.ownedLandmarks[3].owner == self.dogID){
             if(Math.round(Math.random()) == 1){
                 self.direction = "H";
             }
