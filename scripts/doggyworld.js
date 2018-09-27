@@ -171,7 +171,7 @@ var doggyworldGame = function() {
 		self.reset();
 		self.UI.refreshView();
 		self.time = 0;
-		document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
+	//	document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
 	});
 	/*
 	$('#ResetBtn').on('click',function(){
@@ -213,7 +213,7 @@ var doggyworldGame = function() {
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>'; //display time
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'; //display time
         
 		console.log(self.UI.playerInput);
 		
