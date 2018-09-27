@@ -27,16 +27,22 @@ var doggyworldGame = function() {
         
         //speed of tick - 1000 is about one second.
         speed: 1000,
+		//wait time between player actions
+		playerDelay: 500,
         icounter: 0,
 		
 		
 
     }
+	
 	//0 is quit or unstarted, 1 is unpaused or playing, 2 is paused
 	this.gameState = 0;
 	
     this.height = 500;
     this.time = 0;
+	
+	this.UI = undefined;
+	
 
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
@@ -98,12 +104,16 @@ var doggyworldGame = function() {
 
     
     this.initialize=function(){
+		self.UI = new doggyworldUI();
         self.reset();
+		
+		//timer - ticks up constantly, increments game clock if game is unpaused
         setInterval(function () { 
             //if running? TODO
                 self.update();
             //end if
         }, self.options.speed);
+		
         self.setCharacters();
     };
 
@@ -131,6 +141,44 @@ var doggyworldGame = function() {
 		self.gameState = 0; //reset, pre-running
 		self.time = 0;
 	};
+	
+	$('#StartBtn').on('click',function(){
+		$('#GameStopped').hide();
+		$('#GameRunning').show();
+		$('#playBoard').show()
+		$('#Status').text('Go!');
+		self.startGameButton();
+		self.UI.running=true;
+		self.UI.refreshView();
+	});
+
+	$('#PauseBtn').on('click',function(){
+		$('#GameStopped').show();
+		$('#GameRunning').hide();
+		$('#playBoard').show();
+		$('#Status').text('Game paused...');
+		self.stopGameButton();
+		self.UI.running=false;
+		self.UI.refreshView();
+	});
+        
+	$('#ResetBtn').on('click',function(){
+		$('#GameStopped').show();
+		$('#GameRunning').hide();
+		$('#playBoard').hide();
+		$('#Status').text('Click to start!');
+		self.quitGameButton();
+		self.UI.running=false;
+		self.reset();
+		self.UI.refreshView();
+		self.time = 0;
+	//	document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
+	});
+	/*
+	$('#ResetBtn').on('click',function(){
+            self.time = 0;
+	});
+	*/
     
         //moves a specific character on the board - player or ai.
     this.moveOnBoard=function(item) {
@@ -161,20 +209,51 @@ var doggyworldGame = function() {
     this.update=function(){
 		
 		//increment timer
-		if (self.gameState == 1) {
+		if (self.UI.running == true) {
 			self.time++;
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'; //display time
         
-        self.dogAI1.move();
-        self.dogAI2.move();
-        self.dogAI3.move();
+		console.log(self.UI.playerInput);
+		
+		//player/AI must wait some time after an action before they can start another
+	//	if(self.player.canMove === false) {
+	//		self.UI.playerInput = undefined;
+	//	}
+		//if((self.player.canMove === true)&&(self.UI.playerInput != undefined)){
+		if(self.UI.playerInput === 'w'){
+			self.player.moveV(-1);
+		}
+		if(self.UI.playerInput === 'a'){
+			self.player.moveH(-1);
+		}
+		if(self.UI.playerInput === 's'){
+			self.player.moveV(1);
+		}
+		if(self.UI.playerInput === 'd'){
+			self.player.moveH(1);
+		}
+		self.moveOnBoard(self.player);
+	//		self.player.canMove = false;
+	    self.UI.playerInput = undefined;
+			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
+	//	}
+		
+		
+		
+		//passing in player to keep track of location
+        self.dogAI1.move(self.player); 
+        self.dogAI2.move(self.player);
+        self.dogAI3.move(self.player);
         self.moveOnBoard(self.dogAI1);
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
         
+
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
+
     };
 
     this.initialize();
@@ -193,11 +272,17 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     this.maxY=maxY;
     this.minX=minX;
     this.maxX=maxX;
+	this.canMove = true;
 
     this.initialize=function(){
 
     };
-
+	
+	//check for input, returns input if available or returns undefined
+	this.checkInput=function(){
+		return self.UI.playerInput;//is this function even good practice? it replaces a 1 line piece of code with a 1 line function call....
+	}
+	
     //after this is called you must update game board
     this.setXPosition=function(newXPos){
         if (newXPos<=self.minX) { //less than or equal to its x bounds
@@ -269,6 +354,10 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     this.minX=minX;
     this.maxX=maxX;
     this.ownedLandmarks=ownedLandmarks;
+
+    this.checkLandmark = self.ownedLandmarks[0];
+	  this.canMove = true;
+
     this.options={
 
     }
@@ -307,41 +396,159 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.setYPosition(self.yPosition+amount);
     };
 
-    this.move=function(){
-    //    if(self.dogPlayer.xPosition >= self.minX && self.dogPlayer[0].xPosition <= self.maxX
-    //    && self.dogPlayer[0].yPosition >= self.minY && self.dogPlayer[0].yPosition <= self.maxY){
-    //        self.xPosition = 5;
-    //        self.yPosition = 2;
-    //    }
+    
+    this.reverseNum=function(num){
+        if(num > 0){
+            return(-Math.abs(num));
+        }
+        else{
+            return(Math.abs(num));
+        }
+    }
+    
+    this.chasePlayer=function(dogPlayer){
+        //set x movement
+        if(self.xPosition < dogPlayer.xPosition){
+            self.chaseX = 1;
+        }
+        else if(self.xPosition > dogPlayer.xPosition){
+            self.chaseX = -1;
+        }
+        else{
+            self.chaseX = 0;
+        }
+        //set y movement
+        if(self.yPosition < dogPlayer.yPosition){
+            self.chaseY = 1;
+        }
+        else if(self.yPosition > dogPlayer.yPosition){
+            self.chaseY = -1;
+        }
+        else{
+            self.chaseY = 0;
+        }  
+        //decide which way we need to go to reach player
+        if(self.chaseX == 0 && self.chaseY != 0){
+            self.chase = "Y";
+            self.chaseBackup = "X";
+        }
+        else if(self.chaseY == 0 && self.chaseX != 0){
+            self.chase = "X";
+            self.chaseBackup = "Y";
+        }
+        //if we need to travel diagonally, pick one at random
+        else if(self.chaseX != 0 && self.chaseY != 0){
+
+            if(Math.round(Math.random()) == 1){
+                self.chase = "X";
+                self.chaseBackup = "Y";
+            }
+            else{
+                self.chase = "Y"
+                self.chaseBackup = "X"
+            }
+        }
+        else{
+            return 0;
+        }
+        self.prevX = self.xPosition;
+        self.prevY = self.yPosition;
         
-        if (self.ownedLandmarks[0].owner == self.dogID && 
+        if(self.chase == "X"){
+            //if we need to go in x direction, attempt to moveH
+            self.moveH(self.chaseX);
+            //if something is in our way, try movement we determined for y
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.moveV(self.chaseY);
+            }
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                //if y was not zero and we're still stuck, try backing up instead
+                if(self.chaseY != 0){
+                    self.chaseY = self.reverseNum(self.chaseY);
+                    self.moveV(self.chaseY);
+                }
+                //if y was zero, try going in either y direction **may get caught in loop**
+                else{
+                    self.moveV(1);
+                    if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                        self.moveV(-1);
+                    }
+                }
+            }
+            //last chance to move, back up in direction we decided
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.chaseX = self.reverseNum(self.chaseX);
+                self.moveH(self.chaseX);
+            }
+        }
+        else if(self.chase == "Y"){
+            //if we need to go in y direction, attempt to moveV
+            self.moveV(self.chaseY);
+            //if something is in our way, try movement we determined for x
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.moveH(self.chaseX);
+            }
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                //if x was not zero and we're still stuck, try backing up instead
+                if(self.chaseX != 0){
+                    self.chaseX = self.reverseNum(self.chaseX);
+                    self.moveH(self.chaseX);
+                }
+                //if x was zero, try going in either x direction **may get caught in loop**
+                else{
+                    self.moveH(1);
+                    if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                        self.moveH(-1);
+                    }
+                }
+            }
+            //last chance to move, back up in direction we decided
+            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
+                self.chaseY = self.reverseNum(self.chaseY);
+                self.moveV(self.chaseY);
+            }
+        }
+    }
+    
+    this.randomMovement=function(){
+        if(Math.round(Math.random()) == 1){
+            self.direction = "H";
+        }
+        else{
+            self.direction = "V";
+        }
+        if(self.direction == "H"){
+            if(Math.round(Math.random()) == 1){
+                self.moveH(1);
+            }
+            else{
+                self.moveH(-1);
+            }
+        }
+
+        else{
+            if(Math.round(Math.random()) == 1){
+                self.moveV(1);
+            }
+            else{
+                self.moveV(-1);
+            }                
+        }
+    }
+    
+    this.move=function(dogPlayer) {
+        if(dogPlayer.xPosition >= self.minX && dogPlayer.xPosition <= self.maxX
+        && dogPlayer.yPosition >= self.minY && dogPlayer.yPosition <= self.maxY){
+            self.chasePlayer(dogPlayer);
+        }
+        
+        else if(self.ownedLandmarks[0].owner == self.dogID && 
         self.ownedLandmarks[1].owner == self.dogID &&
         self.ownedLandmarks[2].owner == self.dogID &&
         self.ownedLandmarks[3].owner == self.dogID){
-            if(Math.round(Math.random()) == 1){
-                self.direction = "H";
-            }
-            else{
-                self.direction = "V";
-            }
-            if(self.direction == "H"){
-                if(Math.round(Math.random()) == 1){
-                    self.moveH(1);
-                }
-                else{
-                    self.moveH(-1);
-                }
-            }
-            else{
-                if(Math.round(Math.random()) == 1){
-                    self.moveV(1);
-                }
-                else{
-                    self.moveV(-1);
-                }                
-            }
+            self.randomMovement();
         }
-        
+
     };
 
     this.bark=function() {

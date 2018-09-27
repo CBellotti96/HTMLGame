@@ -1,69 +1,76 @@
 var doggyworldUI=function()
 {
     var self=this;
-    this.game=undefined;
+    //this.game=undefined;
     this.running=false;
-    this.initialize=function()
+    this.initialize=function(){
+		$('#GameStopped').show();
+        $('#GameRunning').hide();
+        $('#playBoard').hide();
+        $('#GameReset').show();
+	};
+	this.playerInput = undefined;
+	
+	
     {
-        self.game=new doggyworldGame();
+		/*
+       // self.game=new doggyworldGame();
         $('#GameStopped').show();
         $('#GameRunning').hide();
         $('#playBoard').hide();
         $('#GameReset').show();
-        
-     
-        $(document).on('keypress', function(event){
-            //https://css-tricks.com/snippets/javascript/javascript-keycodes/
-            if (event.which==97)//left - a
-            {
-                document.getElementById("DogPlayer").innerHTML = "LEFT"
-                self.game.player.moveH(-1);
-                self.game.moveOnBoard(self.game.player);
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);
-                console.log(self.game.board);
-                self.refreshView();
-            }
-            else if (event.which==119) //up - w
-            {
-                document.getElementById("DogPlayer").innerHTML = "UP"
-                self.game.player.moveV(-1);
-                self.game.moveOnBoard(self.game.player);
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);
-                console.log(self.game.board);
-                self.refreshView();
-            }
-            else if (event.which==100) //right - d
-            {
-                document.getElementById("DogPlayer").innerHTML = "RIGHT"
-                self.game.player.moveH(1);
-                self.game.moveOnBoard(self.game.player);
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);
-                console.log(self.game.board);
-                self.refreshView();
-            }
-            else if (event.which==115) //down - s
-            {
-                document.getElementById("DogPlayer").innerHTML = "DOWN"
-                self.game.player.moveV(1);
-                self.game.moveOnBoard(self.game.player);
-                document.getElementById("DogPlayer").innerHTML += ""+self.game.player.yPosition+""
-                console.log(self.game.player.xPosition);
-                console.log(self.game.player.yPosition);                
-                console.log(self.game.board);
-                self.refreshView();
-            }
-            else if (event.which==101) //e
-            {
-                self.game.player.pee();
-            }
+        */
+		
+		$(document).on('keypress', function(event){
+            //https://css-tricks.com/snippets/javascript/javascript-keycodes/			
+				if (event.which==97)//left - a
+				{
+					document.getElementById("DogPlayer").innerHTML = "LEFT"
+					self.playerInput = 'a';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
+				}
+				else if (event.which==119) //up - w
+				{
+					document.getElementById("DogPlayer").innerHTML = "UP"
+					self.playerInput = 'w';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
+				}
+				else if (event.which==100) //right - d
+				{
+					document.getElementById("DogPlayer").innerHTML = "RIGHT"
+					self.playerInput = 'd';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
+				}
+				else if (event.which==115) //down - s
+				{
+					document.getElementById("DogPlayer").innerHTML = "DOWN"
+					self.playerInput = 's';
+					/*
+					console.log(self.game.player.xPosition);
+					console.log(self.game.player.yPosition);                
+					console.log(self.game.board);*/
+				}
+				else if (event.which==101) //e
+				{
+					//pee
+					//check if it hit landmark
+					//if not already hit, mark as peed on
+				}
+
         });
         
-        
+        /*
         $('#StartBtn').on('click',function(){
-            self.game.startGameButton();
+            //self.game.startGameButton();
             $('#GameStopped').hide();
             $('#GameRunning').show();
             $('#playBoard').show()
@@ -73,7 +80,7 @@ var doggyworldUI=function()
         });
 
         $('#PauseBtn').on('click',function(){
-            self.game.stopGameButton();
+            //self.game.stopGameButton();
             $('#GameStopped').show();
             $('#GameRunning').hide();
             $('#playBoard').show();
@@ -83,7 +90,7 @@ var doggyworldUI=function()
         });
         
         $('#ResetBtn').on('click',function(){
-            self.game.quitGameButton();
+            //self.game.quitGameButton();
             $('#GameStopped').show();
             $('#GameRunning').hide();
             $('#playBoard').hide();
@@ -92,9 +99,11 @@ var doggyworldUI=function()
             self.game.reset();
             self.refreshView();
         });
+		*/
+		
     };
-    
-    this.refreshView=function(){
+    /*
+    this.refreshView=function(board, plain, player, dogs, kennels){
         $(document).ready(function(){
             $.each(self.game.board, function(index, value){
                 $.each(value, function(index2, value2){
@@ -104,6 +113,25 @@ var doggyworldUI=function()
                         } else if (self.game.dogs.includes(value2)) {
                             $('#DogAI' + value2.dogID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else if (self.game.kennels.includes(value2)) {
+                            $('#Kennel' + value2.owner.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+                        } else { //landmark
+                            $('#Landmark' + value2.landmarkID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+                        }
+                    } 
+                });
+            });
+        });
+    };*/
+	this.refreshView=function(board, plain, player, dogs, kennels){
+        $(document).ready(function(){
+            $.each(board, function(index, value){
+                $.each(value, function(index2, value2){
+                    if (value2 != plain) {
+                        if (value2 == player) {
+                            $('#DogPlayer').css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+                        } else if (dogs.includes(value2)) {
+                            $('#DogAI' + value2.dogID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+                        } else if (kennels.includes(value2)) {
                             $('#Kennel' + value2.owner.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else { //landmark
                             $('#Landmark' + value2.landmarkID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
