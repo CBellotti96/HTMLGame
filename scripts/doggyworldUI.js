@@ -22,8 +22,7 @@ var doggyworldUI=function()
         */
 		
 		$(document).on('keypress', function(event){
-            //https://css-tricks.com/snippets/javascript/javascript-keycodes/
-			
+            //https://css-tricks.com/snippets/javascript/javascript-keycodes/			
 				if (event.which==97)//left - a
 				{
 					document.getElementById("DogPlayer").innerHTML = "LEFT"
@@ -66,6 +65,7 @@ var doggyworldUI=function()
 					//check if it hit landmark
 					//if not already hit, mark as peed on
 				}
+
         });
         
         /*
@@ -141,6 +141,14 @@ var doggyworldUI=function()
             });
         });
     };
+    
+    this.tick=function(){
+        setInterval(function () { 
+            //if running? TODO
+                self.refreshView();
+            //end if
+        }, 1000);        
+    }
     /*
     this.takeShot=function()
     {
@@ -189,4 +197,5 @@ var doggyworldUI=function()
 
     }*/
     this.initialize();
+    this.tick();
 }

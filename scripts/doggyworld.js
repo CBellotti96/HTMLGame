@@ -70,11 +70,13 @@ var doggyworldGame = function() {
             }
         }
         
+        
         self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1);
         self.dogAI2=new dogAI(2, 9, 1, 5, 9, 0, 4, self.landmarksAI2);
         self.dogAI3=new dogAI(3, 9, 8, 5, 9, 5, 9, self.landmarksAI3);
        
         self.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
+
         
         self.board = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
         self.board.forEach(function(subarray) {
@@ -100,7 +102,6 @@ var doggyworldGame = function() {
     };
     */
 
-    
     
     this.initialize=function(){
 		self.UI = new doggyworldUI();
@@ -250,8 +251,9 @@ var doggyworldGame = function() {
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
         
+
 		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
-		
+
     };
 
     this.initialize();
@@ -315,11 +317,25 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     };
 
     this.barkedAt=function() {
-        
+        self.moveH(-1);
+        self.moveV(-1);
     };
     
+    
+    
     this.pee=function() {
-        
+        var x;
+        for(x in self.landmarks) {
+            //if player is next to landmark
+             if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
+               (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
+                 //if the landmark is not claimed, claim it
+                 if ((self.landmarks[x].owner) != "player") {
+                     self.landmarks[x].owner == "player";
+                     self.landmarks[x].hide();
+                 }
+             }
+        }
     };
 
     this.initialize();
@@ -338,8 +354,10 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     this.minX=minX;
     this.maxX=maxX;
     this.ownedLandmarks=ownedLandmarks;
+
     this.checkLandmark = self.ownedLandmarks[0];
-	this.canMove = true;
+	  this.canMove = true;
+
     this.options={
 
     }
@@ -377,6 +395,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     this.moveV=function(amount){
         self.setYPosition(self.yPosition+amount);
     };
+
     
     this.reverseNum=function(num){
         if(num > 0){
@@ -419,6 +438,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         }
         //if we need to travel diagonally, pick one at random
         else if(self.chaseX != 0 && self.chaseY != 0){
+
             if(Math.round(Math.random()) == 1){
                 self.chase = "X";
                 self.chaseBackup = "Y";
@@ -505,6 +525,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
                 self.moveH(-1);
             }
         }
+
         else{
             if(Math.round(Math.random()) == 1){
                 self.moveV(1);
@@ -527,18 +548,31 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.ownedLandmarks[3].owner == self.dogID){
             self.randomMovement();
         }
+
     };
 
     this.bark=function() {
-
+    
     };
 
     this.barkedAt=function() {
-
+        self.moveH(-1);
+        self.moveV(-1);
     };
     
     this.pee=function() {
-        
+        var x;
+        for(x in self.landmarks) {
+            //if player is next to landmark
+             if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
+               (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
+                 //if the landmark is not claimed, claim it
+                 if ((self.landmarks[x].owner) == "player") {
+                     self.landmarks[x].owner == dogID;
+                     self.landmarks[x].show();
+                 }
+             }
+        }
     };
 
     this.initialize();
