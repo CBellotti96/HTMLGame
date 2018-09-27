@@ -236,11 +236,19 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
         self.moveV(-1);
     };
     
+    
+    
     this.pee=function() {
         var x;
         for(x in self.landmarks) {
-             if (self.xPosition == self.landmarks[x].xPosition && self.yPosition == self.landmarks[x].yPosition) {
-                 landmark.isClaimed;
+            //if player is next to landmark
+             if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
+               (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
+                 //if the landmark is not claimed, claim it
+                 if ((self.landmarks[x].owner) != "player") {
+                     self.landmarks[x].owner == "player";
+                     self.landmarks[x].hide();
+                 }
              }
         }
     };
@@ -348,8 +356,14 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     this.pee=function() {
         var x;
         for(x in self.landmarks) {
-             if (self.xPosition == landmarks[x].xPosition && self.yPosition == landmarks[x].yPosition) {
-                 landmark.isClaimed;
+            //if player is next to landmark
+             if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
+               (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
+                 //if the landmark is not claimed, claim it
+                 if ((self.landmarks[x].owner) == "player") {
+                     self.landmarks[x].owner == dogID;
+                     self.landmarks[x].show();
+                 }
              }
         }
     };

@@ -57,9 +57,7 @@ var doggyworldUI=function()
             }
             else if (event.which==101) //e
             {
-                //pee
-                //check if it hit landmark
-                //if not already hit, mark as peed on
+                self.game.player.pee();
             }
         });
         
