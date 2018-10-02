@@ -128,25 +128,12 @@ var doggyworldGame = function() {
 		self.setCharacters();
     };
 	
-	this.startGameButton=function(){
-		self.gameState = 1; //running
-	};
-	
-	this.stopGameButton=function(){
-		self.gameState = 2; //paused
-	};
-	
-	this.quitGameButton=function(){
-		self.gameState = 0; //reset, pre-running
-		self.time = 0;
-	};
-	
 	$('#StartBtn').on('click',function(){
 		$('#GameStopped').hide();
 		$('#GameRunning').show();
 		$('#playBoard').show()
 		$('#Status').text('Go!');
-		self.startGameButton();
+		self.gameState = 1; //running
 		self.UI.running=true;
 		self.UI.refreshView();
 	});
@@ -156,7 +143,7 @@ var doggyworldGame = function() {
 		$('#GameRunning').hide();
 		$('#playBoard').show();
 		$('#Status').text('Game paused...');
-		self.stopGameButton();
+		self.gameState = 2; //paused
 		self.UI.running=false;
 		self.UI.refreshView();
 	});
@@ -166,7 +153,8 @@ var doggyworldGame = function() {
 		$('#GameRunning').hide();
 		$('#playBoard').hide();
 		$('#Status').text('Click to start!');
-		self.quitGameButton();
+		self.gameState = 0; //reset or pre-running
+		self.time = 0;
 		self.UI.running=false;
 		self.reset();
 		self.UI.refreshView();
