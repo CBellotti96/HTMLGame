@@ -230,6 +230,7 @@ var doggyworldGame = function() {
 	    self.UI.playerInput = undefined;
 			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
 	//	}
+	    console.log("hi");
 		
 		
 		
