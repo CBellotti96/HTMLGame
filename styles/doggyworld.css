@@ -52,22 +52,6 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
-#Kennel1 {
-    background:url('../images/kennel.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-#Kennel2 {
-   background:url('../images/kennel.png');
-    background-size: contain;
-   background-repeat: no-repeat;
-}
-#Kennel3 {
-   background:url('../images/kennel.png');
-    background-size: contain;
-   background-repeat: no-repeat;
-}
 
 #StopStart {
     display: inline-block;
@@ -138,3 +122,8 @@
     /*background-color: rgba(255,153,0, 0.5);*/
 }
 
+.kennel {
+    background:url('../images/kennel.png');
+    background-size: contain;
+    background-repeat: no-repeat; 
+}
