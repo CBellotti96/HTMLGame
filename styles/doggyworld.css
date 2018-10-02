@@ -52,75 +52,10 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
-#Kennel1 {
-    background:url('../images/kennel.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
 
-#Kennel2 {
-   background:url('../images/kennel.png');
-    background-size: contain;
-   background-repeat: no-repeat;
-}
-#Kennel3 {
-   background:url('../images/kennel.png');
-    background-size: contain;
-   background-repeat: no-repeat;
-}
-
-#Landmark1 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-#Landmark2 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark3 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark4 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark5 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark6 {
-background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark7 {
-background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark8 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark9 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark10 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark11 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
-#Landmark12 {
-    background:url('../images/fire-hydrant.png');
-    background-size: contain;
-    background-repeat: no-repeat;}
 #StopStart {
     display: inline-block;
-    width: 36%;
+    width: 25%;
     height: auto;
 }
 #GameStopped {
@@ -139,15 +74,15 @@ background:url('../images/fire-hydrant.png');
     height: auto;
     text-align:center;
     display: inline-block;
-    font-size: 20px;
+    font-size: 22px;
     width: 30%;
 }
 #Time {
     display: inline-block;
-    width: 30%;
+    width: 43%;
     text-align: center;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 30px;
 }
 .btnStyle {
 	border-radius: 4px;
@@ -176,3 +111,19 @@ background:url('../images/fire-hydrant.png');
 	cursor: pointer;
 }
 
+.userPee {
+    background-color: rgba(255,153,0, 0.5);
+}
+
+.landmark {
+    background:url('../images/fire-hydrant.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    /*background-color: rgba(255,153,0, 0.5);*/
+}
+
+.kennel {
+    background:url('../images/kennel.png');
+    background-size: contain;
+    background-repeat: no-repeat; 
+}
