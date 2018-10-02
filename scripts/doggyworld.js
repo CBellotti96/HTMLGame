@@ -26,8 +26,10 @@ var doggyworldGame = function() {
         maxX: 9,
         maxY: 9,
         
+  
+        
         //speed of tick - 1000 is about one second.
-        speed: 1000,
+        speed: 500,
 		//wait time between player actions
 		playerDelay: 500,
         icounter: 0,
@@ -53,7 +55,6 @@ var doggyworldGame = function() {
             new landmark(9, 3, 9, 7, ""), new landmark(10, 3, 7, 7, ""), new landmark(11, 3, 6, 9, ""), new landmark(12, 3, 6, 6, "")];
         self.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
         
-        
         self.landmarksAI1 = [];
         self.landmarksAI2 = [];
         self.landmarksAI3 = [];
@@ -69,7 +70,7 @@ var doggyworldGame = function() {
             }
         }
         
-        self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
+        self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX, self.landmarks);
         self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1, self.landmarks);
         self.dogAI2=new dogAI(2, 9, 1, 5, 9, 0, 4, self.landmarksAI2, self.landmarks);
         self.dogAI3=new dogAI(3, 9, 8, 5, 9, 5, 9, self.landmarksAI3, self.landmarks);
@@ -83,6 +84,8 @@ var doggyworldGame = function() {
         });
         self.landmarks.forEach(function(alandmark) {
             self.board[alandmark.yPosition][alandmark.xPosition] = alandmark;
+            $('#Landmark' + alandmark.landmarkID).css("background-color", "transparent");
+
         });
         
         self.kennels.forEach(function(akennel) {
@@ -92,6 +95,9 @@ var doggyworldGame = function() {
         self.dogs.forEach(function(adog) {
             self.board[adog.yPosition][adog.xPosition] = adog;
         });
+        
+        
+       
     }
    
     
@@ -114,6 +120,8 @@ var doggyworldGame = function() {
         }, self.options.speed);
 		
         self.setCharacters();
+        
+         
     };
 
     this.reset=function(){
@@ -152,7 +160,7 @@ var doggyworldGame = function() {
 		$('#GameStopped').show();
 		$('#GameRunning').hide();
 		$('#playBoard').hide();
-		$('#Status').text('Click to start!');
+		$('#Status').text('Click Start to Begin!');
 		self.gameState = 0; //reset or pre-running
 		self.time = 0;
 		self.UI.running=false;
@@ -201,7 +209,7 @@ var doggyworldGame = function() {
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'; //display time
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + ' sec</span>'; //display time
         
 		console.log(self.UI.playerInput);
 		
@@ -241,6 +249,10 @@ var doggyworldGame = function() {
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
         
+        for(var i = 0; i < self.landmarks.length; i++){
+            console.log(self.landmarks[i].landmarkID, self.landmarks[i].owner);
+        }
+        
 
 		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
 
@@ -252,7 +264,7 @@ var doggyworldGame = function() {
 /*
     Dog Player: starting position, range of where it can go.
 */
-var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
+var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     //do they need landmarks? other dogs won't attack I think
     var self=this;
     this.dogID = 0;
@@ -311,17 +323,17 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
         self.moveV(-1);
     };
     
-    this.pee=function(landmarks) {
-        //document.getElementById("Landmark1").innerHTML = "USER PEE";
-        for(var x = 0; x < landmarks.length; x++) {
+    this.pee=function() {
+        document.getElementById("Landmark1").innerHTML = landmarks[0].xPosition;
+        for(var x=0; x<landmarks.length; x++) {
             //if player is next to landmark
              if ((((self.xPosition == (landmarks[x].xPosition + 1))||(self.xPosition == (landmarks[x].xPosition - 1))) && (self.yPosition == landmarks[x].yPosition)) || 
                (((self.yPosition == (landmarks[x].yPosition + 1))||(self.yPosition == (landmarks[x].yPosition - 1))) && (self.xPosition == landmarks[x].xPosition))) {
                  //if the landmark is not claimed, claim it
                  if ((landmarks[x].owner) != self.dogID) {
                      landmarks[x].owner == self.dogID;
-                     document.getElementById("Landmark1").innerHTML = "USER PEE";
-                     //self.landmarks[x].show();
+                     //document.getElementById("Landmark" + landmarks[x].landmarkID).innerHTML = "USER PEE";
+                     $('#Landmark' + landmarks[x].landmarkID).css("background-color", "rgba(255,153,0, 0.5)");
                  }
              }
         }
@@ -670,7 +682,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
     };
 
     this.bark=function() {
-    
+        
     };
 
     this.barkedAt=function() {

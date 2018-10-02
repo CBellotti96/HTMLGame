@@ -12,6 +12,7 @@ var doggyworldUI=function()
 	this.playerInput = undefined;
 	
 	
+	
     {
 		/*
        // self.game=new doggyworldGame();
