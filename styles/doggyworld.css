@@ -102,29 +102,28 @@
 }
 .btnStyle {
 	border-radius: 4px;
-	border: thin solid #F0E020;
-	background-color: #F8F094;
+	border: thin solid #037200;
+	background-color: #037200c9;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-	font-weight: bold;
 	font-size:20px;
-	color: #663300;
+	color: #ffffff;
 	padding: 5px 15px;
     margin:8px 7px;
     text-align: center;
-    width: auto;
+    width: 160px;
 }
 
 .btnStyle:active {
 	border: thin solid #99CC00;
-	background-color: #F5FFD2;
-	color: #669900;
+	background-color: #0372007d;
+	color: #ffffff;
 	cursor: pointer;
 }
 
 .btnStyle:hover {
-	border: thin solid #FFCC00;
-	background-color: #FCF9D6;
-	color: #996633;
+	border: thin solid #037200;
+	background-color: #0372007d;
+	color: #ffffff;
 	cursor: pointer;
 }
 
