@@ -69,10 +69,10 @@ var doggyworldGame = function() {
             }
         }
         
-        self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX, self.landmarks);
-        self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1);
-        self.dogAI2=new dogAI(2, 9, 1, 5, 9, 0, 4, self.landmarksAI2);
-        self.dogAI3=new dogAI(3, 9, 8, 5, 9, 5, 9, self.landmarksAI3);
+        self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX);
+        self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1, self.landmarks);
+        self.dogAI2=new dogAI(2, 9, 1, 5, 9, 0, 4, self.landmarksAI2, self.landmarks);
+        self.dogAI3=new dogAI(3, 9, 8, 5, 9, 5, 9, self.landmarksAI3, self.landmarks);
        
         self.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
 
@@ -223,14 +223,13 @@ var doggyworldGame = function() {
 			self.player.moveH(1);
 		}
 		if(self.UI.playerInput === 'e'){
-		    self.player.pee();
+		    self.player.pee(self.landmarks);
 		}
 		self.moveOnBoard(self.player);
 	//		self.player.canMove = false;
 	    self.UI.playerInput = undefined;
 			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
 	//	}
-	    console.log("hi");
 		
 		
 		
@@ -253,7 +252,7 @@ var doggyworldGame = function() {
 /*
     Dog Player: starting position, range of where it can go.
 */
-var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
+var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     //do they need landmarks? other dogs won't attack I think
     var self=this;
     this.dogID = 0;
@@ -263,7 +262,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     this.maxY=maxY;
     this.minX=minX;
     this.maxX=maxX;
-    this.landmarks=landmarks;
 	this.canMove = true;
 
     this.initialize=function(){
@@ -313,21 +311,15 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
         self.moveV(-1);
     };
     
-    this.pee=function() {
-<<<<<<< HEAD
-        var x;
-        document.getElementById("Landmark1").innerHTML = self.landmarks[0].xPosition;
-        for(x=0; x<self.landmarks.length; x++) {
-=======
+    this.pee=function(landmarks) {
         //document.getElementById("Landmark1").innerHTML = "USER PEE";
-        for(var x = 0; x < self.landmarks.length; x++) {
->>>>>>> 134c0f27034cc268c22fdaadec02eba4291e91b9
+        for(var x = 0; x < landmarks.length; x++) {
             //if player is next to landmark
-             if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
-               (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
+             if ((((self.xPosition == (landmarks[x].xPosition + 1))||(self.xPosition == (landmarks[x].xPosition - 1))) && (self.yPosition == landmarks[x].yPosition)) || 
+               (((self.yPosition == (landmarks[x].yPosition + 1))||(self.yPosition == (landmarks[x].yPosition - 1))) && (self.xPosition == landmarks[x].xPosition))) {
                  //if the landmark is not claimed, claim it
-                 if ((self.landmarks[x].owner) != self.dogID) {
-                     self.landmarks[x].owner == self.dogID;
+                 if ((landmarks[x].owner) != self.dogID) {
+                     landmarks[x].owner == self.dogID;
                      document.getElementById("Landmark1").innerHTML = "USER PEE";
                      //self.landmarks[x].show();
                  }
@@ -341,7 +333,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
 /*
     artificial dog opponents. has an id, position, range (given territory).
 */
-var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) {
+var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmarks, landmarks) {
     var self=this;
     this.dogID = dogID;
     this.yPosition=yPos;
@@ -350,10 +342,10 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     this.maxY=maxY;
     this.minX=minX;
     this.maxX=maxX;
-    this.ownedLandmarks=ownedLandmarks;
-
-    this.checkLandmark = self.ownedLandmarks[0];
 	this.canMove = true;
+	this.originalLandmarks=originalLandmarks;
+	this.landmarkIndex=[];
+	this.ownedLandmarks = [];
     
     this.miniGrid = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
     
@@ -365,9 +357,14 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.miniGrid.forEach(function(subarray) {
         subarray.fill(0);
         });
-        self.ownedLandmarks.forEach(function(alandmark) {
+        self.originalLandmarks.forEach(function(alandmark) {
         self.miniGrid[alandmark.yPosition][alandmark.xPosition] = 1;
         });
+        for(var i=0; i < landmarks.length; i++){
+            if(landmarks[i].originalowner == self.dogID){
+                self.landmarkIndex.push(i);
+            }
+        }
     };
     
     
@@ -636,6 +633,13 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     
     this.move=function(dogPlayer) {
         
+        self.ownedLandmarks = [];
+        for(var i = 0; i < self.landmarkIndex.length; i++){
+            if(landmarks[self.landmarkIndex[i]].owner == self.dogID){
+                self.ownedLandmarks.push(landmarks[self.landmarkIndex[i]]);
+            }
+        }
+        
         if ((((self.xPosition == (dogPlayer.xPosition + 1))||(self.xPosition == (dogPlayer.xPosition - 1))) && (self.yPosition == dogPlayer.yPosition)) || 
         (((self.yPosition == (dogPlayer.yPosition + 1))||(self.yPosition == (dogPlayer.yPosition - 1))) && (self.xPosition == dogPlayer.xPosition))){
             self.bark(); 
@@ -646,18 +650,18 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
             self.chasePlayer(dogPlayer);
         }
         
-        else if(self.ownedLandmarks[0].owner == self.dogID && 
-        self.ownedLandmarks[1].owner == self.dogID &&
-        self.ownedLandmarks[2].owner == self.dogID &&
-        self.ownedLandmarks[3].owner == self.dogID){
+        
+        else if(self.originalLandmarks.length == self.ownedLandmarks.length){
             self.randomMovement();
         }
         
         else{
             console.log("you peed");
-            for(var i = 0; i < self.ownedLandmarks.length; i++){
-                if (self.ownedLandmarks[i].owner != self.dogID){
-                    self.reclaimLandmark(ownedLandmarks[i]);
+            console.log(self.originalLandmarks.length);
+            console.log(self.ownedLandmarks.length);
+            for(var i = 0; i < self.landmarkIndex.length; i++){
+                if (landmarks[self.landmarkIndex[i]].owner != self.dogID){
+                    self.reclaimLandmark(landmarks[self.landmarkIndex[i]]);
                     break;
                 }
             }
@@ -676,13 +680,13 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     
     this.pee=function() {
         var x;
-        for(x=0; x<self.ownedLandmarks.length; x++) {
+        for(x=0; x<self.landmarkIndex.length; x++) {
             //if player is next to landmark
-             if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
-               (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
+             if ((((self.xPosition == (landmarks[self.landmarkIndex[x]].xPosition + 1))||(self.xPosition == (landmarks[self.landmarkIndex[x]].xPosition - 1))) && (self.yPosition == landmarks[self.landmarkIndex[x]].yPosition)) || 
+               (((self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition + 1))||(self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition - 1))) && (self.xPosition == landmarks[self.landmarkIndex].xPosition))) {
                  //if the landmark is not claimed, claim it
-                 if ((self.landmarks[x].owner) != self.dogID) {
-                     self.landmarks[x].owner == self.dogID;
+                 if ((landmarks[self.landmarkIndex[x]].owner) != self.dogID) {
+                     landmarks[self.landmarkIndex[x]].owner == self.dogID;
                     // self.landmarks[x].show();
                  }
              }
