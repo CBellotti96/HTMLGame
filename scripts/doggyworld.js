@@ -26,6 +26,8 @@ var doggyworldGame = function() {
         maxX: 9,
         maxY: 9,
         
+  
+        
         //speed of tick - 1000 is about one second.
         speed: 500,
 		//wait time between player actions
@@ -50,7 +52,6 @@ var doggyworldGame = function() {
             new landmark(5, 2, 2, 9, ""), new landmark(6, 2, 2, 7, ""), new landmark(7, 2, 0, 5, ""), new landmark(8, 2, 3, 6, ""),
             new landmark(9, 3, 9, 7, ""), new landmark(10, 3, 7, 7, ""), new landmark(11, 3, 6, 9, ""), new landmark(12, 3, 6, 6, "")];
         self.kennels = [new kennel(0, 0, 0), new kennel(1, 9, 0), new kennel(2, 0, 9), new kennel(3, 9, 9)];
-        
         
         self.landmarksAI1 = [];
         self.landmarksAI2 = [];
@@ -81,6 +82,8 @@ var doggyworldGame = function() {
         });
         self.landmarks.forEach(function(alandmark) {
             self.board[alandmark.yPosition][alandmark.xPosition] = alandmark;
+            $('#Landmark' + alandmark.landmarkID).css("background-color", "transparent");
+
         });
         
         self.kennels.forEach(function(akennel) {
@@ -90,6 +93,9 @@ var doggyworldGame = function() {
         self.dogs.forEach(function(adog) {
             self.board[adog.yPosition][adog.xPosition] = adog;
         });
+        
+        
+       
     }
    
     
@@ -112,6 +118,8 @@ var doggyworldGame = function() {
         }, self.options.speed);
 		
         self.setCharacters();
+        
+         
     };
 
     this.reset=function(){
@@ -319,8 +327,8 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
                  //if the landmark is not claimed, claim it
                  if ((self.landmarks[x].owner) != self.dogID) {
                      self.landmarks[x].owner == self.dogID;
-                     document.getElementById("Landmark" + landmarks[x].landmarkID).innerHTML = "USER PEE";
-                     //self.landmarks[x].show();
+                     //document.getElementById("Landmark" + landmarks[x].landmarkID).innerHTML = "USER PEE";
+                     $('#Landmark' + landmarks[x].landmarkID).css("background-color", "rgba(255,153,0, 0.5)");
                  }
              }
         }
