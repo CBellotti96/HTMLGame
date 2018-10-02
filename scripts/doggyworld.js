@@ -314,14 +314,9 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     };
     
     this.pee=function() {
-<<<<<<< HEAD
         var x;
         document.getElementById("Landmark1").innerHTML = self.landmarks[0].xPosition;
         for(x=0; x<self.landmarks.length; x++) {
-=======
-        //document.getElementById("Landmark1").innerHTML = "USER PEE";
-        for(var x = 0; x < self.landmarks.length; x++) {
->>>>>>> 134c0f27034cc268c22fdaadec02eba4291e91b9
             //if player is next to landmark
              if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
                (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
