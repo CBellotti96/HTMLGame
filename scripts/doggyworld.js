@@ -27,7 +27,7 @@ var doggyworldGame = function() {
         maxY: 9,
         
         //speed of tick - 1000 is about one second.
-        speed: 1000,
+        speed: 500,
 		//wait time between player actions
 		playerDelay: 500,
         icounter: 0,
@@ -150,7 +150,7 @@ var doggyworldGame = function() {
 		$('#GameStopped').show();
 		$('#GameRunning').hide();
 		$('#playBoard').hide();
-		$('#Status').text('Click to start!');
+		$('#Status').text('Click Start to Begin!');
 		self.gameState = 0; //reset or pre-running
 		self.time = 0;
 		self.UI.running=false;
@@ -199,7 +199,7 @@ var doggyworldGame = function() {
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
-        document.querySelector('#Time').innerHTML = '<span>' + self.time + 'sec</span>'; //display time
+        document.querySelector('#Time').innerHTML = '<span>' + self.time + ' sec</span>'; //display time
         
 		console.log(self.UI.playerInput);
 		
@@ -319,7 +319,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
                  //if the landmark is not claimed, claim it
                  if ((self.landmarks[x].owner) != self.dogID) {
                      self.landmarks[x].owner == self.dogID;
-                     document.getElementById("Landmark1").innerHTML = "USER PEE";
+                     document.getElementById("Landmark" + landmarks[x].landmarkID).innerHTML = "USER PEE";
                      //self.landmarks[x].show();
                  }
              }
