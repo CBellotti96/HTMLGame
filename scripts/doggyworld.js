@@ -416,6 +416,95 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         else{
             return(Math.abs(num));
         }
+    };
+    
+    this.chaseH=function(chaseX, chaseY, prevX, prevY){
+        //if we need to go in x direction, attempt to moveH
+        self.moveH(chaseX);
+        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+            self.moveH(self.reverseNum(chaseX));
+        }
+        //if something is in our way, try movement we determined for y
+        if(self.xPosition == prevX && self.yPosition == prevY){
+            self.moveV(chaseY);
+            if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                self.moveV(self.reverseNum(chaseY));
+            }
+            if(self.xPosition == prevX && self.yPosition == prevY){
+                //if y was not zero and we're still stuck, try backing up instead
+                if(chaseY != 0){
+                    self.moveV(self.reverseNum(chaseY));
+                    if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                        self.moveV(chaseY);
+                    }
+                }
+                //if y was zero, try going in either y direction **may get caught in loop**
+                else{
+                    self.moveV(1);
+                    if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                        self.moveV(-1);
+                    }
+                    if(self.xPosition == prevX && self.yPosition == prevY){
+                        self.moveV(-1);
+                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                            self.moveV(1);
+                        }
+                    }
+                }
+                    //last chance to move, back up in direction we decided
+                if(self.xPosition == prevX && self.yPosition == prevY){
+                    self.moveH(self.reverseNum(chaseX));
+                    if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                        self.moveH(chaseX);
+                    }
+                }        
+            }
+        }
+    }
+    
+    
+    this.chaseV=function(chaseX, chaseY, prevX, prevY){
+        //if we need to go in y direction, attempt to moveV
+        self.moveV(chaseY);
+        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+            self.moveV(self.reverseNum(chaseY));
+        }
+        //if something is in our way, try movement we determined for x
+        if(self.xPosition == prevX && self.yPosition == prevY){
+            self.moveH(chaseX);
+            if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                self.moveH(self.reverseNum(chaseX));
+            }
+            if(self.xPosition == prevX && self.yPosition == prevY){
+                //if x was not zero and we're still stuck, try backing up instead
+                if(chaseX != 0){
+                    self.moveH(self.reverseNum(chaseX));
+                    if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                        self.moveH(chaseX);
+                    }
+                }
+                //if x was zero, try going in either x direction **may get caught in loop**
+                else{
+                    self.moveH(1);
+                    if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                        self.moveH(-1);
+                    }
+                    if(self.xPosition == prevX && self.yPosition == prevY){
+                        self.moveH(-1);
+                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                            self.moveH(1);
+                        }
+                    }
+                }
+                //last chance to move, back up in direction we decided
+                if(self.xPosition == prevX && self.yPosition == prevY){
+                    self.moveV(self.reverseNum(chaseY));
+                    if(self.miniGrid[self.yPosition][self.xPosition] == 1){
+                        self.moveV(chaseY);
+                    }
+                }
+            }
+        }
     }
     
     this.chasePlayer=function(dogPlayer){
@@ -442,22 +531,18 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         //decide which way we need to go to reach player
         if(self.chaseX == 0 && self.chaseY != 0){
             self.chase = "Y";
-            self.chaseBackup = "X";
         }
         else if(self.chaseY == 0 && self.chaseX != 0){
             self.chase = "X";
-            self.chaseBackup = "Y";
         }
         //if we need to travel diagonally, pick one at random
         else if(self.chaseX != 0 && self.chaseY != 0){
 
             if(Math.round(Math.random()) == 1){
                 self.chase = "X";
-                self.chaseBackup = "Y";
             }
             else{
                 self.chase = "Y";
-                self.chaseBackup = "X";
             }
         }
         else{
@@ -467,90 +552,10 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.prevY = self.yPosition;
         
         if(self.chase == "X"){
-            //if we need to go in x direction, attempt to moveH
-            self.moveH(self.chaseX);
-            if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                self.moveH(self.reverseNum(self.chaseX));
-            }
-            //if something is in our way, try movement we determined for y
-            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                self.moveV(self.chaseY);
-                if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                    self.moveV(self.reverseNum(self.chaseY));
-                }
-                if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                    //if y was not zero and we're still stuck, try backing up instead
-                    if(self.chaseY != 0){
-                        self.moveV(self.reverseNum(self.chaseY));
-                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveV(self.chaseY);
-                        }
-                    }
-                    //if y was zero, try going in either y direction **may get caught in loop**
-                    else{
-                        self.moveV(1);
-                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveV(-1);
-                        }
-                        if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                            self.moveV(-1);
-                            if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                                self.moveV(1);
-                            }
-                        }
-                    }
-                        //last chance to move, back up in direction we decided
-                    if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                        self.moveH(self.reverseNum(self.chaseX));
-                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveH(self.chaseX);
-                        }
-                    }        
-                }
-            }
+            self.chaseH(self.chaseX, self.chaseY, self.prevX, self.prevY);
         }
         else if(self.chase == "Y"){
-            //if we need to go in y direction, attempt to moveV
-            self.moveV(self.chaseY);
-            if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                self.moveV(self.reverseNum(self.chaseY));
-            }
-            //if something is in our way, try movement we determined for x
-            if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                self.moveH(self.chaseX);
-                if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                    self.moveH(self.reverseNum(self.chaseX));
-                }
-                if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                    //if x was not zero and we're still stuck, try backing up instead
-                    if(self.chaseX != 0){
-                        self.moveH(self.reverseNum(self.chaseX));
-                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveH(self.chaseX);
-                        }
-                    }
-                    //if x was zero, try going in either x direction **may get caught in loop**
-                    else{
-                        self.moveH(1);
-                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveH(-1);
-                        }
-                        if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                            self.moveH(-1);
-                            if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                                self.moveH(1);
-                            }
-                        }
-                    }
-                    //last chance to move, back up in direction we decided
-                    if(self.xPosition == self.prevX && self.yPosition == self.prevY){
-                        self.moveV(self.reverseNum(self.chaseY));
-                        if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveV(self.chaseY);
-                        }
-                    }
-                }
-            }
+            self.chaseV(self.chaseX, self.chaseY, self.prevX, self.prevY);
         }
     };
     
@@ -580,8 +585,68 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         }
     }
     
+    this.reclaimLandmark=function(mark){
+        self.pee(); //in current state, pee is already checking location. If we change that, this needs to check if next to mark first
+        if (mark.owner != self.dogID){
+                //set x movement
+            if(self.xPosition < mark.xPosition){
+                self.chaseX = 1;
+            }
+            else if(self.xPosition > mark.xPosition){
+                self.chaseX = -1;
+            }
+            else{
+                self.chaseX = 0;
+            }
+            //set y movement
+            if(self.yPosition < mark.yPosition){
+                self.chaseY = 1;
+            }
+            else if(self.yPosition > mark.yPosition){
+                self.chaseY = -1;
+            }
+            else{
+                self.chaseY = 0;
+            }  
+            //decide which way we need to go to reach player
+            if(self.chaseX == 0 && self.chaseY != 0){
+                self.chase = "Y";
+            }
+            else if(self.chaseY == 0 && self.chaseX != 0){
+                self.chase = "X";
+            }
+            //if we need to travel diagonally, pick one at random
+            else if(self.chaseX != 0 && self.chaseY != 0){
+    
+                if(Math.round(Math.random()) == 1){
+                    self.chase = "X";
+                }
+                else{
+                    self.chase = "Y";
+                }
+            }
+            else{
+                return 0;
+            }
+            self.prevX = self.xPosition;
+            self.prevY = self.yPosition;
+            
+            if(self.chase == "X"){
+                self.chaseH(self.chaseX, self.chaseY, self.prevX, self.prevY);
+            }
+            else if(self.chase == "Y"){
+                self.chaseV(self.chaseX, self.chaseY, self.prevX, self.prevY);
+            }            
+        }
+    }
+    
     this.move=function(dogPlayer) {
-        if(dogPlayer.xPosition >= self.minX && dogPlayer.xPosition <= self.maxX
+        if ((((self.xPosition == (dogPlayer.xPosition + 1))||(self.xPosition == (dogPlayer.xPosition - 1))) && (self.yPosition == dogPlayer.yPosition)) || 
+        (((self.yPosition == (dogPlayer.yPosition + 1))||(self.yPosition == (dogPlayer.yPosition - 1))) && (self.xPosition == dogPlayer.xPosition))){
+            self.bark(); 
+        } 
+        
+        else if(dogPlayer.xPosition >= self.minX && dogPlayer.xPosition <= self.maxX
         && dogPlayer.yPosition >= self.minY && dogPlayer.yPosition <= self.maxY){
             self.chasePlayer(dogPlayer);
         }
@@ -591,6 +656,15 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
         self.ownedLandmarks[2].owner == self.dogID &&
         self.ownedLandmarks[3].owner == self.dogID){
             self.randomMovement();
+        }
+        
+        else{
+            for(var i = 0; i < self.ownedLandmarks.length; i++){
+                if (self.ownedLandmarks[i].owner != self.dogID){
+                    self.reclaimLandmark(ownedLandmarks[i]);
+                    break;
+                }
+            }
         }
 
     };
@@ -606,7 +680,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     
     this.pee=function() {
         var x;
-        for(x=0; x<self.landmarks.length; x++) {
+        for(x=0; x<self.ownedLandmarks.length; x++) {
             //if player is next to landmark
              if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
                (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
