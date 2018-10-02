@@ -2,6 +2,7 @@
 
 var doggyworldGame = function() {
     var self=this;
+    this.landmarks=[];
     this.options={
         //not sure what we will or won't need for options, left as example of what should go here
         /*height:500,
@@ -125,25 +126,12 @@ var doggyworldGame = function() {
 		self.setCharacters();
     };
 	
-	this.startGameButton=function(){
-		self.gameState = 1; //running
-	};
-	
-	this.stopGameButton=function(){
-		self.gameState = 2; //paused
-	};
-	
-	this.quitGameButton=function(){
-		self.gameState = 0; //reset, pre-running
-		self.time = 0;
-	};
-	
 	$('#StartBtn').on('click',function(){
 		$('#GameStopped').hide();
 		$('#GameRunning').show();
 		$('#playBoard').show()
 		$('#Status').text('Go!');
-		self.startGameButton();
+		self.gameState = 1; //running
 		self.UI.running=true;
 		self.UI.refreshView();
 	});
@@ -153,7 +141,7 @@ var doggyworldGame = function() {
 		$('#GameRunning').hide();
 		$('#playBoard').show();
 		$('#Status').text('Game paused...');
-		self.stopGameButton();
+		self.gameState = 2; //paused
 		self.UI.running=false;
 		self.UI.refreshView();
 	});
@@ -163,7 +151,8 @@ var doggyworldGame = function() {
 		$('#GameRunning').hide();
 		$('#playBoard').hide();
 		$('#Status').text('Click to start!');
-		self.quitGameButton();
+		self.gameState = 0; //reset or pre-running
+		self.time = 0;
 		self.UI.running=false;
 		self.reset();
 		self.UI.refreshView();
@@ -239,6 +228,7 @@ var doggyworldGame = function() {
 	    self.UI.playerInput = undefined;
 			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
 	//	}
+	    console.log("hi");
 		
 		
 		
@@ -322,7 +312,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     };
     
     this.pee=function() {
-        //document.getElementById("Landmark1").innerHTML = "USER PEE";
         for(var x = 0; x < self.landmarks.length; x++) {
             //if player is next to landmark
              if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
