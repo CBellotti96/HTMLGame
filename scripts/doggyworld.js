@@ -27,7 +27,7 @@ var doggyworldGame = function() {
         maxY: 9,
         
         //speed of tick - 1000 is about one second.
-        speed: 1000,
+        speed: 500,
 		//wait time between player actions
 		playerDelay: 500,
         icounter: 0,
@@ -319,7 +319,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
                  //if the landmark is not claimed, claim it
                  if ((self.landmarks[x].owner) != self.dogID) {
                      self.landmarks[x].owner == self.dogID;
-                     document.getElementById("Landmark1").innerHTML = "USER PEE";
+                     document.getElementById("Landmark" + landmarks[x].landmarkID).innerHTML = "USER PEE";
                      //self.landmarks[x].show();
                  }
              }
