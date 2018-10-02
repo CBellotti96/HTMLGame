@@ -2,6 +2,7 @@
 
 var doggyworldGame = function() {
     var self=this;
+    this.landmarks=[];
     this.options={
         //not sure what we will or won't need for options, left as example of what should go here
         /*height:500,
@@ -30,7 +31,6 @@ var doggyworldGame = function() {
 		//wait time between player actions
 		playerDelay: 500,
         icounter: 0,
-		
 		
 
     }
@@ -326,7 +326,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
     
     this.pee=function() {
         var x;
-        //document.getElementById("Landmark1").innerHTML = "USER PEE";
+        document.getElementById("Landmark1").innerHTML = self.landmarks[0].xPosition;
         for(x=0; x<self.landmarks.length; x++) {
             //if player is next to landmark
              if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
