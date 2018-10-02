@@ -26,7 +26,7 @@ var doggyworldGame = function() {
         maxY: 9,
         
         //speed of tick - 1000 is about one second.
-        speed: 300,
+        speed: 1000,
 		//wait time between player actions
 		playerDelay: 500,
         icounter: 0,
