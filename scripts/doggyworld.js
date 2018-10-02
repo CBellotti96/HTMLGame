@@ -473,26 +473,26 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
             if(self.xPosition == self.prevX && self.yPosition == self.prevY){
                 self.moveV(self.chaseY);
                 if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                    self.moveY(self.reverseNum(self.chaseY));
+                    self.moveV(self.reverseNum(self.chaseY));
                 }
                 if(self.xPosition == self.prevX && self.yPosition == self.prevY){
                     //if y was not zero and we're still stuck, try backing up instead
                     if(self.chaseY != 0){
                         self.moveV(self.reverseNum(self.chaseY));
                         if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveY(self.chaseY);
+                            self.moveV(self.chaseY);
                         }
                     }
                     //if y was zero, try going in either y direction **may get caught in loop**
                     else{
                         self.moveV(1);
                         if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveY(-1);
+                            self.moveV(-1);
                         }
                         if(self.xPosition == self.prevX && self.yPosition == self.prevY){
                             self.moveV(-1);
                             if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                                self.moveY(1);
+                                self.moveV(1);
                             }
                         }
                     }
@@ -510,7 +510,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
             //if we need to go in y direction, attempt to moveV
             self.moveV(self.chaseY);
             if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                self.moveY(self.reverseNum(self.chaseY));
+                self.moveV(self.reverseNum(self.chaseY));
             }
             //if something is in our way, try movement we determined for x
             if(self.xPosition == self.prevX && self.yPosition == self.prevY){
@@ -543,7 +543,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
                     if(self.xPosition == self.prevX && self.yPosition == self.prevY){
                         self.moveV(self.reverseNum(self.chaseY));
                         if(self.miniGrid[self.yPosition][self.xPosition] == 1){
-                            self.moveY(self.chaseY);
+                            self.moveV(self.chaseY);
                         }
                     }
                 }
