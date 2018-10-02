@@ -61,6 +61,8 @@ var doggyworldUI=function()
 				}
 				else if (event.which==101) //e
 				{
+				    document.getElementById("DogPlayer").innerHTML = "PEE"
+					self.playerInput = 'e';
 					//pee
 					//check if it hit landmark
 					//if not already hit, mark as peed on

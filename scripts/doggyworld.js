@@ -26,7 +26,7 @@ var doggyworldGame = function() {
         maxY: 9,
         
         //speed of tick - 1000 is about one second.
-        speed: 1000,
+        speed: 300,
 		//wait time between player actions
 		playerDelay: 500,
         icounter: 0,
@@ -235,6 +235,9 @@ var doggyworldGame = function() {
 		if(self.UI.playerInput === 'd'){
 			self.player.moveH(1);
 		}
+		if(self.UI.playerInput === 'e'){
+		    self.player.pee();
+		}
 		self.moveOnBoard(self.player);
 	//		self.player.canMove = false;
 	    self.UI.playerInput = undefined;
@@ -321,18 +324,18 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX) {
         self.moveV(-1);
     };
     
-    
-    
     this.pee=function() {
         var x;
-        for(x in self.landmarks) {
+        //document.getElementById("Landmark1").innerHTML = "USER PEE";
+        for(x=0; x<self.landmarks.length; x++) {
             //if player is next to landmark
              if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
                (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
                  //if the landmark is not claimed, claim it
-                 if ((self.landmarks[x].owner) != "player") {
-                     self.landmarks[x].owner == "player";
-                     self.landmarks[x].hide();
+                 if ((self.landmarks[x].owner) != self.dogID) {
+                     self.landmarks[x].owner == self.dogID;
+                     document.getElementById("Landmark1").innerHTML = "USER PEE";
+                     self.landmarks[x].show();
                  }
              }
         }
@@ -603,13 +606,13 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     
     this.pee=function() {
         var x;
-        for(x in self.landmarks) {
+        for(x=0; x<self.landmarks.length; x++) {
             //if player is next to landmark
              if ((((self.xPosition == (self.landmarks[x].xPosition + 1))||(self.xPosition == (self.landmarks[x].xPosition - 1))) && (self.yPosition == self.landmarks[x].yPosition)) || 
                (((self.yPosition == (self.landmarks[x].yPosition + 1))||(self.yPosition == (self.landmarks[x].yPosition - 1))) && (self.xPosition == self.landmarks[x].xPosition))) {
                  //if the landmark is not claimed, claim it
-                 if ((self.landmarks[x].owner) == "player") {
-                     self.landmarks[x].owner == dogID;
+                 if ((self.landmarks[x].owner) != self.dogID) {
+                     self.landmarks[x].owner == self.dogID;
                      self.landmarks[x].show();
                  }
              }
