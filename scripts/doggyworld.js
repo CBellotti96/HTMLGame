@@ -661,7 +661,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
     };
 
     this.bark=function() {
-    
+        
     };
 
     this.barkedAt=function() {
