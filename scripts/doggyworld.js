@@ -657,11 +657,21 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, ownedLandmarks) 
                 }
             }
         }
-
     };
 
     this.bark=function() {
-        
+        if (self.xPosition == (dogPlayer.xPosition + 1)){
+            self.setXPosition(self.xPosition-1);   
+        }
+        else if (self.xPosition == (dogPlayer.xPosition - 1)){
+            self.setXPosition(self.xPosition+1);   
+        }
+        else if (self.yPosition == (dogPlayer.yPosition - 1)){
+            self.setYPosition(self.yPosition+1);   
+        }
+        else if (self.yPosition == (dogPlayer.yPosition + 1)){
+            self.setYPosition(self.yPosition-1); 
+        }
     };
 
     this.barkedAt=function() {
