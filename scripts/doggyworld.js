@@ -249,10 +249,6 @@ var doggyworldGame = function() {
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
         
-        for(var i = 0; i < self.landmarks.length; i++){
-            console.log(self.landmarks[i].landmarkID, self.landmarks[i].owner);
-        }
-        
 
 		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
 
@@ -331,7 +327,8 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
                (((self.yPosition == (landmarks[x].yPosition + 1))||(self.yPosition == (landmarks[x].yPosition - 1))) && (self.xPosition == landmarks[x].xPosition))) {
                  //if the landmark is not claimed, claim it
                  if ((landmarks[x].owner) != self.dogID) {
-                     landmarks[x].owner == self.dogID;
+                     landmarks[x].owner = self.dogID;
+                     console.log(landmarks[x].owner);
                      //document.getElementById("Landmark" + landmarks[x].landmarkID).innerHTML = "USER PEE";
                      $('#Landmark' + landmarks[x].landmarkID).css("background-color", "rgba(255,153,0, 0.5)");
                  }
@@ -377,6 +374,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
                 self.landmarkIndex.push(i);
             }
         }
+        console.log(self.landmarkIndex);
     };
     
     
@@ -695,7 +693,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         for(x=0; x<self.landmarkIndex.length; x++) {
             //if player is next to landmark
              if ((((self.xPosition == (landmarks[self.landmarkIndex[x]].xPosition + 1))||(self.xPosition == (landmarks[self.landmarkIndex[x]].xPosition - 1))) && (self.yPosition == landmarks[self.landmarkIndex[x]].yPosition)) || 
-               (((self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition + 1))||(self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition - 1))) && (self.xPosition == landmarks[self.landmarkIndex].xPosition))) {
+               (((self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition + 1))||(self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition - 1))) && (self.xPosition == landmarks[self.landmarkIndex[x]].xPosition))) {
                  //if the landmark is not claimed, claim it
                  if ((landmarks[self.landmarkIndex[x]].owner) != self.dogID) {
                      landmarks[self.landmarkIndex[x]].owner == self.dogID;
