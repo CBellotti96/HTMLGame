@@ -667,8 +667,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         
         else{
             console.log("you peed");
-            console.log(self.originalLandmarks.length);
-            console.log(self.ownedLandmarks.length);
+            console.log(self.originalLandmarks.length, self.ownedLandmarks.length);
             for(var i = 0; i < self.landmarkIndex.length; i++){
                 if (landmarks[self.landmarkIndex[i]].owner != self.dogID){
                     self.reclaimLandmark(landmarks[self.landmarkIndex[i]]);
@@ -696,7 +695,8 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
                (((self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition + 1))||(self.yPosition == (landmarks[self.landmarkIndex[x]].yPosition - 1))) && (self.xPosition == landmarks[self.landmarkIndex[x]].xPosition))) {
                  //if the landmark is not claimed, claim it
                  if ((landmarks[self.landmarkIndex[x]].owner) != self.dogID) {
-                     landmarks[self.landmarkIndex[x]].owner == self.dogID;
+                     landmarks[self.landmarkIndex[x]].owner = self.dogID;
+                     $('#Landmark' + landmarks[self.landmarkIndex[x]].landmarkID).css("background-color", "transparent");
                     // self.landmarks[x].show();
                  }
              }
