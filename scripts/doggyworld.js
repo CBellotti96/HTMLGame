@@ -203,13 +203,23 @@ var doggyworldGame = function() {
     //update all the ai dog's positions and on the board.
     this.update=function(){
 		
-		//increment timer
+		//increment timer and bark meters
 		if (self.UI.running == true) {
 			self.time++;
+			if (self.dogAI1.barkMeter >= 0 && self.dogAI1.barkMeter < 5){
+			    self.dogAI1.barkMeter++;
+			}else if (self.dogAI2.barkMeter >= 0 && self.dogAI2.barkMeter < 5){
+			    self.dogAI2.barkMeter++;
+			}else if (self.dogAI3.barkMeter >= 0 && self.dogAI3.barkMeter < 5){
+			    self.dogAI3.barkMeter++;
+			}
 		}
 		
         //update time on board - should we have game running bool in here, not ui?
         document.querySelector('#Time').innerHTML = '<span>' + self.time + ' sec</span>'; //display time
+        //document.querySelector('#AI1Meter').innerHTML = '<span>' + self.dogAI1.barkMeter + ' sec</span>';
+        //document.querySelector('#AI2Meter').innerHTML = '<span>' + self.dogAI2.barkMeter + ' sec</span>';
+        //document.querySelector('#AI3Meter').innerHTML = '<span>' + self.dogAI3.barkMeter + ' sec</span>';
         
 		console.log(self.UI.playerInput);
 		
@@ -315,7 +325,18 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     };
 
     this.bark=function() {
-        
+        if (self.xPosition == (dogPlayer.xPosition + 1)){
+            dogPlayer.moveH(-1);   
+        }
+        else if (self.xPosition == (dogPlayer.xPosition - 1)){
+            dogPlayer.moveH(1);   
+        }
+        else if (self.yPosition == (dogPlayer.yPosition - 1)){
+            dogPlayer.moveV(1);   
+        }
+        else if (self.yPosition == (dogPlayer.yPosition + 1)){
+            dogPlayer.moveV(-1); 
+        }
     };
 
     this.barkedAt=function() {
@@ -358,6 +379,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
 	this.originalLandmarks=originalLandmarks;
 	this.landmarkIndex=[];
 	this.ownedLandmarks = [];
+	this.barkMeter = 5;
     
     this.miniGrid = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
     
@@ -654,7 +676,11 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         
         if ((((self.xPosition == (dogPlayer.xPosition + 1))||(self.xPosition == (dogPlayer.xPosition - 1))) && (self.yPosition == dogPlayer.yPosition)) || 
         (((self.yPosition == (dogPlayer.yPosition + 1))||(self.yPosition == (dogPlayer.yPosition - 1))) && (self.xPosition == dogPlayer.xPosition))){
-            self.bark(); 
+            if (self.barkMeter == 5){
+                self.bark(dogPlayer);
+                self.barkMeter = 0;
+            }
+             
         } 
         
         else if(dogPlayer.xPosition >= self.minX && dogPlayer.xPosition <= self.maxX
@@ -680,18 +706,18 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         }
     };
 
-    this.bark=function() {
-        if (self.xPosition == (dogPlayer.xPosition + 1)){
-            self.setXPosition(self.xPosition-1);   
+    this.bark=function(dogAI) {
+        if (self.xPosition == (dogAI.xPosition + 1)){
+            //retreat to kennel
         }
-        else if (self.xPosition == (dogPlayer.xPosition - 1)){
-            self.setXPosition(self.xPosition+1);   
+        else if (self.xPosition == (dogAI.xPosition - 1)){
+            //retreat to kennel 
         }
-        else if (self.yPosition == (dogPlayer.yPosition - 1)){
-            self.setYPosition(self.yPosition+1);   
+        else if (self.yPosition == (dogAI.yPosition - 1)){
+            //retreat to kennel  
         }
-        else if (self.yPosition == (dogPlayer.yPosition + 1)){
-            self.setYPosition(self.yPosition-1); 
+        else if (self.yPosition == (dogAI.yPosition + 1)){
+            //retreat to kennel
         }
     };
 
