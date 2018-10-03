@@ -710,6 +710,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
     }
     
     this.reclaimLandmark=function(mark){
+        console.log("reclaiming", mark.landmarkID);
         self.pee(); //in current state, pee is already checking location. If we change that, this needs to check if next to mark first
         if (mark.owner != self.dogID){
                 //set x movement
@@ -860,6 +861,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         //if player isn't around and you don't have all of your stuff, go reclaim it
         else{
             console.log("you peed");
+            console.log(self.landmarkIndex);
             console.log(self.originalLandmarks.length, self.ownedLandmarks.length);
             for(var i = 0; i < self.landmarkIndex.length; i++){
                 if (landmarks[self.landmarkIndex[i]].owner != self.dogID){
@@ -894,7 +896,7 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
                  //if the landmark is not claimed, claim it
                  if ((landmarks[self.landmarkIndex[x]].owner) != self.dogID) {
                      landmarks[self.landmarkIndex[x]].owner = self.dogID;
-                     $('#Landmark' + landmarks[x].landmarkID).css("background-color", "rgba(0,0,0,0)");
+                     $('#Landmark' + landmarks[self.landmarkIndex[x]].landmarkID).css("background-color", "rgba(0,0,0,0)");
                     // self.landmarks[x].show();
                  }
              }
