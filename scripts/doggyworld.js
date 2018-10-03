@@ -235,6 +235,9 @@ var doggyworldGame = function() {
     
     //update all the ai dog's positions and on the board.
     this.update=function(){
+		
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
+		
 		self.markedLandmarks = 0;
 		for(var x=0; x<self.landmarks.length;x++) {
 		    if (self.landmarks[x].owner == 0) {
@@ -294,6 +297,8 @@ var doggyworldGame = function() {
 		    self.player.barkCheck(self.dogs);
 		}
 		self.moveOnBoard(self.player);
+		
+		self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition);
 	//		self.player.canMove = false;
 	    self.UI.playerInput = undefined;
 			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
@@ -313,7 +318,7 @@ var doggyworldGame = function() {
             //console.log(self.landmarks[i].landmarkID, self.landmarks[i].owner);
         }
         
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
+		
 
     };
 
