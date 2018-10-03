@@ -48,6 +48,8 @@ var doggyworldGame = function() {
 	
 	this.UI = undefined;
 	
+	this.direction = undefined;
+	
 
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
@@ -203,7 +205,7 @@ var doggyworldGame = function() {
 	});
     
         //moves a specific character on the board - player or ai.
-    this.moveOnBoard=function(item) {
+    this.moveOnBoard=function(item, htmlID) {
         self.board.forEach(function(subarray, index) {
             if (subarray.includes(item)) {
                 //take current dog location, write plain to it.
@@ -220,11 +222,10 @@ var doggyworldGame = function() {
                             self.board[item.yPosition][item.xPosition] = item;
                         }
                     }
+					
                 });
-                
             } 
         }); 
-        
     };
     
     this.timerUpdate=function(){
@@ -237,6 +238,7 @@ var doggyworldGame = function() {
     this.update=function(){
 		
 		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
+		
 		
 		self.markedLandmarks = 0;
 		for(var x=0; x<self.landmarks.length;x++) {
@@ -278,29 +280,35 @@ var doggyworldGame = function() {
 	//		self.UI.playerInput = undefined;
 	//	}
 		//if((self.player.canMove === true)&&(self.UI.playerInput != undefined)){
-		if(self.UI.playerInput === 'w'){
+		if(self.UI.playerInput == 'w'){
 			self.player.moveV(-1);
+			self.direction = "up";
 		}
-		if(self.UI.playerInput === 'a'){
+		if(self.UI.playerInput == 'a'){
 			self.player.moveH(-1);
+			self.direction = "left";
 		}
-		if(self.UI.playerInput === 's'){
+		if(self.UI.playerInput == 's'){
 			self.player.moveV(1);
+			self.direction = "down";
 		}
-		if(self.UI.playerInput === 'd'){
+		if(self.UI.playerInput == 'd'){
 			self.player.moveH(1);
+			self.direction = "right";
 		}
-		if(self.UI.playerInput === 'e'){
+		if(self.UI.playerInput == 'e'){
 		    self.player.pee(self.landmarks);
+			self.direction = undefined;
 		}
-		if(self.UI.playerInput === 'q'){
+		if(self.UI.playerInput == 'q'){
 		    self.player.barkCheck(self.dogs);
+			self.direction = undefined;
 		}
-		self.moveOnBoard(self.player);
+		self.moveOnBoard(self.player,"DogPlayer");
 		
-		self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition);
+		
 	//		self.player.canMove = false;
-	    self.UI.playerInput = undefined;
+	    //self.UI.playerInput = undefined;
 			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
 	//	}
 		
@@ -310,15 +318,18 @@ var doggyworldGame = function() {
         self.dogAI1.move(self.player); 
         self.dogAI2.move(self.player);
         self.dogAI3.move(self.player);
-        self.moveOnBoard(self.dogAI1);
-        self.moveOnBoard(self.dogAI2);
-        self.moveOnBoard(self.dogAI3);
+        self.moveOnBoard(self.dogAI1,"DogAI1");
+        self.moveOnBoard(self.dogAI2,"DogAI2");
+        self.moveOnBoard(self.dogAI3,"DogAI3");
         
         for(var i = 0; i < self.landmarks.length; i++){
             //console.log(self.landmarks[i].landmarkID, self.landmarks[i].owner);
         }
         
-		
+		if(self.direction != undefined){
+			self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition, self.direction);
+			self.direction = undefined;
+		}
 
     };
 

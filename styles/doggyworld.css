@@ -27,61 +27,14 @@
 }
 /*   http://cssgridgarden.com/   */
 #DogPlayer {
-    background:url('../images/blueDog/right/rightGif.gif');
+    background-image:url('../images/blueDog/right/rightGif.gif');
     /*background-size: contain;
     background-repeat: no-repeat;*/
 	position: absolute;
-}
-div.DogPlayer {
 	width: 32px;
 	height: 32px;
 	background-size: contain;
     background-repeat: no-repeat;
-	position: relative;
-}
-/* down */
-div.DogPlayer.downIdle {
-	display: none;
-	background:url('../images/blueDog/down/downIdle.png');
-	
-}
-div.DogPlayer.downGif {
-	display: none;
-	background:url('../images/blueDog/down/downGif.gif');
-	
-}
-/* left */
-div.DogPlayer.leftIdle {
-	display: none;
-	background:url('../images/blueDog/left/leftIdle.png');
-	
-}
-div.DogPlayer.leftGif {
-	display: none;
-	background:url('../images/blueDog/left/leftGif.gif');
-	
-}
-/* right */
-div.DogPlayer.rightIdle {
-	display: none;
-	background:url('../images/blueDog/right/rightIdle.png');
-	
-}
-div.DogPlayer.rightGif {
-	display: none;
-	background:url('../images/blueDog/right/rightGif.gif');
-	
-}
-/* up */
-div.DogPlayer.upIdle {
-	/*display: none;*/
-	background:url('../images/blueDog/up/upIdle.png');
-	
-}
-div.DogPlayer.upGif {
-	display: none;
-	background:url('../images/blueDog/up/upGif.gif');
-	
 }
 #DogAI1 {
     background:url('../images/DogPicture.jpg');

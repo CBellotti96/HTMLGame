@@ -12,6 +12,7 @@ var doggyworldUI=function()
         $('#WinScreen').hide();
 	};
 	this.playerInput = undefined;
+	this.playerCanInput = true;
 	
 	
 	
@@ -29,6 +30,7 @@ var doggyworldUI=function()
 				if (event.which==97)//left - a
 				{
 					document.getElementById("DogPlayer").innerHTML = "LEFT"
+					//$('#DogPlayer').css("background-image", "url('images/blueDog/left/leftIdle.png')");
 					self.playerInput = 'a';
 					/*
 					console.log(self.game.player.xPosition);
@@ -38,6 +40,7 @@ var doggyworldUI=function()
 				else if (event.which==119) //up - w
 				{
 					document.getElementById("DogPlayer").innerHTML = "UP"
+					//$('#DogPlayer').css("background-image", "url('images/blueDog/up/upIdle.png')");
 					self.playerInput = 'w';
 					/*
 					console.log(self.game.player.xPosition);
@@ -47,6 +50,7 @@ var doggyworldUI=function()
 				else if (event.which==100) //right - d
 				{
 					document.getElementById("DogPlayer").innerHTML = "RIGHT"
+					//$('#DogPlayer').css("background-image", "url('images/blueDog/right/rightIdle.png')");
 					self.playerInput = 'd';
 					/*
 					console.log(self.game.player.xPosition);
@@ -56,6 +60,7 @@ var doggyworldUI=function()
 				else if (event.which==115) //down - s
 				{
 					document.getElementById("DogPlayer").innerHTML = "DOWN"
+					//$('#DogPlayer').css("background-image", "url('images/blueDog/down/downIdle.png')");
 					self.playerInput = 's';
 					/*
 					console.log(self.game.player.xPosition);
@@ -138,9 +143,11 @@ var doggyworldUI=function()
                 $.each(value, function(index2, value2){
                     if (value2 != plain) {
                         if (value2 == player) {
-                            //$('#DogPlayer').css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+							//$('#DogPlayer').css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+							//$('#DogPlayer').animate({left: ''+(68*player.PositionX)+'px', top: ''+(50*player.PositionY)+'px'}, 500)
                         } else if (dogs.includes(value2)) {
-                            $('#DogAI' + value2.dogID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+							$('#DogAI' + value2.dogID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+							//$('#DogAI' + value2.dogID.toString()).animate({left: ''+(68*value2.PositionX)+'px', top: ''+(50*value2.PositionY)+'px'}, 500)
                         } else if (kennels.includes(value2)) {
                             $('#Kennel' + value2.owner.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else { //landmark
@@ -153,14 +160,35 @@ var doggyworldUI=function()
 
     };
 	
-	this.animate=function(htmlID, PositionX, PositionY){
-		/*
-		htmlID (string) the ID of the parent object you want to move in the html file ex. "DogPlayer"
-		positionX (int) the destination of the animation
-		positionY (int) the destination of the animation
-		*/
+	this.animate=function(htmlID, PositionX, PositionY, input){
 		
-		$("#" + htmlID).stop(false,true).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 500);
+		//htmlID (string) the ID of the parent object you want to move in the html file ex. "DogPlayer"
+		//positionX (int) the destination of the animation?
+		//positionY (int) the destination of the animation
+		//input (string) ("left","right","up","down")
+		var dogType = undefined;
+		
+		if(htmlID == "DogPlayer"){
+			dogType = "blueDog";
+		}
+		/*
+		setTimeout(function() {
+			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
+		}, 400);
+		*/
+		$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Gif.gif')");
+		$("#" + htmlID).stop(false,true).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 400);
+		
+		/*
+		$("#" + htmlID).delay(400).queue(function(){
+			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
+		});*/
+		
+		setTimeout(function() {
+			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
+		}, 400);
+		
+		self.playerInput = undefined;
 		
 	}
     
