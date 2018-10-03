@@ -138,7 +138,7 @@ var doggyworldUI=function()
                 $.each(value, function(index2, value2){
                     if (value2 != plain) {
                         if (value2 == player) {
-                            $('#DogPlayer').css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
+                            //$('#DogPlayer').css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else if (dogs.includes(value2)) {
                             $('#DogAI' + value2.dogID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
                         } else if (kennels.includes(value2)) {
@@ -152,6 +152,17 @@ var doggyworldUI=function()
         });
 
     };
+	
+	this.animate=function(htmlID, PositionX, PositionY){
+		/*
+		htmlID (string) the ID of the parent object you want to move in the html file ex. "DogPlayer"
+		positionX (int) the destination of the animation
+		positionY (int) the destination of the animation
+		*/
+		
+		$("#" + htmlID).stop(false,true).animate({left: ''+(68*PositionX)+'px', down: ''+(50*PositionY)+'px'}, 500);
+		
+	}
     
     this.tick=function(){
         setInterval(function () { 
