@@ -243,7 +243,7 @@ var doggyworldGame = function() {
 		}
 		document.querySelector('#Score').innerHTML = '<span> Score: ' + self.markedLandmarks + ' / 12</span>'; //display score
 
-		if(self.markedLandmarks == self.landmarks.length) {
+		if(self.markedLandmarks == self.landmarks.length){
             $('#WinScreen').show();
             $('#gameBoard').hide();
             self.UI.running = false;

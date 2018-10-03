@@ -151,18 +151,29 @@ div.DogPlayer.upGif {
     font-size: 30px;
 }
 #WinScreen {
+    width: 700px;    
+    height: 620px;
+    background-image: url("../images/grass2.jpg");
     float: center;
     text-align: center;
     font-size: xx-large;
     font-weight: bold;
 }
 #playAgain {
+    position: absolute;
+    top: 325px;
+    left: 270px;
     border: solid 4px;
 }
 #playAgain:hover {
     text-align: center;
     color: blue;
     cursor: pointer;
+}
+#gameTime {
+    position: absolute;
+    top: 250px;
+    left: 150px;
 }
 #Instructions {
     text-align-last: center;
