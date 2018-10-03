@@ -243,6 +243,9 @@ var doggyworldGame = function() {
 		if(self.UI.playerInput === 'e'){
 		    self.player.pee(self.landmarks);
 		}
+		if(self.UI.playerInput === 'q'){
+		    self.player.barkCheck();
+		}
 		self.moveOnBoard(self.player);
 	//		self.player.canMove = false;
 	    self.UI.playerInput = undefined;
@@ -319,25 +322,41 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     this.moveV=function(amount){
         self.setYPosition(self.yPosition+amount);
     };
+    
+    this.barkCheck=function(){
+        if ((((self.xPosition == (self.dogAI1.xPosition + 1))||(self.xPosition == (self.dogAI1.xPosition - 1))) && (self.yPosition == self.dogAI1.yPosition)) || 
+            (((self.yPosition == (self.dogAI1.yPosition + 1))||(self.yPosition == (self.dogAI1.yPosition - 1))) && (self.xPosition == self.dogAI1.xPosition))){
+                document.getElementById("DogPlayer").innerHTML = "BARK";
+                self.bark(self.dogAI1);
+        }else if ((((self.xPosition == (self.dogAI2.xPosition + 1))||(self.xPosition == (self.dogAI2.xPosition - 1))) && (self.yPosition == self.dogAI2.yPosition)) || 
+            (((self.yPosition == (self.dogAI2.yPosition + 1))||(self.yPosition == (self.dogAI2.yPosition - 1))) && (self.xPosition == self.dogAI2.xPosition))){
+                document.getElementById("DogPlayer").innerHTML = "BARK";
+                self.bark(self.dogAI2);
+        }else if ((((self.xPosition == (self.dogAI3.xPosition + 1))||(self.xPosition == (self.dogAI3.xPosition - 1))) && (self.yPosition == self.dogAI3.yPosition)) || 
+            (((self.yPosition == (self.dogAI3.yPosition + 1))||(self.yPosition == (self.dogAI3.yPosition - 1))) && (self.xPosition == self.dogAI3.xPosition))){
+                document.getElementById("DogPlayer").innerHTML = "BARK";
+                self.bark(self.dogAI3);
+        } 
+    }
+        
 
     this.bark=function(dogAI) {
         if (self.xPosition == (dogAI.xPosition + 1)){
-            //RETREAT TO KENNEL  
+            document.getElementById("DogPlayer").innerHTML = "BARK";
+            dogAI.retreat();
         }
         else if (self.xPosition == (dogAI.xPosition - 1)){
-            //RETREAT TO KENNEL   
+            document.getElementById("DogPlayer").innerHTML = "BARK";
+            dogAI.retreat(); 
         }
         else if (self.yPosition == (dogAI.yPosition - 1)){
-            //RETREAT TO KENNEL
+            document.getElementById("DogPlayer").innerHTML = "BARK";
+            dogAI.retreat();
         }
         else if (self.yPosition == (dogAI.yPosition + 1)){
-            //RETREAT TO KENNEL
+            document.getElementById("DogPlayer").innerHTML = "BARK";
+            dogAI.retreat();
         }
-    };
-
-    this.barkedAt=function() {
-        self.moveH(-1);
-        self.moveV(-1);
     };
     
     this.pee=function() {
@@ -660,6 +679,19 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
             else if(self.chase == "Y"){
                 self.chaseV(self.chaseX, self.chaseY, self.prevX, self.prevY);
             }            
+        }
+    }
+    
+    this.retreat=function(){
+        if(this.dogID==1){
+            this.setXPosition(9);
+            this.setYPosition(0);
+        }else if(this.dogID==2){
+            this.setXPosition(0);
+            this.setYPosition(9);
+        }else if(this.dogID==3){
+            this.setXPosition(9);
+            this.setYPosition(9);
         }
     }
     

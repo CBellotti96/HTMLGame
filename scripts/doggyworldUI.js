@@ -68,6 +68,11 @@ var doggyworldUI=function()
 					//check if it hit landmark
 					//if not already hit, mark as peed on
 				}
+				else if (event.which==113) //q
+				{
+					self.playerInput = 'q';
+					//bark
+				}
 
         });
         
