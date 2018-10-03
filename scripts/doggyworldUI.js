@@ -1,6 +1,7 @@
 var doggyworldUI=function()
 {
     var self=this;
+    var markedLandmarks;
     //this.game=undefined;
     this.running=false;
     this.initialize=function(){
@@ -8,6 +9,7 @@ var doggyworldUI=function()
         $('#GameRunning').hide();
         $('#playBoard').hide();
         $('#GameReset').show();
+        $('#WinScreen').hide();
 	};
 	this.playerInput = undefined;
 	
@@ -143,6 +145,7 @@ var doggyworldUI=function()
                 });
             });
         });
+
     };
     
     this.tick=function(){
@@ -150,7 +153,7 @@ var doggyworldUI=function()
             //if running? TODO
                 self.refreshView();
             //end if
-        }, 1000);        
+        }, 1000); 
     }
     /*
     this.takeShot=function()
