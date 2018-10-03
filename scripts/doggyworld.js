@@ -249,10 +249,13 @@ var doggyworldGame = function() {
 
 		if(self.markedLandmarks == self.landmarks.length){
             $('#WinScreen').show();
-            $('#gameBoard').hide();
+            $('#playBoard').hide();
+            $('#Instructions').hide();
+            $('#scoreBoard').show();
             self.UI.running = false;
             self.gameState = 2;
             document.querySelector('#gameTime').innerHTML = '<span>WOW! You won in ' + self.time + ' seconds!</span>'; //display time
+			document.querySelector('#Status').innerHTML = '<span>You win!</span>'; //display score
 		}
 		self.markedLandmarks = 0;
 		//increment timer

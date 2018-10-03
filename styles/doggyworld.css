@@ -153,7 +153,6 @@ div.DogPlayer.upGif {
 #WinScreen {
     width: 700px;    
     height: 620px;
-    background-image: url("../images/grass3.png");
     float: center;
     text-align: center;
     font-size: xx-large;
