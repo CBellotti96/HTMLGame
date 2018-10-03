@@ -160,7 +160,7 @@ var doggyworldUI=function()
 		positionY (int) the destination of the animation
 		*/
 		
-		$("#" + htmlID).stop(false,true).animate({left: ''+(68*PositionX)+'px', down: ''+(50*PositionY)+'px'}, 500);
+		$("#" + htmlID).stop(false,true).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 500);
 		
 	}
     
