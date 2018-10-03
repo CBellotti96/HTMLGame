@@ -6,7 +6,7 @@
     border-color:black;
     margin:0;
     padding:0;
-    background-image: url("../images/grass2.jpg");
+    background-image: url("../images/grass4.png");
 }
 #scoreBoard{
     background: silver;
@@ -104,28 +104,43 @@
     font-size: 30px;
 }
 #WinScreen {
+    width: 700px;    
+    height: 620px;
     float: center;
     text-align: center;
     font-size: xx-large;
     font-weight: bold;
 }
 #playAgain {
+    position: absolute;
+    top: 325px;
+    left: 270px;
     border: solid 4px;
+    border-radius: 7px;
+    padding: 4px;
+    border-color: black;
+    background-color:rgba(255,255,255,.6);
 }
 #playAgain:hover {
     text-align: center;
-    color: blue;
+    color: black;
     cursor: pointer;
+    border-color: white;
+}
+#gameTime {
+    position: absolute;
+    top: 250px;
+    left: 150px;
 }
 #Instructions {
     text-align-last: center;
-    font-size: xx-large;
+    font-size: 28px;
     font-weight: bold;
-    border:dashed 3px;
+    border: dashed 3px;
     border-color: white;
     background-color: white;
     opacity: .6;
-    padding-bottom: 211.8px;
+    padding-bottom: 147px;
 }
 .instructions {
     opacity: 0.4;
@@ -188,4 +203,10 @@
     background:url('../images/kennel.png');
     background-size: contain;
     background-repeat: no-repeat; 
+}
+.header {
+    font-size: xx-large;
+    font-weight: bolder;
+    padding-bottom: 35px;
+    border-bottom: solid 1px;
 }
