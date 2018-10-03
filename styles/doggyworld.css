@@ -96,6 +96,19 @@
     color: blue;
     cursor: pointer;
 }
+#Instructions {
+    text-align-last: center;
+    font-size: xx-large;
+    font-weight: bold;
+    border:dashed 3px;
+    border-color: white;
+    background-color: white;
+    opacity: .6;
+    padding-bottom: 211.8px;
+}
+.instructions {
+    opacity: 0.4;
+}
 .btnStyle {
 	border-radius: 4px;
 	border: thin solid #037200;
