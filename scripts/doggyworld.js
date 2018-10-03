@@ -50,6 +50,7 @@ var doggyworldGame = function() {
 
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
+        
         self.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
         
         self.landmarks = [new landmark(1, 1, 7, 0, ""), new landmark(2, 1, 7, 2, ""), new landmark(3, 1, 9, 4, ""), new landmark(4, 1, 6, 3, ""),  
@@ -129,6 +130,7 @@ var doggyworldGame = function() {
 		
         self.setCharacters();
         
+        $('#playBoard').addClass('instructions');
     };
 
     this.reset=function(){
@@ -145,9 +147,11 @@ var doggyworldGame = function() {
 	
 	$('#StartBtn').on('click',function(){
 		$('#GameStopped').hide();
+		$('#Instructions').hide();
 		$('#GameRunning').show();
 		$('#playBoard').show()
 		$('#Status').text('Go!');
+		$('#playBoard').removeClass('instructions');
 		self.gameState = 1; //running
 		self.UI.running=true;
 		self.UI.refreshView();
@@ -165,9 +169,11 @@ var doggyworldGame = function() {
         
 	$('#ResetBtn').on('click',function(){
 		$('#GameStopped').show();
+		$('#Instructions').show();
 		$('#GameRunning').hide();
 		$('#playBoard').hide();
 		$('#Status').text('Click Start to Begin!');
+		$('#playBoard').addClass('instructions');
 		self.gameState = 0; //reset or pre-running
 		self.time = 0;
 		self.UI.running=false;
@@ -179,6 +185,7 @@ var doggyworldGame = function() {
 	    
 	$('#playAgain').on('click',function(){
 	    $('#GameStopped').show();
+		$('#Instructions').show();
 		$('#GameRunning').hide();
 		$('#playBoard').hide();
 		$('#WinScreen').hide();
