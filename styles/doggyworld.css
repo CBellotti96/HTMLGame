@@ -177,13 +177,13 @@ div.DogPlayer.upGif {
 }
 #Instructions {
     text-align-last: center;
-    font-size: xx-large;
+    font-size: 28px;
     font-weight: bold;
-    border:dashed 3px;
+    border: dashed 3px;
     border-color: white;
     background-color: white;
     opacity: .6;
-    padding-bottom: 211.8px;
+    padding-bottom: 147px;
 }
 .instructions {
     opacity: 0.4;
@@ -246,4 +246,10 @@ div.DogPlayer.upGif {
     background:url('../images/kennel.png');
     background-size: contain;
     background-repeat: no-repeat; 
+}
+.header {
+    font-size: xx-large;
+    font-weight: bolder;
+    padding-bottom: 35px;
+    border-bottom: solid 1px;
 }
