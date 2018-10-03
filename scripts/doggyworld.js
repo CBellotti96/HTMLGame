@@ -302,11 +302,9 @@ var doggyworldGame = function() {
 		}
 		if(self.UI.playerInput == 'e'){
 		    self.player.pee(self.landmarks);
-			self.direction = undefined;
 		}
 		if(self.UI.playerInput == 'q'){
 		    self.player.barkCheck(self.dogs);
-			self.direction = undefined;
 		}
 		self.moveOnBoard(self.player,"DogPlayer");
 		
@@ -330,10 +328,14 @@ var doggyworldGame = function() {
             //console.log(self.landmarks[i].landmarkID, self.landmarks[i].owner);
         }
         
-		if(self.direction != undefined){
+		if(self.player.tempY != self.player.xPosition || self.player.tempX != self.player.yPosition){
 			self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition, self.direction);
 			self.direction = undefined;
 		}
+		
+		self.player.tempY = self.player.yPosition;
+		self.player.tempX = self.player.xPosition;
+		self.UI.playerInput = undefined;
 
     };
 
@@ -375,6 +377,9 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     this.minX=minX;
     this.maxX=maxX;
 	this.canMove = true;
+	
+	this.tempY = yPos;
+	this.tempX = xPos;
 
     this.initialize=function(){
         

@@ -12,7 +12,6 @@ var doggyworldUI=function()
         $('#WinScreen').hide();
 	};
 	this.playerInput = undefined;
-	this.playerCanInput = true;
 	
 	
 	
@@ -171,22 +170,15 @@ var doggyworldUI=function()
 		if(htmlID == "DogPlayer"){
 			dogType = "blueDog";
 		}
-		/*
-		setTimeout(function() {
-			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
-		}, 400);
-		*/
-		$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Gif.gif')");
-		$("#" + htmlID).stop(false,true).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 400);
+		if(input!=undefined){$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Gif.gif')");};
+		$("#" + htmlID).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 390);
 		
-		/*
-		$("#" + htmlID).delay(400).queue(function(){
-			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
-		});*/
-		
-		setTimeout(function() {
-			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
-		}, 400);
+		if(input!=undefined){
+			setTimeout(function() {
+				$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
+			}, 390);
+			
+		};
 		
 		self.playerInput = undefined;
 		
