@@ -44,6 +44,7 @@ var doggyworldGame = function() {
 	
     this.height = 500;
     this.time = 0;
+    this.score = 0;
 	
 	this.UI = undefined;
 	
@@ -180,6 +181,7 @@ var doggyworldGame = function() {
 		self.reset();
 		self.UI.refreshView();
 		self.time = 0;
+		self.score = 0;
 	//	document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
 	});
 	    
@@ -197,6 +199,7 @@ var doggyworldGame = function() {
 		self.reset();
 		self.UI.refreshView();
 		self.time = 0;
+		self.score = 0;
 	});
     
         //moves a specific character on the board - player or ai.
@@ -235,21 +238,22 @@ var doggyworldGame = function() {
 		
 		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
 		
-		var markedLandmarks = 0;
+		self.markedLandmarks = 0;
 		for(var x=0; x<self.landmarks.length;x++) {
 		    if (self.landmarks[x].owner == 0) {
-		        markedLandmarks+=1;
+		        self.markedLandmarks+=1;
 		    }
 		}
+		document.querySelector('#Score').innerHTML = '<span> Score: ' + self.markedLandmarks + ' / 12</span>'; //display score
 
-		if(markedLandmarks == self.landmarks.length) {
+		if(self.markedLandmarks == self.landmarks.length) {
             $('#WinScreen').show();
             $('#gameBoard').hide();
             self.UI.running = false;
             self.gameState = 2;
             document.querySelector('#gameTime').innerHTML = '<span>WOW! You won in ' + self.time + ' seconds!</span>'; //display time
 		}
-		markedLandmarks = 0;
+		self.markedLandmarks = 0;
 		//increment timer
 		if (self.UI.running == true) {
 			if (self.dogAI1.barkMeter >= 0 && self.dogAI1.barkMeter < 5){
