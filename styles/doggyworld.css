@@ -6,7 +6,7 @@
     border-color:black;
     margin:0;
     padding:0;
-    background-image: url("../images/grass2.jpg");
+    background-image: url("../images/grass4.png");
 }
 #scoreBoard{
     background: silver;
@@ -153,7 +153,7 @@ div.DogPlayer.upGif {
 #WinScreen {
     width: 700px;    
     height: 620px;
-    background-image: url("../images/grass2.jpg");
+    background-image: url("../images/grass3.png");
     float: center;
     text-align: center;
     font-size: xx-large;
@@ -164,11 +164,16 @@ div.DogPlayer.upGif {
     top: 325px;
     left: 270px;
     border: solid 4px;
+    border-radius: 7px;
+    padding: 4px;
+    border-color: black;
+    background-color:rgba(255,255,255,.6);
 }
 #playAgain:hover {
     text-align: center;
-    color: blue;
+    color: black;
     cursor: pointer;
+    border-color: white;
 }
 #gameTime {
     position: absolute;

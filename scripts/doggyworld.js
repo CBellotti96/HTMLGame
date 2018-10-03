@@ -52,6 +52,7 @@ var doggyworldGame = function() {
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
         
+
         self.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
         
         self.landmarks = [new landmark(1, 1, 7, 0, ""), new landmark(2, 1, 7, 2, ""), new landmark(3, 1, 9, 4, ""), new landmark(4, 1, 6, 3, ""),  
