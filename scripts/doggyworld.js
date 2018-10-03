@@ -29,9 +29,11 @@ var doggyworldGame = function() {
   
         
         //speed of tick - 1000 is about one second.
-        speed: 500,
+        speed: 400,
+        //speed of timer
+        timerSpeed: 1000,
 		//wait time between player actions
-		playerDelay: 500,
+		playerDelay: 400,
         icounter: 0,
 		
 
@@ -118,6 +120,12 @@ var doggyworldGame = function() {
                 self.update();
             //end if
         }, self.options.speed);
+        
+        setInterval(function () { 
+            //if running? TODO
+                self.timerUpdate();
+            //end if
+        }, self.options.timerSpeed);
 		
         self.setCharacters();
         
@@ -209,6 +217,12 @@ var doggyworldGame = function() {
         
     };
     
+    this.timerUpdate=function(){
+        if (self.UI.running == true) {
+			self.time++;
+        }
+    }
+    
     //update all the ai dog's positions and on the board.
     this.update=function(){
 		var markedLandmarks = 0;
@@ -217,6 +231,7 @@ var doggyworldGame = function() {
 		        markedLandmarks+=1;
 		    }
 		}
+
 		if(markedLandmarks == self.landmarks.length) {
             $('#WinScreen').show();
             $('#gameBoard').hide();
@@ -227,7 +242,6 @@ var doggyworldGame = function() {
 		markedLandmarks = 0;
 		//increment timer
 		if (self.UI.running == true) {
-			self.time++;
 			if (self.dogAI1.barkMeter >= 0 && self.dogAI1.barkMeter < 5){
 			    self.dogAI1.barkMeter++;
 			}else if (self.dogAI2.barkMeter >= 0 && self.dogAI2.barkMeter < 5){
