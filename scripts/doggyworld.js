@@ -370,6 +370,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks, markedLandma
     };
     
     this.barkCheck=function(){
+        document.getElementById("DogAI1").innerHTML = " "+self.dogAI1.xPosition;
         if ((((self.xPosition == (self.dogAI1.xPosition + 1))||(self.xPosition == (self.dogAI1.xPosition - 1))) && (self.yPosition == self.dogAI1.yPosition)) || 
             (((self.yPosition == (self.dogAI1.yPosition + 1))||(self.yPosition == (self.dogAI1.yPosition - 1))) && (self.xPosition == self.dogAI1.xPosition))){
                 document.getElementById("DogPlayer").innerHTML = "BARK";
