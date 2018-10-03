@@ -320,18 +320,18 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
         self.setYPosition(self.yPosition+amount);
     };
 
-    this.bark=function() {
-        if (self.xPosition == (dogPlayer.xPosition + 1)){
-            dogPlayer.moveH(-1);   
+    this.bark=function(dogAI) {
+        if (self.xPosition == (dogAI.xPosition + 1)){
+            //RETREAT TO KENNEL  
         }
-        else if (self.xPosition == (dogPlayer.xPosition - 1)){
-            dogPlayer.moveH(1);   
+        else if (self.xPosition == (dogAI.xPosition - 1)){
+            //RETREAT TO KENNEL   
         }
-        else if (self.yPosition == (dogPlayer.yPosition - 1)){
-            dogPlayer.moveV(1);   
+        else if (self.yPosition == (dogAI.yPosition - 1)){
+            //RETREAT TO KENNEL
         }
-        else if (self.yPosition == (dogPlayer.yPosition + 1)){
-            dogPlayer.moveV(-1); 
+        else if (self.yPosition == (dogAI.yPosition + 1)){
+            //RETREAT TO KENNEL
         }
     };
 
@@ -703,24 +703,19 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         }
     };
 
-    this.bark=function(dogAI) {
-        if (self.xPosition == (dogAI.xPosition + 1)){
-            //retreat to kennel
+    this.bark=function(dogPlayer) {
+        if (self.xPosition == (dogPlayer.xPosition + 1)){
+            dogPlayer.moveH(-1);   
         }
-        else if (self.xPosition == (dogAI.xPosition - 1)){
-            //retreat to kennel 
+        else if (self.xPosition == (dogPlayer.xPosition - 1)){
+            dogPlayer.moveH(1);   
         }
-        else if (self.yPosition == (dogAI.yPosition - 1)){
-            //retreat to kennel  
+        else if (self.yPosition == (dogPlayer.yPosition - 1)){
+            dogPlayer.moveV(1);   
         }
-        else if (self.yPosition == (dogAI.yPosition + 1)){
-            //retreat to kennel
+        else if (self.yPosition == (dogPlayer.yPosition + 1)){
+            dogPlayer.moveV(-1); 
         }
-    };
-
-    this.barkedAt=function() {
-        self.moveH(-1);
-        self.moveV(-1);
     };
     
     this.pee=function() {
