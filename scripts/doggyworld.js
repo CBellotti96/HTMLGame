@@ -74,9 +74,9 @@ var doggyworldGame = function() {
         }
         
         self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX, self.landmarks);
-        self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1, self.landmarks);
-        self.dogAI2=new dogAI(2, 9, 1, 5, 9, 0, 4, self.landmarksAI2, self.landmarks);
-        self.dogAI3=new dogAI(3, 9, 8, 5, 9, 5, 9, self.landmarksAI3, self.landmarks);
+        self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1, self.landmarks, self.kennels);
+        self.dogAI2=new dogAI(2, 9, 1, 5, 9, 0, 4, self.landmarksAI2, self.landmarks, self.kennels);
+        self.dogAI3=new dogAI(3, 9, 8, 5, 9, 5, 9, self.landmarksAI3, self.landmarks, self.kennels);
        
         self.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
 
@@ -287,7 +287,7 @@ var doggyworldGame = function() {
 		    self.player.pee(self.landmarks);
 		}
 		if(self.UI.playerInput === 'q'){
-		    self.player.barkCheck();
+		    self.player.barkCheck(self.dogs);
 		}
 		self.moveOnBoard(self.player);
 	//		self.player.canMove = false;
@@ -317,9 +317,30 @@ var doggyworldGame = function() {
 }
 
 /*
+    Kennels: owned by dog, ownership can not be taken, has a location
+    may want to have a few colors for different dogs...
+    maybe pick your dog's kennel color or something
+*/
+var kennel = function(dogID, xPosition, yPosition) {
+    var self=this;
+    this.yPosition=yPosition;
+    this.xPosition=xPosition;
+    this.owner = dogID;
+    this.options={
+
+    }
+
+    this.initialize=function(){
+
+    };
+
+    this.initialize();
+};
+
+/*
     Dog Player: starting position, range of where it can go.
 */
-var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks, markedLandmarks) {
+var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     //do they need landmarks? other dogs won't attack I think
     var self=this;
     this.dogID = 0;
@@ -369,20 +390,31 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks, markedLandma
         self.setYPosition(self.yPosition+amount);
     };
     
-    this.barkCheck=function(){ //NEED TO MAKE DOG AI'S GLOBAL SO THAT DOG USER HAS ACCESS TO AI'S POSITIONS. //TODO
-        if ((((self.xPosition == (self.dogAI1.xPosition + 1))||(self.xPosition == (self.dogAI1.xPosition - 1))) && (self.yPosition == self.dogAI1.yPosition)) || 
-            (((self.yPosition == (self.dogAI1.yPosition + 1))||(self.yPosition == (self.dogAI1.yPosition - 1))) && (self.xPosition == self.dogAI1.xPosition))){
+    this.barkCheck=function(dogs){ //NEED TO MAKE DOG AI'S GLOBAL SO THAT DOG USER HAS ACCESS TO AI'S POSITIONS. //TODO
+        //dogs[0] is the player so skip to dogs[1]..
+        for(var i = 1; i < dogs.length; i++){
+            if ((((self.xPosition == (dogs[i].xPosition + 1))||(self.xPosition == (dogs[i].xPosition - 1))) && (self.yPosition == dogs[i].yPosition)) || 
+            (((self.yPosition == (dogs[i].yPosition + 1))||(self.yPosition == (dogs[i].yPosition - 1))) && (self.xPosition == dogs[i].xPosition))){
                 document.getElementById("DogPlayer").innerHTML = "BARK";
-                self.bark(self.dogAI1);
-        }else if ((((self.xPosition == (self.dogAI2.xPosition + 1))||(self.xPosition == (self.dogAI2.xPosition - 1))) && (self.yPosition == self.dogAI2.yPosition)) || 
-            (((self.yPosition == (self.dogAI2.yPosition + 1))||(self.yPosition == (self.dogAI2.yPosition - 1))) && (self.xPosition == self.dogAI2.xPosition))){
+                dogs[i].spooked = true;
+            }        
+        }
+        
+        /*
+        if ((((self.xPosition == (dogs[1].xPosition + 1))||(self.xPosition == (dogs[1].xPosition - 1))) && (self.yPosition == dogs[1].yPosition)) || 
+            (((self.yPosition == (dogs[1].yPosition + 1))||(self.yPosition == (dogs[1].yPosition - 1))) && (self.xPosition == dogs[1].xPosition))){
+                document.getElementById("DogPlayer").innerHTML = "BARK";
+                self.bark(dogs[1]);
+        }else if ((((self.xPosition == (dogs[2].xPosition + 1))||(self.xPosition == (dogs[2].xPosition - 1))) && (self.yPosition == dogs[2].yPosition)) || 
+            (((self.yPosition == (dogs[2].yPosition + 1))||(self.yPosition == (dogs[2].yPosition - 1))) && (self.xPosition == self.dogAI2.xPosition))){
                 document.getElementById("DogPlayer").innerHTML = "BARK";
                 self.bark(self.dogAI2);
         }else if ((((self.xPosition == (self.dogAI3.xPosition + 1))||(self.xPosition == (self.dogAI3.xPosition - 1))) && (self.yPosition == self.dogAI3.yPosition)) || 
             (((self.yPosition == (self.dogAI3.yPosition + 1))||(self.yPosition == (self.dogAI3.yPosition - 1))) && (self.xPosition == self.dogAI3.xPosition))){
                 document.getElementById("DogPlayer").innerHTML = "BARK";
                 self.bark(self.dogAI3);
-        } 
+        }
+        */
     }
         
 
@@ -427,7 +459,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks, markedLandma
 /*
     artificial dog opponents. has an id, position, range (given territory).
 */
-var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmarks, landmarks, markedLandmarks) {
+var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmarks, landmarks, kennels) {
     var self=this;
     this.dogID = dogID;
     this.yPosition=yPos;
@@ -439,11 +471,11 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
 	this.canMove = true;
 	this.originalLandmarks=originalLandmarks;
 	this.landmarkIndex=[];
-	this.ownedLandmarks = [];
+	this.ownedLandmarks=originalLandmarks;
 	this.barkMeter = 5;
-    
+	this.kennel;
+	this.spooked = false;
     this.miniGrid = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
-    
     this.options={
 
     }
@@ -458,6 +490,11 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         for(var i=0; i < landmarks.length; i++){
             if(landmarks[i].originalowner == self.dogID){
                 self.landmarkIndex.push(i);
+            }
+        }
+        for(i=0; i < kennels.length; i++){
+            if(kennels[i].owner == self.dogID){
+                self.kennel = kennels[i];
             }
         }
         console.log(self.landmarkIndex);
@@ -727,29 +764,81 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         }
     }
     
-    this.retreat=function(){
-        if(this.dogID==1){
-            this.setXPosition(9);
-            this.setYPosition(0);
-        }else if(this.dogID==2){
-            this.setXPosition(0);
-            this.setYPosition(9);
-        }else if(this.dogID==3){
-            this.setXPosition(9);
-            this.setYPosition(9);
+    this.retreat=function(home){
+        //set x movement
+        if(self.xPosition < home.xPosition){
+            self.chaseX = 1;
+        }
+        else if(self.xPosition > home.xPosition){
+            self.chaseX = -1;
+        }
+        else{
+            self.chaseX = 0;
+        }
+        //set y movement
+        if(self.yPosition < home.yPosition){
+            self.chaseY = 1;
+        }
+        else if(self.yPosition > home.yPosition){
+            self.chaseY = -1;
+        }
+        else{
+            self.chaseY = 0;
+        }  
+        //decide which way we need to go to reach player
+        if(self.chaseX == 0 && self.chaseY != 0){
+            self.chase = "Y";
+        }
+        else if(self.chaseY == 0 && self.chaseX != 0){
+            self.chase = "X";
+        }
+        //if we need to travel diagonally, pick one at random
+        else if(self.chaseX != 0 && self.chaseY != 0){
+
+            if(Math.round(Math.random()) == 1){
+                self.chase = "X";
+            }
+            else{
+                self.chase = "Y";
+            }
+        }
+        else{
+            return 0;
+        }
+        self.prevX = self.xPosition;
+        self.prevY = self.yPosition;
+        
+        if(self.chase == "X"){
+            self.chaseH(self.chaseX, self.chaseY, self.prevX, self.prevY);
+        }
+        else if(self.chase == "Y"){
+            self.chaseV(self.chaseX, self.chaseY, self.prevX, self.prevY);
         }
     }
     
     this.move=function(dogPlayer) {
-        
+        //check which landmarks are currently owned
         self.ownedLandmarks = [];
         for(var i = 0; i < self.landmarkIndex.length; i++){
             if(landmarks[self.landmarkIndex[i]].owner == self.dogID){
                 self.ownedLandmarks.push(landmarks[self.landmarkIndex[i]]);
             }
         }
-        
-        if ((((self.xPosition == (dogPlayer.xPosition + 1))||(self.xPosition == (dogPlayer.xPosition - 1))) && (self.yPosition == dogPlayer.yPosition)) || 
+        //if none are left, give up
+        if(self.ownedLandmarks.length == 0){
+            self.spooked = true;
+        }
+        //if you ran back to your kennel, you are unspooked
+        else if((((self.xPosition == (self.kennel.xPosition + 1))||(self.xPosition == (self.kennel.xPosition - 1))) && (self.yPosition == self.kennel.yPosition) && (self.spooked == true)) || 
+        (((self.yPosition == (self.kennel.yPosition + 1))||(self.yPosition == (self.kennel.yPosition - 1))) && (self.xPosition == self.kennel.xPosition) && (self.spooked == true))){
+            self.spooked = false;
+        }
+        //if you're still spooked, keep running to kennel
+        else if(self.spooked == true){
+            self.retreat(self.kennel);
+        }
+        //if you're not spooked and are next to the player, try to bark
+        else if ((((self.xPosition == (dogPlayer.xPosition + 1))||(self.xPosition == (dogPlayer.xPosition - 1))) && (self.yPosition == dogPlayer.yPosition)) || 
         (((self.yPosition == (dogPlayer.yPosition + 1))||(self.yPosition == (dogPlayer.yPosition - 1))) && (self.xPosition == dogPlayer.xPosition))){
             if (self.barkMeter == 5){
                 self.bark(dogPlayer);
@@ -757,17 +846,18 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
             }
              
         } 
-        
+        //if player is in your territory, chase the player
         else if(dogPlayer.xPosition >= self.minX && dogPlayer.xPosition <= self.maxX
         && dogPlayer.yPosition >= self.minY && dogPlayer.yPosition <= self.maxY){
             self.chasePlayer(dogPlayer);
         }
         
-        
+        //if player isn't around and you own all of your stuff, just patrol
         else if(self.originalLandmarks.length == self.ownedLandmarks.length){
             self.randomMovement();
         }
         
+        //if player isn't around and you don't have all of your stuff, go reclaim it
         else{
             console.log("you peed");
             console.log(self.originalLandmarks.length, self.ownedLandmarks.length);
@@ -835,27 +925,6 @@ var landmark = function(lID, dogID, xPos, yPos, type) {
 
     this.initialize=function(){
         self.owner=self.originalowner;
-    };
-
-    this.initialize();
-};
-
-/*
-    Kennels: owned by dog, ownership can not be taken, has a location
-    may want to have a few colors for different dogs...
-    maybe pick your dog's kennel color or something
-*/
-var kennel = function(dogID, xPos, yPos) {
-    var self=this;
-    this.yPosition=yPos;
-    this.xPosition=xPos;
-    this.owner = dogID;
-    this.options={
-
-    }
-
-    this.initialize=function(){
-
     };
 
     this.initialize();
