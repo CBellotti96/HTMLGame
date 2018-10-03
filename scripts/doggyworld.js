@@ -68,7 +68,7 @@ var doggyworldGame = function() {
             else if(self.landmarks[i].originalowner == 3){
                 self.landmarksAI3.push(self.landmarks[i]); 
             }
-        }
+        }//populates the list of landmarks that the AI owns and tries to maintain.
         
         self.player=new dogPlayer(1,0,self.options.minY,self.options.maxY,self.options.minX,self.options.maxX, self.landmarks);
         self.dogAI1=new dogAI(1, 0, 8, 0, 4, 5, 9, self.landmarksAI1, self.landmarks);
