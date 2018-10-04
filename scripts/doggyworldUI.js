@@ -29,7 +29,6 @@ var doggyworldUI=function()
             //https://css-tricks.com/snippets/javascript/javascript-keycodes/			
 				if (event.which==97)//left - a
 				{
-					document.getElementById("DogPlayer").innerHTML = "LEFT"
 					//$('#DogPlayer').css("background-image", "url('images/blueDog/left/leftIdle.png')");
 					self.playerInput = 'a';
 					/*
@@ -39,7 +38,6 @@ var doggyworldUI=function()
 				}
 				else if (event.which==119) //up - w
 				{
-					document.getElementById("DogPlayer").innerHTML = "UP"
 					//$('#DogPlayer').css("background-image", "url('images/blueDog/up/upIdle.png')");
 					self.playerInput = 'w';
 					/*
@@ -49,7 +47,6 @@ var doggyworldUI=function()
 				}
 				else if (event.which==100) //right - d
 				{
-					document.getElementById("DogPlayer").innerHTML = "RIGHT"
 					//$('#DogPlayer').css("background-image", "url('images/blueDog/right/rightIdle.png')");
 					self.playerInput = 'd';
 					/*
@@ -59,7 +56,6 @@ var doggyworldUI=function()
 				}
 				else if (event.which==115) //down - s
 				{
-					document.getElementById("DogPlayer").innerHTML = "DOWN"
 					//$('#DogPlayer').css("background-image", "url('images/blueDog/down/downIdle.png')");
 					self.playerInput = 's';
 					/*
@@ -69,7 +65,6 @@ var doggyworldUI=function()
 				}
 				else if (event.which==101) //e
 				{
-				    document.getElementById("DogPlayer").innerHTML = "PEE"
 					self.playerInput = 'e';
 					//pee
 					//check if it hit landmark

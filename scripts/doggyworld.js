@@ -446,6 +446,7 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
     this.minX=minX;
     this.maxX=maxX;
 	this.canMove = true;
+	this.barkTimer=0;
 	
 	this.tempY = yPos;
 	this.tempX = xPos;
@@ -493,7 +494,11 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
         for(var i = 1; i < dogs.length; i++){
             if ((((self.xPosition == (dogs[i].xPosition + 1))||(self.xPosition == (dogs[i].xPosition - 1))) && (self.yPosition == dogs[i].yPosition)) || 
             (((self.yPosition == (dogs[i].yPosition + 1))||(self.yPosition == (dogs[i].yPosition - 1))) && (self.xPosition == dogs[i].xPosition))){
-                document.getElementById("DogPlayer").innerHTML = "BARK";
+                var player = document.getElementById("DogPlayer");
+                player.style.fontSize = 5;
+                player.style.fontFamily = "Impact";
+                player.innerHTML = "<span style='color:#183575'> BARK! </span>";
+                player.innerHTML = "";
                 dogs[i].spooked = true;
             }        
         }
@@ -920,6 +925,18 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
     }
     
     this.move=function(dogPlayer) {
+        
+        if (self.barkMeter==2){
+            if(self.dogID==1){
+                document.getElementById("DogAI1").innerHTML="";
+            }
+            else if(self.dogID==2){
+                document.getElementById("DogAI2").innerHTML="";
+            }
+            else if(self.dogID==3){
+                document.getElementById("DogAI3").innerHTML="";
+            }
+        }
         //check which landmarks are currently owned
         self.ownedLandmarks = [];
         for(var i = 0; i < self.landmarkIndex.length; i++){
@@ -944,6 +961,24 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         else if ((((self.xPosition == (dogPlayer.xPosition + 1))||(self.xPosition == (dogPlayer.xPosition - 1))) && (self.yPosition == dogPlayer.yPosition)) || 
         (((self.yPosition == (dogPlayer.yPosition + 1))||(self.yPosition == (dogPlayer.yPosition - 1))) && (self.xPosition == dogPlayer.xPosition))){
             if (self.barkMeter == 5){
+                if(self.dogID==1){
+                    var AI1 = document.getElementById("DogAI1");
+                    AI1.style.fontSize = 5;
+                    AI1.style.fontFamily = "Impact";
+                    AI1.innerHTML = "<span style='color:#751e17'> BARK! </span>";
+                }
+                else if(self.dogID==2){
+                    var AI2 = document.getElementById("DogAI2");
+                    AI2.style.fontSize = 5;
+                    AI2.style.fontFamily = "Impact";
+                    AI2.innerHTML = "<span style='color:#751e17'> BARK! </span>";
+                }
+                else if(self.dogID==3){
+                    var AI3 = document.getElementById("DogAI3");
+                    AI3.style.fontSize = 5;
+                    AI3.style.fontFamily = "Impact";
+                    AI3.innerHTML = "<span style='color:#751e17'> BARK! </span>";
+                }
                 self.bark(dogPlayer);
                 self.barkMeter = 0;
             }
