@@ -183,14 +183,14 @@
     width: 160px;
 }
 
-.btnStyle:active {
+.btnStyle:not(.gameOver) :active {
 	border: thin solid #99CC00;
 	background-color: #0372007d;
 	color: #ffffff;
 	cursor: pointer;
 }
 
-.btnStyle:hover {
+.btnStyle:not(.gameOver) :hover {
 	border: thin solid #037200;
 	background-color: #0372007d;
 	color: #ffffff;
@@ -219,4 +219,7 @@
     font-weight: bolder;
     padding-bottom: 35px;
     border-bottom: solid 1px;
+}
+.gameOver {
+    opacity: .5;
 }
