@@ -138,6 +138,7 @@ var doggyworldGame = function() {
         self.setCharacters();
         
         $('#playBoard').addClass('instructions');
+        $('#StopStart').addClass('playing');
     };
 
     this.reset=function(){
@@ -153,7 +154,7 @@ var doggyworldGame = function() {
     };
 	
 	$('#StartBtn').on('click',function(){
-	    if($('#StopStart').hasClass('.gameOver')) {
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
     	    $('#GameStopped').hide();
     		$('#Instructions').hide();
     		$('#GameRunning').show();
@@ -167,6 +168,7 @@ var doggyworldGame = function() {
 	});
 
 	$('#PauseBtn').on('click',function(){
+<<<<<<< HEAD
 		$('#GameStopped').show();
 		$('#GameRunning').hide();
 		$('#playBoard').show();
@@ -177,23 +179,7 @@ var doggyworldGame = function() {
 	});
         
 	$('#ResetBtn').on('click',function(){
-<<<<<<< HEAD
-		$('#GameStopped').show();
-		$('#Instructions').show();
-		$('#GameRunning').hide();
-		$('#playBoard').hide();
-		$('#Status').text('Click Start to Begin!');
-		$('#playBoard').addClass('instructions');
-		self.gameState = 0; //reset or pre-running
-		self.time = 0;
-		self.UI.running=false;
-		self.reset();
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
-		self.time = 0;
-		self.score = 0;
-	//	document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
-=======
-	    if($('#StopStart').hasClass('.gameOver')) {
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
     		$('#GameStopped').show();
     		$('#Instructions').show();
     		$('#GameRunning').hide();
@@ -208,7 +194,6 @@ var doggyworldGame = function() {
     		self.time = 0;
     		self.score = 0;
 	    }
->>>>>>> Disabled pause/end buttons on win screen
 	});
 	    
 	$('#playAgain').on('click',function(){

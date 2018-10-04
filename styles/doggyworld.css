@@ -183,14 +183,14 @@
     width: 160px;
 }
 
-.btnStyle:not(.gameOver) :active {
+#StopStart:not(.gameOver) :active {
 	border: thin solid #99CC00;
 	background-color: #0372007d;
 	color: #ffffff;
 	cursor: pointer;
 }
 
-.btnStyle:not(.gameOver) :hover {
+#StopStart:not(.gameOver) :hover {
 	border: thin solid #037200;
 	background-color: #0372007d;
 	color: #ffffff;
