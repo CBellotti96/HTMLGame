@@ -171,7 +171,7 @@ var doggyworldGame = function() {
 		$('#Status').text('Game paused...');
 		self.gameState = 2; //paused
 		self.UI.running=false;
-		self.UI.refreshView();
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
 	});
         
 	$('#ResetBtn').on('click',function(){
@@ -185,7 +185,7 @@ var doggyworldGame = function() {
 		self.time = 0;
 		self.UI.running=false;
 		self.reset();
-		self.UI.refreshView();
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
 		self.time = 0;
 		self.score = 0;
 	//	document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
@@ -203,7 +203,7 @@ var doggyworldGame = function() {
 		self.time = 0;
 		self.UI.running=false;
 		self.reset();
-		self.UI.refreshView();
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
 		self.time = 0;
 		self.score = 0;
 	});
@@ -241,7 +241,7 @@ var doggyworldGame = function() {
     //update all the ai dog's positions and on the board.
     this.update=function(){
 		
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, false);
 		
 		
 		self.markedLandmarks = 0;
@@ -391,6 +391,22 @@ var doggyworldGame = function() {
 		}
 		
 		if(self.player.tempY != self.player.yPosition || self.player.tempX != self.player.xPosition){
+			if(self.player.tempY != self.player.yPosition){
+				if(self.player.yPosition-self.player.tempY >0){
+					self.playerDirection = "down";
+				}
+				else{
+					self.playerDirection = "up";
+				}
+			}
+			else{
+				if(self.player.xPosition-self.player.tempX >0){
+					self.playerDirection = "right";
+				}
+				else{
+					self.playerDirection = "left";
+				}
+			}
 			self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition, self.playerDirection);
 			self.playerDirection = undefined;
 		}
