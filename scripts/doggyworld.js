@@ -138,6 +138,7 @@ var doggyworldGame = function() {
         self.setCharacters();
         
         $('#playBoard').addClass('instructions');
+        $('#StopStart').addClass('playing');
     };
 
     this.reset=function(){
@@ -153,42 +154,47 @@ var doggyworldGame = function() {
     };
 	
 	$('#StartBtn').on('click',function(){
-		$('#GameStopped').hide();
-		$('#Instructions').hide();
-		$('#GameRunning').show();
-		$('#playBoard').show()
-		$('#Status').text('Go!');
-		$('#playBoard').removeClass('instructions');
-		self.gameState = 1; //running
-		self.UI.running=true;
-		self.UI.refreshView();
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
+    	    $('#GameStopped').hide();
+    		$('#Instructions').hide();
+    		$('#GameRunning').show();
+    		$('#playBoard').show()
+    		$('#Status').text('Go!');
+    		$('#playBoard').removeClass('instructions');
+    		self.gameState = 1; //running
+    		self.UI.running=true;
+    		self.UI.refreshView();
+	    }
 	});
 
 	$('#PauseBtn').on('click',function(){
-		$('#GameStopped').show();
-		$('#GameRunning').hide();
-		$('#playBoard').show();
-		$('#Status').text('Game paused...');
-		self.gameState = 2; //paused
-		self.UI.running=false;
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
+    		$('#GameStopped').show();
+    		$('#GameRunning').hide();
+    		$('#playBoard').show();
+    		$('#Status').text('Game paused...');
+    		self.gameState = 2; //paused
+    		self.UI.running=false;
+    		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
+	    }
 	});
         
 	$('#ResetBtn').on('click',function(){
-		$('#GameStopped').show();
-		$('#Instructions').show();
-		$('#GameRunning').hide();
-		$('#playBoard').hide();
-		$('#Status').text('Click Start to Begin!');
-		$('#playBoard').addClass('instructions');
-		self.gameState = 0; //reset or pre-running
-		self.time = 0;
-		self.UI.running=false;
-		self.reset();
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
-		self.time = 0;
-		self.score = 0;
-	//	document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
+    		$('#GameStopped').show();
+    		$('#Instructions').show();
+    		$('#GameRunning').hide();
+    		$('#playBoard').hide();
+    		$('#Status').text('Click Start to Begin!');
+    		$('#playBoard').addClass('instructions');
+    		self.gameState = 0; //reset or pre-running
+    		self.time = 0;
+    		self.UI.running=false;
+    		self.reset();
+    		self.UI.refreshView();
+    		self.time = 0;
+    		self.score = 0;
+	    }
 	});
 	    
 	$('#playAgain').on('click',function(){
@@ -198,6 +204,7 @@ var doggyworldGame = function() {
 		$('#playBoard').hide();
 		$('#WinScreen').hide();
 		$('#gameBoard').show();
+		$('#StopStart').removeClass('gameOver');
 		$('#Status').text('Click Start to Begin!');
 		self.gameState = 0; //reset or pre-running
 		self.time = 0;
@@ -252,11 +259,12 @@ var doggyworldGame = function() {
 		}
 		document.querySelector('#Score').innerHTML = '<span> Score: ' + self.markedLandmarks + ' / 12</span>'; //display score
 
-		if(self.markedLandmarks == self.landmarks.length){
+		if(self.markedLandmarks == self.landmarks.length) {
             $('#WinScreen').show();
             $('#playBoard').hide();
             $('#Instructions').hide();
             $('#scoreBoard').show();
+            $('#StopStart').addClass('gameOver');
             self.UI.running = false;
             self.gameState = 2;
             document.querySelector('#gameTime').innerHTML = '<span>WOW! You won in ' + self.time + ' seconds!</span>'; //display time
