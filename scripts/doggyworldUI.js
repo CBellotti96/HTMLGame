@@ -12,6 +12,7 @@ var doggyworldUI=function()
         $('#WinScreen').hide();
 	};
 	this.playerInput = undefined;
+	this.notInitialized = 0;
 	
 	
 	
@@ -156,7 +157,6 @@ var doggyworldUI=function()
                 });
             });
         });
-
     };
 	
 	this.animate=function(htmlID, PositionX, PositionY, input){
@@ -169,8 +169,14 @@ var doggyworldUI=function()
 		
 		if(htmlID == "DogPlayer"){
 			dogType = "blueDog";
+		}else{
+			dogType = "redDog";
 		}
-		if(input!=undefined){$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Gif.gif')");};
+		
+		if(input!=undefined){
+			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Gif.gif')");
+		};
+		
 		$("#" + htmlID).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 390);
 		
 		if(input!=undefined){
@@ -180,17 +186,18 @@ var doggyworldUI=function()
 			
 		};
 		
-		self.playerInput = undefined;
 		
 	}
     
+	/*
     this.tick=function(){
         setInterval(function () { 
             //if running? TODO
                 self.refreshView();
             //end if
         }, 1000); 
-    }
+    }*/
+	
     /*
     this.takeShot=function()
     {
@@ -239,5 +246,5 @@ var doggyworldUI=function()
 
     }*/
     this.initialize();
-    this.tick();
+    //this.tick();
 }

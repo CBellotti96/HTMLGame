@@ -48,7 +48,10 @@ var doggyworldGame = function() {
 	
 	this.UI = undefined;
 	
-	this.direction = undefined;
+	this.playerDirection = undefined;
+	this.dogAI1Direction = undefined;
+	this.dogAI2Direction = undefined;
+	this.dogAI3Direction = undefined;
 	
 
     //im making a lot of arbitrary decisions
@@ -206,7 +209,7 @@ var doggyworldGame = function() {
 	});
     
         //moves a specific character on the board - player or ai.
-    this.moveOnBoard=function(item, htmlID) {
+    this.moveOnBoard=function(item) {
         self.board.forEach(function(subarray, index) {
             if (subarray.includes(item)) {
                 //take current dog location, write plain to it.
@@ -286,19 +289,19 @@ var doggyworldGame = function() {
 		//if((self.player.canMove === true)&&(self.UI.playerInput != undefined)){
 		if(self.UI.playerInput == 'w'){
 			self.player.moveV(-1);
-			self.direction = "up";
+			self.playerDirection = "up";
 		}
 		if(self.UI.playerInput == 'a'){
 			self.player.moveH(-1);
-			self.direction = "left";
+			self.playerDirection = "left";
 		}
 		if(self.UI.playerInput == 's'){
 			self.player.moveV(1);
-			self.direction = "down";
+			self.playerDirection = "down";
 		}
 		if(self.UI.playerInput == 'd'){
 			self.player.moveH(1);
-			self.direction = "right";
+			self.playerDirection = "right";
 		}
 		if(self.UI.playerInput == 'e'){
 		    self.player.pee(self.landmarks);
@@ -306,7 +309,7 @@ var doggyworldGame = function() {
 		if(self.UI.playerInput == 'q'){
 		    self.player.barkCheck(self.dogs);
 		}
-		self.moveOnBoard(self.player,"DogPlayer");
+		self.moveOnBoard(self.player);
 		
 		
 	//		self.player.canMove = false;
@@ -320,18 +323,84 @@ var doggyworldGame = function() {
         self.dogAI1.move(self.player); 
         self.dogAI2.move(self.player);
         self.dogAI3.move(self.player);
-        self.moveOnBoard(self.dogAI1,"DogAI1");
-        self.moveOnBoard(self.dogAI2,"DogAI2");
-        self.moveOnBoard(self.dogAI3,"DogAI3");
+        self.moveOnBoard(self.dogAI1);
+        self.moveOnBoard(self.dogAI2);
+        self.moveOnBoard(self.dogAI3);
         
         for(var i = 0; i < self.landmarks.length; i++){
             //console.log(self.landmarks[i].landmarkID, self.landmarks[i].owner);
         }
         
-		if(self.player.tempY != self.player.xPosition || self.player.tempX != self.player.yPosition){
-			self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition, self.direction);
-			self.direction = undefined;
+		
+		if(self.dogAI1.tempY != self.dogAI1.yPosition || self.dogAI1.tempX != self.dogAI1.xPosition){
+			if(self.dogAI1.tempY != self.dogAI1.yPosition){
+				if(self.dogAI1.yPosition-self.dogAI1.tempY >0){
+					self.dogAI1Direction = "down";
+				}
+				else{
+					self.dogAI1Direction = "up";
+				}
+			}
+			else{
+				if(self.dogAI1.xPosition-self.dogAI1.tempX >0){
+					self.dogAI1Direction = "right";
+				}
+				else{
+					self.dogAI1Direction = "left";
+				}
+			}
+			self.UI.animate("DogAI1", self.dogAI1.xPosition, self.dogAI1.yPosition, self.dogAI1Direction);
 		}
+		if(self.dogAI2.tempY != self.dogAI2.yPosition || self.dogAI2.tempX != self.dogAI2.xPosition){
+			if(self.dogAI2.tempY != self.dogAI2.yPosition){
+				if(self.dogAI2.yPosition-self.dogAI2.tempY >0){
+					self.dogAI2Direction = "down";
+				}
+				else{
+					self.dogAI2Direction = "up";
+				}
+			}
+			else{
+				if(self.dogAI2.xPosition-self.dogAI2.tempX >0){
+					self.dogAI2Direction = "right";
+				}
+				else{
+					self.dogAI2Direction = "left";
+				}
+			}
+			self.UI.animate("DogAI2", self.dogAI2.xPosition, self.dogAI2.yPosition, self.dogAI2Direction);
+		}
+		if(self.dogAI3.tempY != self.dogAI3.yPosition || self.dogAI3.tempX != self.dogAI3.xPosition){
+			if(self.dogAI3.tempY != self.dogAI3.yPosition){
+				if(self.dogAI3.yPosition-self.dogAI3.tempY >0){
+					self.dogAI3Direction = "down";
+				}
+				else{
+					self.dogAI3Direction = "up";
+				}
+			}
+			else{
+				if(self.dogAI3.xPosition-self.dogAI3.tempX >0){
+					self.dogAI3Direction = "right";
+				}
+				else{
+					self.dogAI3Direction = "left";
+				}
+			}
+			self.UI.animate("DogAI3", self.dogAI3.xPosition, self.dogAI3.yPosition, self.dogAI3Direction);
+		}
+		
+		if(self.player.tempY != self.player.yPosition || self.player.tempX != self.player.xPosition){
+			self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition, self.playerDirection);
+			self.playerDirection = undefined;
+		}
+		
+		self.dogAI1.tempY = self.dogAI1.yPosition;
+		self.dogAI1.tempX = self.dogAI1.xPosition;
+		self.dogAI2.tempY = self.dogAI2.yPosition;
+		self.dogAI2.tempX = self.dogAI2.xPosition;
+		self.dogAI3.tempY = self.dogAI3.yPosition;
+		self.dogAI3.tempX = self.dogAI3.xPosition;
 		
 		self.player.tempY = self.player.yPosition;
 		self.player.tempX = self.player.xPosition;
@@ -493,6 +562,10 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
     this.dogID = dogID;
     this.yPosition=yPos;
     this.xPosition=xPos;
+	
+	this.tempY = yPos;
+	this.tempX = xPos;
+	
     this.minY=minY;
     this.maxY=maxY;
     this.minX=minX;

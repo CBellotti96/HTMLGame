@@ -30,6 +30,7 @@
     background-image:url('../images/blueDog/right/rightGif.gif');
     /*background-size: contain;
     background-repeat: no-repeat;*/
+	/*grid-area: 1/2;*/
 	position: absolute;
 	width: 32px;
 	height: 32px;
