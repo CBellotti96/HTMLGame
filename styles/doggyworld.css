@@ -40,14 +40,26 @@
 #DogAI1 {
     background:url('../images/DogPicture.jpg');
     background-size: contain;
+	position: absolute;
+	/*grid-area: 1/8;*/
+	width: 50px;
+	height: 50px;
     background-repeat: no-repeat;}
 #DogAI2 {
     background:url('../images/DogPicture.jpg');
     background-size: contain;
+	position: absolute;
+	/*grid-area: 9/2;*/
+	width: 50px;
+	height: 50px;
     background-repeat: no-repeat;}
 #DogAI3 {
     background:url('../images/DogPicture.jpg');
     background-size:contain;
+	position: absolute;
+	/*grid-area: 9/10;*/
+	width: 50px;
+	height: 50px;
     background-repeat: no-repeat;
 }
 
@@ -174,14 +186,14 @@
     width: 160px;
 }
 
-.btnStyle:active {
+#StopStart:not(.gameOver) :active {
 	border: thin solid #99CC00;
 	background-color: #0372007d;
 	color: #ffffff;
 	cursor: pointer;
 }
 
-.btnStyle:hover {
+#StopStart:not(.gameOver) :hover {
 	border: thin solid #037200;
 	background-color: #0372007d;
 	color: #ffffff;
@@ -210,4 +222,7 @@
     font-weight: bolder;
     padding-bottom: 35px;
     border-bottom: solid 1px;
+}
+.gameOver {
+    opacity: .5;
 }

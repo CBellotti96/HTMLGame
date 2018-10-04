@@ -4,29 +4,12 @@ var doggyworldGame = function() {
     var self=this;
     this.landmarks=[];
     this.options={
-        //not sure what we will or won't need for options, left as example of what should go here
-        /*height:500,
-        width:680,
-        goalHeight:188,
-        goalRight:50,
-        goalWidth:50,
-        minRange:600,
-        minX:50,
-        minY:100,
-        mindelay:1000,
-        maxdelay:5000,
-        minballSpeed:70,
-        maxballSpeed:150,
-        errorPercent:1.25,
-        goalieHeight:60*/
 
         //for the grid
         minX: 0,
         minY: 0,
         maxX: 9,
         maxY: 9,
-        
-  
         
         //speed of tick - 1000 is about one second.
         speed: 400,
@@ -35,8 +18,6 @@ var doggyworldGame = function() {
 		//wait time between player actions
 		playerDelay: 400,
         icounter: 0,
-		
-
     }
 	
 	//0 is quit or unstarted, 1 is unpaused or playing, 2 is paused
@@ -56,8 +37,6 @@ var doggyworldGame = function() {
 
     //im making a lot of arbitrary decisions
     this.setCharacters=function() {
-        
-
         self.plain = "grass"; //not sure if we'll want to do something else later, otherwise I'd change this to a string
         
         self.landmarks = [new landmark(1, 1, 7, 0, ""), new landmark(2, 1, 7, 2, ""), new landmark(3, 1, 9, 4, ""), new landmark(4, 1, 6, 3, ""),  
@@ -87,7 +66,6 @@ var doggyworldGame = function() {
        
         self.dogs = [self.player, self.dogAI1, self.dogAI2, self.dogAI3];
 
-        
         self.board = [new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10),new Array(10)];
         self.board.forEach(function(subarray) {
             subarray.fill(self.plain);
@@ -105,18 +83,7 @@ var doggyworldGame = function() {
         self.dogs.forEach(function(adog) {
             self.board[adog.yPosition][adog.xPosition] = adog;
         });
-        
-        
-       
     }
-   
-    
-    /*
-    this.reset_board=function(time){
-        
-    };
-    */
-
     
     this.initialize=function(){
 		self.UI = new doggyworldUI();
@@ -138,6 +105,7 @@ var doggyworldGame = function() {
         self.setCharacters();
         
         $('#playBoard').addClass('instructions');
+        $('#StopStart').addClass('playing');
     };
 
     this.reset=function(){
@@ -153,42 +121,47 @@ var doggyworldGame = function() {
     };
 	
 	$('#StartBtn').on('click',function(){
-		$('#GameStopped').hide();
-		$('#Instructions').hide();
-		$('#GameRunning').show();
-		$('#playBoard').show()
-		$('#Status').text('Go!');
-		$('#playBoard').removeClass('instructions');
-		self.gameState = 1; //running
-		self.UI.running=true;
-		self.UI.refreshView();
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
+    	    $('#GameStopped').hide();
+    		$('#Instructions').hide();
+    		$('#GameRunning').show();
+    		$('#playBoard').show()
+    		$('#Status').text('Go!');
+    		$('#playBoard').removeClass('instructions');
+    		self.gameState = 1; //running
+    		self.UI.running=true;
+    		self.UI.refreshView();
+	    }
 	});
 
 	$('#PauseBtn').on('click',function(){
-		$('#GameStopped').show();
-		$('#GameRunning').hide();
-		$('#playBoard').show();
-		$('#Status').text('Game paused...');
-		self.gameState = 2; //paused
-		self.UI.running=false;
-		self.UI.refreshView();
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
+    		$('#GameStopped').show();
+    		$('#GameRunning').hide();
+    		$('#playBoard').show();
+    		$('#Status').text('Game paused...');
+    		self.gameState = 2; //paused
+    		self.UI.running=false;
+    		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
+	    }
 	});
         
 	$('#ResetBtn').on('click',function(){
-		$('#GameStopped').show();
-		$('#Instructions').show();
-		$('#GameRunning').hide();
-		$('#playBoard').hide();
-		$('#Status').text('Click Start to Begin!');
-		$('#playBoard').addClass('instructions');
-		self.gameState = 0; //reset or pre-running
-		self.time = 0;
-		self.UI.running=false;
-		self.reset();
-		self.UI.refreshView();
-		self.time = 0;
-		self.score = 0;
-	//	document.querySelector('#Time').innerHTML = '<span>' + (self.time/self.speed) + 'sec</span>';
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
+    		$('#GameStopped').show();
+    		$('#Instructions').show();
+    		$('#GameRunning').hide();
+    		$('#playBoard').hide();
+    		$('#Status').text('Click Start to Begin!');
+    		$('#playBoard').addClass('instructions');
+    		self.gameState = 0; //reset or pre-running
+    		self.time = 0;
+    		self.UI.running=false;
+    		self.reset();
+    		self.UI.refreshView();
+    		self.time = 0;
+    		self.score = 0;
+	    }
 	});
 	    
 	$('#playAgain').on('click',function(){
@@ -198,12 +171,13 @@ var doggyworldGame = function() {
 		$('#playBoard').hide();
 		$('#WinScreen').hide();
 		$('#gameBoard').show();
+		$('#StopStart').removeClass('gameOver');
 		$('#Status').text('Click Start to Begin!');
 		self.gameState = 0; //reset or pre-running
 		self.time = 0;
 		self.UI.running=false;
 		self.reset();
-		self.UI.refreshView();
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
 		self.time = 0;
 		self.score = 0;
 	});
@@ -240,10 +214,9 @@ var doggyworldGame = function() {
     
     //update all the ai dog's positions and on the board.
     this.update=function(){
-		
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels);
-		
-		
+        
+		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, false);
+
 		self.markedLandmarks = 0;
 		for(var x=0; x<self.landmarks.length;x++) {
 		    if (self.landmarks[x].owner == 0) {
@@ -252,11 +225,12 @@ var doggyworldGame = function() {
 		}
 		document.querySelector('#Score').innerHTML = '<span> Score: ' + self.markedLandmarks + ' / 12</span>'; //display score
 
-		if(self.markedLandmarks == self.landmarks.length){
+		if(self.markedLandmarks == self.landmarks.length) {
             $('#WinScreen').show();
             $('#playBoard').hide();
             $('#Instructions').hide();
             $('#scoreBoard').show();
+            $('#StopStart').addClass('gameOver');
             self.UI.running = false;
             self.gameState = 2;
             document.querySelector('#gameTime').innerHTML = '<span>WOW! You won in ' + self.time + ' seconds!</span>'; //display time
@@ -276,17 +250,7 @@ var doggyworldGame = function() {
 		
         //update time on board - should we have game running bool in here, not ui?
         document.querySelector('#Time').innerHTML = '<span>' + self.time + ' sec</span>'; //display time
-        //document.querySelector('#AI1Meter').innerHTML = '<span>' + self.dogAI1.barkMeter + ' sec</span>';
-        //document.querySelector('#AI2Meter').innerHTML = '<span>' + self.dogAI2.barkMeter + ' sec</span>';
-        //document.querySelector('#AI3Meter').innerHTML = '<span>' + self.dogAI3.barkMeter + ' sec</span>';
         
-		//console.log(self.UI.playerInput);
-		
-		//player/AI must wait some time after an action before they can start another
-	//	if(self.player.canMove === false) {
-	//		self.UI.playerInput = undefined;
-	//	}
-		//if((self.player.canMove === true)&&(self.UI.playerInput != undefined)){
 		if(self.UI.playerInput == 'w'){
 			self.player.moveV(-1);
 			self.playerDirection = "up";
@@ -311,14 +275,6 @@ var doggyworldGame = function() {
 		}
 		self.moveOnBoard(self.player);
 		
-		
-	//		self.player.canMove = false;
-	    //self.UI.playerInput = undefined;
-			//setTimeout(function(){self.player.canMove = true;}, self.options.playerDelay);
-	//	}
-		
-		
-		
 		//passing in player to keep track of location
         self.dogAI1.move(self.player); 
         self.dogAI2.move(self.player);
@@ -326,12 +282,7 @@ var doggyworldGame = function() {
         self.moveOnBoard(self.dogAI1);
         self.moveOnBoard(self.dogAI2);
         self.moveOnBoard(self.dogAI3);
-        
-        for(var i = 0; i < self.landmarks.length; i++){
-            //console.log(self.landmarks[i].landmarkID, self.landmarks[i].owner);
-        }
-        
-		
+
 		if(self.dogAI1.tempY != self.dogAI1.yPosition || self.dogAI1.tempX != self.dogAI1.xPosition){
 			if(self.dogAI1.tempY != self.dogAI1.yPosition){
 				if(self.dogAI1.yPosition-self.dogAI1.tempY >0){
@@ -391,6 +342,22 @@ var doggyworldGame = function() {
 		}
 		
 		if(self.player.tempY != self.player.yPosition || self.player.tempX != self.player.xPosition){
+			if(self.player.tempY != self.player.yPosition){
+				if(self.player.yPosition-self.player.tempY >0){
+					self.playerDirection = "down";
+				}
+				else{
+					self.playerDirection = "up";
+				}
+			}
+			else{
+				if(self.player.xPosition-self.player.tempX >0){
+					self.playerDirection = "right";
+				}
+				else{
+					self.playerDirection = "left";
+				}
+			}
 			self.UI.animate("DogPlayer", self.player.xPosition, self.player.yPosition, self.playerDirection);
 			self.playerDirection = undefined;
 		}
@@ -502,25 +469,8 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
                 dogs[i].spooked = true;
             }        
         }
-        
-        /*
-        if ((((self.xPosition == (dogs[1].xPosition + 1))||(self.xPosition == (dogs[1].xPosition - 1))) && (self.yPosition == dogs[1].yPosition)) || 
-            (((self.yPosition == (dogs[1].yPosition + 1))||(self.yPosition == (dogs[1].yPosition - 1))) && (self.xPosition == dogs[1].xPosition))){
-                document.getElementById("DogPlayer").innerHTML = "BARK";
-                self.bark(dogs[1]);
-        }else if ((((self.xPosition == (dogs[2].xPosition + 1))||(self.xPosition == (dogs[2].xPosition - 1))) && (self.yPosition == dogs[2].yPosition)) || 
-            (((self.yPosition == (dogs[2].yPosition + 1))||(self.yPosition == (dogs[2].yPosition - 1))) && (self.xPosition == self.dogAI2.xPosition))){
-                document.getElementById("DogPlayer").innerHTML = "BARK";
-                self.bark(self.dogAI2);
-        }else if ((((self.xPosition == (self.dogAI3.xPosition + 1))||(self.xPosition == (self.dogAI3.xPosition - 1))) && (self.yPosition == self.dogAI3.yPosition)) || 
-            (((self.yPosition == (self.dogAI3.yPosition + 1))||(self.yPosition == (self.dogAI3.yPosition - 1))) && (self.xPosition == self.dogAI3.xPosition))){
-                document.getElementById("DogPlayer").innerHTML = "BARK";
-                self.bark(self.dogAI3);
-        }
-        */
     }
-        
-
+       
     this.bark=function(dogAI) { //NEED TO MAKE DOG AI'S GLOBAL SO THAT DOG USER HAS ACCESS TO AI'S POSITIONS. //TODO
         if (self.xPosition == (dogAI.xPosition + 1)){
             document.getElementById("DogPlayer").innerHTML = "BARK";
@@ -555,7 +505,6 @@ var dogPlayer = function(xPos,yPos,minY,maxY,minX, maxX, landmarks) {
              }
         }
     };
-
     this.initialize();
 }
 
@@ -607,8 +556,6 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         console.log(self.landmarkIndex);
     };
     
-    
-
     //after this is called you must update game board
     this.setXPosition=function(xPos){
         if (xPos<=self.minX) {
@@ -639,7 +586,6 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
         self.setYPosition(self.yPosition+amount);
     };
 
-    
     this.reverseNum=function(num){
         if(num > 0){
             return(Math.abs(num) * -1);
@@ -692,7 +638,6 @@ var dogAI = function(dogID, yPos, xPos, minY, maxY, minX, maxX, originalLandmark
             }
         }
     }
-    
     
     this.chaseV=function(chaseX, chaseY, prevX, prevY){
         //if we need to go in y direction, attempt to moveV
