@@ -168,14 +168,15 @@ var doggyworldGame = function() {
 	});
 
 	$('#PauseBtn').on('click',function(){
-<<<<<<< HEAD
-		$('#GameStopped').show();
-		$('#GameRunning').hide();
-		$('#playBoard').show();
-		$('#Status').text('Game paused...');
-		self.gameState = 2; //paused
-		self.UI.running=false;
-		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
+	    if(($('#StopStart').hasClass('gameOver')) == false) {
+    		$('#GameStopped').show();
+    		$('#GameRunning').hide();
+    		$('#playBoard').show();
+    		$('#Status').text('Game paused...');
+    		self.gameState = 2; //paused
+    		self.UI.running=false;
+    		self.UI.refreshView(self.board, self.plain, self.player, self.dogs, self.kennels, true);
+	    }
 	});
         
 	$('#ResetBtn').on('click',function(){
