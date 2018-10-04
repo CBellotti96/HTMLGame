@@ -144,14 +144,14 @@ var doggyworldUI=function()
                 $.each(value, function(index2, value2){
                     if (value2 != plain) {
                         if (value2 == player) {
-							if(init){
+							/*if(init){
 								$('#DogPlayer').css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
-							}
+							}*/
 							//$('#DogPlayer').animate({left: ''+(68*player.PositionX)+'px', top: ''+(50*player.PositionY)+'px'}, 500)
                         } else if (dogs.includes(value2)) {
-							if(init){
+							/*if(init){
 								$('#DogAI' + value2.dogID.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
-							}
+							}*/
 							//$('#DogAI' + value2.dogID.toString()).animate({left: ''+(68*value2.PositionX)+'px', top: ''+(50*value2.PositionY)+'px'}, 500)
                         } else if (kennels.includes(value2)) {
                             $('#Kennel' + value2.owner.toString()).css("grid-area", (index + 1).toString() + "/" + (index2 + 1).toString());
@@ -180,11 +180,11 @@ var doggyworldUI=function()
 		
 		$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Gif.gif')");
 		
-		$("#" + htmlID).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 390);
+		$("#" + htmlID).animate({left: ''+(68*PositionX)+'px', top: ''+(50*PositionY)+'px'}, 350);
 		
 		setTimeout(function() {
 			$("#" + htmlID).css("background-image", "url('images/"+dogType+"/"+input+"/"+input+"Idle.png')");
-		}, 390);
+		}, 350);
 			
 		
 		
